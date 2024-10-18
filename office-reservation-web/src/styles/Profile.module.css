@@ -1,0 +1,38 @@
+.profileContainer{
+    background-color: #F4F0EC;
+    margin-top: 9vh;
+    height: 80vh;
+    width: 70vw;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.picture{
+    background-color: #E71234;
+    width: 30%;
+    height:100%;
+    border-bottom-left-radius: 20px;
+
+}
+
+.picBox{
+    background-color: #1a1a1a;
+    height: 30vh;
+    width: 90%;
+    margin: 5% 5%;
+    border-top-right-radius:20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.info{
+    color: #1a1a1a;
+    width: 100%;
+}
+
+p{
+    font-size: 40px;
+    padding-left: 2vw;
+    padding-top: 1.2vh;
+}

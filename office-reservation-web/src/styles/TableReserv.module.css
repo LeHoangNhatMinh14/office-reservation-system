@@ -1,0 +1,79 @@
+.reservationContainer{
+    background-color: #1a1a1a;
+    margin-top: 9vh;
+    height: 80vh;
+    width: 70vw;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.specifications,.tables{
+    contain: content;
+    background-color: #F4F0EC;
+    color:#1a1a1a;
+    width: 20%;
+    margin-right: 10px;
+    contain: content;
+}
+
+.schedule{
+    contain: content;
+    background-color: #F4F0EC;
+    color:#1a1a1a;
+    width: 60%;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.specifications{
+    border-bottom-left-radius: 20px;
+}
+
+.tables{
+    background-color: transparent;
+    contain: content;
+    overflow-y: auto;
+}
+
+.tablesToRes{
+    background-color: #F4F0EC;
+    color: #1a1a1a;
+    font-size: 1.3rem;
+    border-radius: 0;
+    margin-top: 0.5vh;
+    height: 8.08%;
+    width: 100%;
+}
+
+.tablesToRes:hover,.tablesToRes:active,.tablesToRes:focus{
+    background-color: #1a1a1a;
+    color: #F4F0EC;
+    border: transparent;
+}
+
+
+.title, .titleS{
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding: 1vw;
+    background-color: #E71234;
+}
+
+.titleS{
+    border-top-right-radius: 20px;
+}
+
+.specs{
+    margin-top:7vh ;
+    font-size: 4vh;
+    line-height: 0.1vh;
+    padding-left: 1vw;
+    margin-bottom: 1vw;
+}
+
+.applySpecs{
+    position: absolute;
+    right: 0.4vw;
+    bottom: 0.4vw;
+}

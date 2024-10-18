@@ -1,0 +1,83 @@
+.scheduleContainer{
+    background-color: #1a1a1a;
+    margin-top: 9vh;
+    height: 80vh;
+    width: 70vw;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.monday,.tuesday, .wednesday, .thursday, .friday,.saturday, .sunday{
+    background-color: #F4F0EC;
+    height: 100%;
+    margin-right: 10px;
+    width: 20%;
+    flex-direction: column;
+    contain: content;
+
+}
+
+h2{
+    text-align: center;
+    font-size: 2.6vh;
+    line-height: 2vh;
+    color:#1a1a1a;
+}
+
+.monday{
+border-bottom-left-radius: 20px;
+}
+
+.tuesday{
+}
+
+.wednesday{
+}
+
+.thursday{
+}
+
+.friday{
+}
+
+.saturday{
+}
+
+.sunday{
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.work{
+    height: fit-content;
+    background-color: #E71234;
+    width: 90%;
+    margin: 5%;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+h3{
+    font-size:  3vh;
+    padding: 0.8vh 0.8vw;
+}
+
+.team{
+ font-size: 2.6vh;
+}
+
+.members{
+    font-size: 2.3vh;
+    margin-top: -2.5vh;
+}
+
+.timeStart,.timeEnd{
+    font-size: 2.3vh;
+    margin-top: -0.5vh;
+}
+
+.timeEnd{
+    height: 3vh;
+}

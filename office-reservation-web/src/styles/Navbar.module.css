@@ -1,0 +1,23 @@
+
+.navBar {
+    list-style: none;
+    position: fixed;
+    background-color: #F4F0EC;
+    left: 0;
+    top:0;
+    height: 8vh;
+    width: 100vw;
+    contain: content;
+    text-align: left;
+}
+
+.logo{
+    font-size: 6vh;
+    float: left;
+    margin: 0.5vh 1vw;
+    text-align: left !important;
+    width: 100%;
+    position: absolute;
+    color: #E71234;
+    pointer-events: none;
+}

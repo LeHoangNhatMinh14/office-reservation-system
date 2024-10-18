@@ -1,0 +1,37 @@
+.workersContainer{
+    background-color: #F4F0EC;
+    margin-top: 9vh;
+    height: 80vh;
+    width: 70vw;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    contain:content;
+    scroll-behavior: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border-bottom-left-radius:30px;
+    border-bottom-right-radius: 30px;
+    border-top-right-radius:30px ;
+}
+
+.employeeContainer{
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    background-color: #E71234;
+    height: fit-content;
+    min-width: 95%;
+    height: 190px;
+    margin-bottom: 20px;
+}
+
+.picture{
+    background-color: #1a1a1a;
+    height: 180px;
+    width: 180px;
+}
+
+.info{
+    line-height: 2vh;
+}
