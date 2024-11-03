@@ -16,8 +16,9 @@ public class TeamRepositoryImpl implements TeamRepository {
 
     @Override
     public Team save(Team team) {
-        team.setId(NEXT_ID++);
+        team.setId(NEXT_ID);
         this.savedTeams.add(team);
+        NEXT_ID++;
         return team;
     }
 
