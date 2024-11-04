@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from '../styles/Login.module.css'
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import styles from '../styles/Login.module.css';
+
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -15,12 +17,31 @@ const Login = () => {
         }
     };
 
+    const handleGoogleLoginSuccess = (response) => {
+        console.log('Google login successful:', response);
+        navigate('/profile');
+    };
+
+    const handleGoogleLoginFailure = (error) => {
+        console.log('Google login failed:', error);
+        alert('Google login failed, please try again.');
+    };
+
     return (
-        <div>
-            <div className={styles.loginContainer}>
-                <h1 className={styles.formTitle}>Login</h1>
-                <form onSubmit={handleLogin} className={styles.form}>
-                    <div>
+        <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+            <div className={styles.loginPage}>
+                {/* Navigation Bar */}
+              {/* <nav className={styles.navbar}>
+                    <a href="/">Home</a>
+                    <a href="/signup">Sign Up</a>
+                    <a href="/help">Help</a>
+                </nav>*/ }
+                <div className={styles.loginContainer}>
+                    {/* Logo */}
+                    <img src="/path/to/driessen-logo.jpg" alt="Driessen Logo" className={styles.logo} />
+                    {/* Login Form */}
+                    <h1 className={styles.formTitle}>Login</h1>
+                    <form onSubmit={handleLogin} className={styles.form}>
                         <input
                             type="email"
                             placeholder="Email"
@@ -28,8 +49,6 @@ const Login = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             className={styles.input}
                         />
-                    </div>
-                    <div>
                         <input
                             type="password"
                             placeholder="Password"
@@ -37,11 +56,18 @@ const Login = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             className={styles.input}
                         />
+                        <button type="submit" className={styles.button}>Login</button>
+                    </form>
+                    <div className={styles.ssoSection}>
+                        <GoogleLogin
+                            onSuccess={handleGoogleLoginSuccess}
+                            onError={handleGoogleLoginFailure}
+                            useOneTap
+                        />
                     </div>
-                    <button type="submit" className={styles.button}>Login</button>
-                </form>
+                </div>
             </div>
-        </div>
+        </GoogleOAuthProvider>
     );
 };
 

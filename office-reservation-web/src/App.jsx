@@ -2,22 +2,24 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar'; // Existing navbar for login
 import MainNavbar from './components/MainNavbar'; // New navbar for other pages
+import Footer from './components/Footer'; // Importing the footer
 import Login from './components/Login';
 import Profile from './components/Profile';
-import  Schedule from './components/Schedule.jsx'
-import  TableReservations from './components/TableReservations.jsx'
-import  Workers from './components/Workers.jsx'
-
+import Schedule from './components/Schedule';
+import TableReservations from './components/TableReservations';
+import Workers from './components/Workers';
 
 function App() {
     const location = useLocation();
 
-    // Show the existing Navbar for the login page and MainNavbar for all other pages
+    // Show the Navbar for the login page and MainNavbar for all other pages
     const isLoginPage = location.pathname === '/';
 
     return (
         <div>
             {isLoginPage ? <Navbar /> : <MainNavbar />}
+            
+            {/* Main content with routes */}
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/profile" element={<Profile />} />
@@ -25,6 +27,9 @@ function App() {
                 <Route path="/reserve" element={<TableReservations />} />
                 <Route path="/coworkers" element={<Workers />} />
             </Routes>
+            
+            {/* Footer should be displayed on all pages */}
+            <Footer />
         </div>
     );
 }
@@ -38,4 +43,3 @@ function AppWithRouter() {
 }
 
 export default AppWithRouter;
-
