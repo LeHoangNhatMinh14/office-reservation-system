@@ -29,8 +29,17 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     public User save(User user) {
-        users.add(user);
-        return user;
+        User newUser = User.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .isAdmin(user.isAdmin())
+                .build();
+
+        users.add(newUser);
+        return newUser;
     }
 
     public void deleteById(Long id) {
