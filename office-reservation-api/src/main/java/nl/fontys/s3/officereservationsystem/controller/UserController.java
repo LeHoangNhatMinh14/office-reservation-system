@@ -3,7 +3,7 @@ package nl.fontys.s3.officereservationsystem.controller;
 import lombok.AllArgsConstructor;
 
 
-import nl.fontys.s3.officereservationsystem.business.UserService;
+import nl.fontys.s3.officereservationsystem.business.UserServiceImpl;
 import nl.fontys.s3.officereservationsystem.domain.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUsers() {
@@ -30,8 +30,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
-        User user = userService.getUserById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User with id " + id + " does not exist"));
+        User user = userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
 

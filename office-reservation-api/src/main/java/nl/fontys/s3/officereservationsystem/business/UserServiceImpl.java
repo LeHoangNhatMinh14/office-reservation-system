@@ -1,18 +1,19 @@
 package nl.fontys.s3.officereservationsystem.business;
 
+import nl.fontys.s3.officereservationsystem.business.interfaces.UserService;
 import nl.fontys.s3.officereservationsystem.domain.User;
-import nl.fontys.s3.officereservationsystem.persistence.UserRepository;
 import nl.fontys.s3.officereservationsystem.persistence.impl.UserRepositoryImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserServiceImpl implements UserService {
     private final UserRepositoryImpl userRepository;
 
-    public UserService(UserRepositoryImpl userRepository) {
+    public UserServiceImpl(UserRepositoryImpl userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -20,12 +21,21 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public User getUserById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Id cannot be null");
+        }
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("User with id " + id + " does not exist"));
     }
 
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public User getUserByEmail(String email) {
+        if (email == null) {
+            throw new IllegalArgumentException("Email cannot be null");
+        }
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new NoSuchElementException("User with email " + email + " does not exist"));
+
     }
 
     public User createUser(User user) {
@@ -52,7 +62,6 @@ public class UserService {
         if (existingUser.isPresent()) {
             userRepository.deleteById(id);
         }
-
         else{
             throw new IllegalArgumentException("User with id " + id + " does not exist");
         }
