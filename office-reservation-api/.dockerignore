@@ -1,0 +1,14 @@
+# Ignore everything in build except the JAR files in build/libs
+/build
+!/build/libs/*.jar
+
+# Ignore Gradle cache and build artifacts
+.gradle/
+
+# Ignore IDE-specific files (optional, only if using IntelliJ IDEA)
+.idea/
+*.iml
+
+# Ignore local environment settings (like sensitive credentials)
+.env
+gradle.properties

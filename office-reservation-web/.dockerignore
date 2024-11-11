@@ -1,0 +1,6 @@
+# Ignore node_modules (which is created during npm install)
+node_modules/
+
+# Ignore local environment settings
+.env
+.env.local
