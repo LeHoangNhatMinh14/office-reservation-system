@@ -39,9 +39,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public User createUser(User user) {
-        if (user.getId() != null && userRepository.findById(user.getId()).isPresent()) {
-            throw new IllegalArgumentException("User with id " + user.getId() + " already exists");
-        }
         return userRepository.save(user);
     }
 

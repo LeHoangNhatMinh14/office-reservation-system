@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/rooms")
+@RequestMapping("/api/rooms")
 @AllArgsConstructor
 public class RoomController {
 
