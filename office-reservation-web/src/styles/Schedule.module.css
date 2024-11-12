@@ -1,83 +1,92 @@
-.scheduleContainer{
-    background-color: #1a1a1a;
-    margin-top: 9vh;
-    height: 80vh;
-    width: 70vw;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: row;
-}
-
-.monday,.tuesday, .wednesday, .thursday, .friday,.saturday, .sunday{
-    background-color: #F4F0EC;
-    height: 100%;
-    margin-right: 10px;
-    width: 20%;
-    flex-direction: column;
-    contain: content;
-
-}
-
-h2{
-    text-align: center;
-    font-size: 2.6vh;
-    line-height: 2vh;
-    color:#1a1a1a;
-}
-
-.monday{
-border-bottom-left-radius: 20px;
-}
-
-.tuesday{
-}
-
-.wednesday{
-}
-
-.thursday{
-}
-
-.friday{
-}
-
-.saturday{
-}
-
-.sunday{
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-}
-
-.work{
-    height: fit-content;
-    background-color: #E71234;
+.scheduleContainer {
+    background-color: #ffffff;
+    margin: 5rem auto;
+    padding: 2rem;
     width: 90%;
-    margin: 5%;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
+    max-width: 1200px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Display only 5 columns (Mon-Fri) */
+    gap: 1.5rem;
 }
 
-h3{
-    font-size:  3vh;
-    padding: 0.8vh 0.8vw;
+.day {
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 300px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.team{
- font-size: 2.6vh;
+.day:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-.members{
-    font-size: 2.3vh;
-    margin-top: -2.5vh;
+.day h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 1rem;
 }
 
-.timeStart,.timeEnd{
-    font-size: 2.3vh;
-    margin-top: -0.5vh;
+.noTasks {
+    color: #ff4d4d;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 1rem;
 }
 
-.timeEnd{
-    height: 3vh;
+.work {
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 8px;
+    width: 90%;
+    margin: 0.5rem auto;
+    padding: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.work:hover {
+    background-color: #0056b3;
+}
+
+.work h3 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.work p {
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.work .time {
+    font-size: 0.85rem;
+    font-weight: normal;
+}
+
+@media screen and (max-width: 768px) {
+    .scheduleContainer {
+        grid-template-columns: 1fr; /* Stack days on mobile */
+    }
+
+    .day {
+        min-height: auto;
+    }
 }

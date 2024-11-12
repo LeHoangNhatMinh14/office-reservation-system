@@ -1,38 +1,130 @@
-.profileContainer{
-    background-color: #F4F0EC;
-    margin-top: 9vh;
-    height: 80vh;
-    width: 70vw;
-    border-radius: 20px;
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5; /* Subtle background for contrast */
+    color: #333; /* Neutral text color */
+}
+
+.profileContainer {
+    background-color: #ffffff;
+    margin: 5vh auto;
+    padding: 2rem;
+    width: 80%;
+    max-width: 1200px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.picture{
-    background-color: #E71234;
-    width: 30%;
-    height:100%;
-    border-bottom-left-radius: 20px;
-
+.picture {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 16px;
+    border: 1px solid #e0e0e0;
+    max-width: 300px;
+    min-width: 250px;
 }
 
-.picBox{
-    background-color: #1a1a1a;
-    height: 30vh;
-    width: 90%;
-    margin: 5% 5%;
-    border-top-right-radius:20px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
+.picBox {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    border: 3px solid #007bff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.info{
-    color: #1a1a1a;
+.picBox img {
+    height: 100%;
     width: 100%;
+    object-fit: cover;
 }
 
-p{
-    font-size: 40px;
-    padding-left: 2vw;
-    padding-top: 1.2vh;
+.info {
+    flex: 2;
+    margin-left: 2rem;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.info h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #007bff;
+}
+
+.info p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0.5rem 0;
+}
+
+.actionButtons {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.actionButtons button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.actionButtons button:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+@media screen and (max-width: 768px) {
+    .profileContainer {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .info {
+        margin-left: 0;
+        margin-top: 1.5rem;
+        padding: 1rem;
+    }
+
+    .picBox {
+        height: 120px;
+        width: 120px;
+    }
+
+    .info h2 {
+        font-size: 1.5rem;
+    }
+
+    .info p {
+        font-size: 1rem;
+    }
 }
