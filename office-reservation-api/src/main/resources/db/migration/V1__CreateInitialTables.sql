@@ -4,12 +4,12 @@ CREATE TABLE room (
     name VARCHAR(255) NOT NULL
 );
 
--- Create table table
-CREATE TABLE table (
-id BIGINT PRIMARY KEY,
-island_number INT NOT NULL,
-room_id BIGINT,
-FOREIGN KEY (room_id) REFERENCES room(id) ON DELETE CASCADE
+-- Create room_table table
+CREATE TABLE room_table (
+    id BIGINT PRIMARY KEY,
+    island_number INT NOT NULL,
+    room_id BIGINT,
+    FOREIGN KEY (room_id) REFERENCES room(id) ON DELETE CASCADE
 );
 
 -- Create team table
