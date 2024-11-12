@@ -1,8 +1,8 @@
 # Stage 1: Build the application using Gradle
-FROM gradle:7.5.0-jdk17 AS builder
+FROM gradle:8.10.1-jdk17 AS builder
 
 # Set the working directory inside the builder container
-WORKDIR /opt/app
+WORKDIR /app
 
 # Copy all files into the builder container
 COPY . .
@@ -11,13 +11,13 @@ COPY . .
 RUN gradle build -x test
 
 # Stage 2: Create the runtime image
-FROM openjdk:17-jdk
+FROM openjdk:17-jdk-slim
 
 # Set the working directory inside the final container
-WORKDIR /opt/app
+WORKDIR /app
 
 # Copy the JAR file built in the first stage into the final container
-COPY --from=builder /opt/app/build/libs/office-reservation-system-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder /app/build/libs/office-reservation-system-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the application port
 EXPOSE 8080
