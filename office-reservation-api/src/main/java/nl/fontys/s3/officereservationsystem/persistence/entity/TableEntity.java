@@ -20,8 +20,4 @@ public class TableEntity {
 
     @Column(name = "island_number", nullable = false)
     private int islandNumber;
-
-    @ManyToOne
-    @JoinColumn(name = "room_id", nullable = false)
-    private RoomEntity room;
 }
