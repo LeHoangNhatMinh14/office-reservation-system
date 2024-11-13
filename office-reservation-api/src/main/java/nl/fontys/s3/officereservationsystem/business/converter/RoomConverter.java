@@ -2,9 +2,8 @@ package nl.fontys.s3.officereservationsystem.business.converter;
 
 import nl.fontys.s3.officereservationsystem.domain.Room;
 import nl.fontys.s3.officereservationsystem.persistence.entity.RoomEntity;
-import nl.fontys.s3.officereservationsystem.persistence.entity.TableEntity;
+import nl.fontys.s3.officereservationsystem.business.converter.TableConverter;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 public final class RoomConverter {
@@ -20,11 +19,16 @@ public final class RoomConverter {
                 .build();
     }
 
-    public static RoomEntity convert(Room room, List<TableEntity> tables) {
-        return RoomEntity.builder()
+    public static RoomEntity convert(Room room) {
+        RoomEntity roomEntity = RoomEntity.builder()
                 .id(room.getId())
                 .name(room.getName())
-                .tables(tables)
                 .build();
+
+        roomEntity.setTables(room.getTables().stream()
+                .map(TableConverter::convert)
+                .collect(Collectors.toList()));
+
+        return roomEntity;
     }
 }
