@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/teams")
@@ -34,9 +35,8 @@ public class TeamController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Team> getTeamById(@PathVariable("id") Long id) {
-        Team team = teamService.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Team with id " + id + " does not exist"));
-        return ResponseEntity.ok(team);
+        Optional<Team> teamOptional = teamService.findById(id);
+        return teamOptional.map(team -> ResponseEntity.ok().body(team)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")

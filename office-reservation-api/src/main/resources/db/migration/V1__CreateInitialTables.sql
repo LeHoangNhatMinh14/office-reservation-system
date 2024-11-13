@@ -1,31 +1,35 @@
 -- Create room table
 CREATE TABLE room (
-    id BIGINT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
+    id BIGINT AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
 );
 
 -- Create room_table table
 CREATE TABLE room_table (
-    id BIGINT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT,
     island_number INT NOT NULL,
     room_id BIGINT,
+    PRIMARY KEY (id),
     FOREIGN KEY (room_id) REFERENCES room(id) ON DELETE CASCADE
 );
 
 -- Create team table
 CREATE TABLE team (
-    id BIGINT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
+    id BIGINT AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
 );
 
 -- Create user table
 CREATE TABLE user (
-    id BIGINT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    is_admin BOOLEAN NOT NULL DEFAULT FALSE
+    is_admin BOOLEAN NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (id)
 );
 
 -- Create team_user table

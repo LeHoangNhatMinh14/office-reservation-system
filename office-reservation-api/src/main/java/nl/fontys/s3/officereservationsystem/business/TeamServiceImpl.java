@@ -1,5 +1,6 @@
 package nl.fontys.s3.officereservationsystem.business;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import nl.fontys.s3.officereservationsystem.business.converter.TeamConverter;
 import nl.fontys.s3.officereservationsystem.business.interfaces.TeamService;
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class TeamServiceImpl implements TeamService {
     private final TeamRepository teamRepository;
 
+    @Transactional
     @Override
     public Team save(Team team) {
         TeamEntity teamEntity = TeamConverter.convert(team);
@@ -36,6 +38,7 @@ public class TeamServiceImpl implements TeamService {
         return this.teamRepository.findById(id).map(TeamConverter::convert);
     }
 
+    @Transactional
     @Override
     public void update(Team team) {
         if(!this.teamRepository.existsById(team.getId())) {
@@ -46,6 +49,7 @@ public class TeamServiceImpl implements TeamService {
         this.teamRepository.save(teamEntity);
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
         if(!this.teamRepository.existsById(id)) {
@@ -57,7 +61,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public List<Team> filterByUserId(Long id) {
-        return this.teamRepository.filterByUserId(id).stream()
+        return this.teamRepository.findByUserId(id).stream()
                 .map(TeamConverter::convert)
                 .toList();
     }

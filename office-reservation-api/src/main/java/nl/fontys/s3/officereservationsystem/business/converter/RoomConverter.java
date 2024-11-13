@@ -3,8 +3,6 @@ package nl.fontys.s3.officereservationsystem.business.converter;
 import nl.fontys.s3.officereservationsystem.domain.Room;
 import nl.fontys.s3.officereservationsystem.persistence.entity.RoomEntity;
 
-import java.util.stream.Collectors;
-
 public final class RoomConverter {
     private RoomConverter() {}
 
@@ -14,7 +12,7 @@ public final class RoomConverter {
                 .name(entity.getName())
                 .tables(entity.getTables().stream()
                         .map(TableConverter::convert)
-                        .collect(Collectors.toList()))
+                        .toList())
                 .build();
     }
 
@@ -26,7 +24,7 @@ public final class RoomConverter {
 
         roomEntity.setTables(room.getTables().stream()
                 .map(TableConverter::convert)
-                .collect(Collectors.toList()));
+                .toList());
 
         return roomEntity;
     }

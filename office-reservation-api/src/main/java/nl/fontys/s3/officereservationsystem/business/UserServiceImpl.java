@@ -17,12 +17,14 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
+    @Override
     public List<User> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(UserConverter::convert)
                 .toList();
     }
 
+    @Override
     public Optional<User> getUserById(Long id) {
         if (!userRepository.existsById(id)) {
             throw new NoSuchElementException("User with id " + id + " does not exist");
@@ -32,6 +34,7 @@ public class UserServiceImpl implements UserService {
                 .map(UserConverter::convert);
     }
 
+    @Override
     public Optional<User> getUserByEmail(String email) {
         if (!userRepository.existsByEmail(email)) {
             throw new NoSuchElementException("User with email " + email + " does not exist");
@@ -41,6 +44,7 @@ public class UserServiceImpl implements UserService {
                 .map(UserConverter::convert);
     }
 
+    @Override
     public User createUser(User user) {
         UserEntity userEntity = UserConverter.convert(user);
         UserEntity savedUserEntity = userRepository.save(userEntity);
@@ -48,6 +52,7 @@ public class UserServiceImpl implements UserService {
         return UserConverter.convert(savedUserEntity);
     }
 
+    @Override
     public void updateUser(Long id, User updatedUser) {
         Optional<UserEntity> existingUser = userRepository.findById(id);
 
@@ -61,6 +66,7 @@ public class UserServiceImpl implements UserService {
         this.userRepository.save(userEntity);
     }
 
+    @Override
     public void deleteUser(Long id) {
         Optional<UserEntity> existingUser = userRepository.findById(id);
         if (existingUser.isEmpty()) {

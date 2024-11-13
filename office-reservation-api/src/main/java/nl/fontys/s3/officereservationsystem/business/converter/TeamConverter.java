@@ -3,8 +3,6 @@ package nl.fontys.s3.officereservationsystem.business.converter;
 import nl.fontys.s3.officereservationsystem.domain.Team;
 import nl.fontys.s3.officereservationsystem.persistence.entity.TeamEntity;
 
-import java.util.stream.Collectors;
-
 public final class TeamConverter {
     private TeamConverter() {}
 
@@ -14,10 +12,10 @@ public final class TeamConverter {
                 .name(entity.getName())
                 .users(entity.getUsers().stream()
                         .map(UserConverter::convert)
-                        .collect(Collectors.toList()))
+                        .toList())
                 .teamManagers(entity.getTeamManagers().stream()
                         .map(UserConverter::convert)
-                        .collect(Collectors.toList()))
+                        .toList())
                 .build();
     }
 
@@ -27,10 +25,10 @@ public final class TeamConverter {
                 .name(team.getName())
                 .users(team.getUsers().stream()
                         .map(UserConverter::convert)
-                        .collect(Collectors.toList()))
+                        .toList())
                 .teamManagers(team.getTeamManagers().stream()
                         .map(UserConverter::convert)
-                        .collect(Collectors.toList()))
+                        .toList())
                 .build();
     }
 }

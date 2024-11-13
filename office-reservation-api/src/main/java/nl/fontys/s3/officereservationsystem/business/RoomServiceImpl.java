@@ -1,5 +1,6 @@
 package nl.fontys.s3.officereservationsystem.business;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import nl.fontys.s3.officereservationsystem.business.converter.RoomConverter;
 import nl.fontys.s3.officereservationsystem.business.interfaces.RoomService;
@@ -29,6 +30,7 @@ public class RoomServiceImpl implements RoomService {
         return roomRepository.findById(id).map(RoomConverter::convert);
     }
 
+    @Transactional
     @Override
     public Room createRoom(Room room) {
         RoomEntity roomEntity = RoomConverter.convert(room);
@@ -37,6 +39,7 @@ public class RoomServiceImpl implements RoomService {
         return RoomConverter.convert(savedRoomEntity);
     }
 
+    @Transactional
     @Override
     public Room updateRoom(Long id, Room room) {
         if (!roomRepository.existsById(id)) {
@@ -50,6 +53,7 @@ public class RoomServiceImpl implements RoomService {
         return RoomConverter.convert(savedRoomEntity);
     }
 
+    @Transactional
     @Override
     public void deleteRoom(Long id) {
         if (!roomRepository.existsById(id)) {

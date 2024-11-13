@@ -1,5 +1,6 @@
 package nl.fontys.s3.officereservationsystem.business;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import nl.fontys.s3.officereservationsystem.business.converter.ReservationConverter;
 import nl.fontys.s3.officereservationsystem.business.interfaces.ReservationService;
@@ -17,12 +18,14 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
     private final RoomRepository roomRepository;
 
+    @Transactional
     @Override
     public void createReservation(Reservation reservation){
         ReservationEntity entity = ReservationConverter.convert(reservation);
         reservationRepository.save(entity);
     }
 
+    @Transactional
     @Override
     public void cancelReservation(Long id) {
         if (!reservationRepository.existsById(id)) {
