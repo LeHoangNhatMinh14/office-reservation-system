@@ -1,7 +1,7 @@
 package nl.fontys.s3.officereservationsystem.business;
 
 import nl.fontys.s3.officereservationsystem.domain.User;
-import nl.fontys.s3.officereservationsystem.persistence.impl.UserRepositoryImpl;
+import nl.fontys.s3.officereservationsystem.persistence.entity.UserRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
