@@ -34,4 +34,6 @@ public class ReservationsController {
         reservationService.cancelReservation(id);
         return ResponseEntity.noContent().build();
     }
+
+    // TODO: set waiting times for reservations
 }
