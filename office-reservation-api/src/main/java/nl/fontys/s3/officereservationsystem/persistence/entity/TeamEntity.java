@@ -23,7 +23,7 @@ public class TeamEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "team_user",
         joinColumns = @JoinColumn(name = "team_id"),
@@ -31,7 +31,7 @@ public class TeamEntity {
     )
     private List<UserEntity> users;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "team_manager",
         joinColumns = @JoinColumn(name = "team_id"),
