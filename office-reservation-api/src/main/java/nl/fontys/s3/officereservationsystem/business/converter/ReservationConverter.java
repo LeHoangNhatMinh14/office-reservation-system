@@ -2,8 +2,8 @@ package nl.fontys.s3.officereservationsystem.business.converter;
 
 import nl.fontys.s3.officereservationsystem.domain.Reservation;
 import nl.fontys.s3.officereservationsystem.persistence.entity.ReservationEntity;
-import nl.fontys.s3.officereservationsystem.persistence.entity.TableEntity;
-import nl.fontys.s3.officereservationsystem.persistence.entity.UserEntity;
+import nl.fontys.s3.officereservationsystem.business.converter.UserConverter;
+import nl.fontys.s3.officereservationsystem.business.converter.TableConverter;
 
 public final class ReservationConverter {
     private ReservationConverter() {}
@@ -15,22 +15,22 @@ public final class ReservationConverter {
                 .startTime(entity.getStartTime())
                 .endTime(entity.getEndTime())
                 .reservationType(entity.getReservationType())
-                .tableId(entity.getTable().getId())
-                .seatedUserId(entity.getSeatedUser().getId())
-                .reservationUserId(entity.getReservationUser().getId())
+                .table(TableConverter.convert(entity.getTable()))
+                .seatedUser(UserConverter.convert(entity.getSeatedUser()))
+                .reservationUser(UserConverter.convert(entity.getReservationUser()))
                 .build();
     }
 
-    public static ReservationEntity convert(Reservation reservation, TableEntity table, UserEntity seatedUser, UserEntity reservationUser) {
+    public static ReservationEntity convert(Reservation reservation) {
         return ReservationEntity.builder()
                 .id(reservation.getId())
                 .date(reservation.getDate())
                 .startTime(reservation.getStartTime())
                 .endTime(reservation.getEndTime())
                 .reservationType(reservation.getReservationType())
-                .table(table)
-                .seatedUser(seatedUser)
-                .reservationUser(reservationUser)
+                .table(TableConverter.convert(reservation.getTable()))
+                .seatedUser(UserConverter.convert(reservation.getSeatedUser()))
+                .reservationUser(UserConverter.convert(reservation.getReservationUser()))
                 .build();
     }
 }
