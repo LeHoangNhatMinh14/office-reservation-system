@@ -1,8 +1,11 @@
 package nl.fontys.s3.officereservationsystem.business;
 
+import lombok.AllArgsConstructor;
+import nl.fontys.s3.officereservationsystem.business.converter.UserConverter;
 import nl.fontys.s3.officereservationsystem.business.interfaces.UserService;
 import nl.fontys.s3.officereservationsystem.domain.User;
-import nl.fontys.s3.officereservationsystem.persistence.entity.UserRepositoryImpl;
+import nl.fontys.s3.officereservationsystem.persistence.UserRepository;
+import nl.fontys.s3.officereservationsystem.persistence.entity.UserEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,57 +13,60 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserRepositoryImpl userRepository;
-
-    public UserServiceImpl(UserRepositoryImpl userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserRepository userRepository;
 
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findAll().stream()
+                .map(UserConverter::convert)
+                .toList();
     }
 
-    public User getUserById(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Id cannot be null");
+    public Optional<User> getUserById(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new NoSuchElementException("User with id " + id + " does not exist");
         }
+
         return userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User with id " + id + " does not exist"));
+                .map(UserConverter::convert);
     }
 
-    public User getUserByEmail(String email) {
-        if (email == null) {
-            throw new IllegalArgumentException("Email cannot be null");
+    public Optional<User> getUserByEmail(String email) {
+        if (!userRepository.existsByEmail(email)) {
+            throw new NoSuchElementException("User with email " + email + " does not exist");
         }
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new NoSuchElementException("User with email " + email + " does not exist"));
 
+        return userRepository.findByEmail(email)
+                .map(UserConverter::convert);
     }
 
     public User createUser(User user) {
-        return userRepository.save(user);
+        UserEntity userEntity = UserConverter.convert(user);
+        UserEntity savedUserEntity = userRepository.save(userEntity);
+
+        return UserConverter.convert(savedUserEntity);
     }
 
     public void updateUser(Long id, User updatedUser) {
-        Optional<User> existingUser = userRepository.findById(id);
-        if (existingUser.isPresent()) {
-            deleteUser(id);
-            userRepository.save(updatedUser);
-        }
-        else {
-            throw new IllegalArgumentException("User with id " + id + " does not exist");
+        Optional<UserEntity> existingUser = userRepository.findById(id);
+
+        if (existingUser.isEmpty()) {
+            throw new NoSuchElementException("User with id " + id + " does not exist");
         }
 
+        updatedUser.setId(id);
+        UserEntity userEntity = UserConverter.convert(updatedUser);
+
+        this.userRepository.save(userEntity);
     }
 
     public void deleteUser(Long id) {
-        Optional<User> existingUser = userRepository.findById(id);
-        if (existingUser.isPresent()) {
-            userRepository.deleteById(id);
+        Optional<UserEntity> existingUser = userRepository.findById(id);
+        if (existingUser.isEmpty()) {
+            throw new NoSuchElementException("User with id " + id + " does not exist");
         }
-        else{
-            throw new IllegalArgumentException("User with id " + id + " does not exist");
-        }
+
+        this.userRepository.deleteById(id);
     }
 }

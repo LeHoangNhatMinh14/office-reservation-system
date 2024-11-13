@@ -1,9 +1,11 @@
 package nl.fontys.s3.officereservationsystem.business;
 
 import lombok.AllArgsConstructor;
+import nl.fontys.s3.officereservationsystem.business.converter.TeamConverter;
 import nl.fontys.s3.officereservationsystem.business.interfaces.TeamService;
 import nl.fontys.s3.officereservationsystem.domain.Team;
 import nl.fontys.s3.officereservationsystem.persistence.TeamRepository;
+import nl.fontys.s3.officereservationsystem.persistence.entity.TeamEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,31 +18,47 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Team save(Team team) {
-        return this.teamRepository.save(team);
+        TeamEntity teamEntity = TeamConverter.convert(team);
+        TeamEntity savedTeamEntity = this.teamRepository.save(teamEntity);
+
+        return TeamConverter.convert(savedTeamEntity);
     }
 
     @Override
     public List<Team> findAll() {
-        return this.teamRepository.findAll();
+        return this.teamRepository.findAll().stream()
+                .map(TeamConverter::convert)
+                .toList();
     }
 
     @Override
     public Optional<Team> findById(Long id) {
-        return this.teamRepository.findById(id);
+        return this.teamRepository.findById(id).map(TeamConverter::convert);
     }
 
     @Override
     public void update(Team team) {
-        this.teamRepository.update(team);
+        if(!this.teamRepository.existsById(team.getId())) {
+            throw new IllegalArgumentException("Team with id " + team.getId() + " does not exist.");
+        }
+
+        TeamEntity teamEntity = TeamConverter.convert(team);
+        this.teamRepository.save(teamEntity);
     }
 
     @Override
     public void deleteById(Long id) {
+        if(!this.teamRepository.existsById(id)) {
+            throw new IllegalArgumentException("Team with id " + id + " does not exist.");
+        }
+
         this.teamRepository.deleteById(id);
     }
 
     @Override
     public List<Team> filterByUserId(Long id) {
-        return this.teamRepository.filterByUserId(id);
+        return this.teamRepository.filterByUserId(id).stream()
+                .map(TeamConverter::convert)
+                .toList();
     }
 }
