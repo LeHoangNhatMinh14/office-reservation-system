@@ -2,8 +2,6 @@ package nl.fontys.s3.officereservationsystem.business.converter;
 
 import nl.fontys.s3.officereservationsystem.domain.Reservation;
 import nl.fontys.s3.officereservationsystem.persistence.entity.ReservationEntity;
-import nl.fontys.s3.officereservationsystem.business.converter.UserConverter;
-import nl.fontys.s3.officereservationsystem.business.converter.TableConverter;
 
 public final class ReservationConverter {
     private ReservationConverter() {}

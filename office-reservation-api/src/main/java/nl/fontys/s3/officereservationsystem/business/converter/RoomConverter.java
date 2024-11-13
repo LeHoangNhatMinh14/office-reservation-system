@@ -2,7 +2,6 @@ package nl.fontys.s3.officereservationsystem.business.converter;
 
 import nl.fontys.s3.officereservationsystem.domain.Room;
 import nl.fontys.s3.officereservationsystem.persistence.entity.RoomEntity;
-import nl.fontys.s3.officereservationsystem.business.converter.TableConverter;
 
 import java.util.stream.Collectors;
 
