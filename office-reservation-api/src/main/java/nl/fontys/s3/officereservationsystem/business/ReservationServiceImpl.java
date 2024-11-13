@@ -14,7 +14,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     private final ReservationRepository reservationRepository;
 
-    public void createReservation(Reservation reservation) {
+    public void createReservation(Reservation reservation){
         reservationRepository.create(reservation);
     }
 
