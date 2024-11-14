@@ -25,6 +25,17 @@ public class ReservationServiceImpl implements ReservationService {
         reservationRepository.save(entity);
     }
 
+    @Override
+    public List<Reservation> getReservationsByRoomId(Long roomId) {
+        if (!roomRepository.existsById(roomId)) {
+            throw new IllegalArgumentException("Room with id " + roomId + " not found");
+        }
+
+        return reservationRepository.findByRoomId(roomId).stream()
+                .map(ReservationConverter::convert)
+                .toList();
+    }
+
     @Transactional
     @Override
     public void cancelReservation(Long id) {
@@ -33,16 +44,5 @@ public class ReservationServiceImpl implements ReservationService {
         }
 
         reservationRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Reservation> getReservationsByRoom(Long roomId) {
-        if (!roomRepository.existsById(roomId)) {
-            throw new IllegalArgumentException("Room with id " + roomId + " not found");
-        }
-
-        return reservationRepository.findByRoomId(roomId).stream()
-                .map(ReservationConverter::convert)
-                .toList();
     }
 }

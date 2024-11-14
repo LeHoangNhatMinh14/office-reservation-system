@@ -11,12 +11,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
+
+    @Transactional
+    @Override
+    public Room createRoom(Room room) {
+        RoomEntity roomEntity = RoomConverter.convert(room);
+        RoomEntity savedRoomEntity = roomRepository.save(roomEntity);
+
+        return RoomConverter.convert(savedRoomEntity);
+    }
 
     @Override
     public List<Room> getAllRooms() {
@@ -28,15 +36,6 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Optional<Room> getRoomById(Long id) {
         return roomRepository.findById(id).map(RoomConverter::convert);
-    }
-
-    @Transactional
-    @Override
-    public Room createRoom(Room room) {
-        RoomEntity roomEntity = RoomConverter.convert(room);
-        RoomEntity savedRoomEntity = roomRepository.save(roomEntity);
-
-        return RoomConverter.convert(savedRoomEntity);
     }
 
     @Transactional
