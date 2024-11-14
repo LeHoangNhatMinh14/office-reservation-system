@@ -18,26 +18,26 @@ public class TeamController {
 
     @PostMapping
     public ResponseEntity<Team> createTeam(@RequestBody Team team) {
-        Team createdTeam = teamService.save(team);
+        Team createdTeam = teamService.createTeam(team);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTeam);
     }
 
     @GetMapping
     public ResponseEntity<List<Team>> getAllTeams() {
-        List<Team> teams = teamService.findAll();
+        List<Team> teams = teamService.getAllTeams();
         return ResponseEntity.status(HttpStatus.OK).body(teams);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Team> getTeamById(@PathVariable("id") Long id) {
-        Optional<Team> teamOptional = teamService.findById(id);
+        Optional<Team> teamOptional = teamService.getTeamById(id);
         return teamOptional.map(team -> ResponseEntity.ok().body(team))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
     public ResponseEntity<List<Team>> getTeamsByUserId(@RequestParam("userId") Long userId) {
-        List<Team> teams = teamService.filterByUserId(userId);
+        List<Team> teams = teamService.getTeamsByUserId(userId);
         return ResponseEntity.status(HttpStatus.OK).body(teams);
     }
 
@@ -45,13 +45,13 @@ public class TeamController {
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateTeam(@PathVariable("id") Long id, @RequestBody Team team) {
         team.setId(id);
-        teamService.update(team);
+        teamService.updateTeam(team);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTeam(@PathVariable("id") Long id) {
-        teamService.deleteById(id);
+        teamService.deleteTeam(id);
         return ResponseEntity.ok().build();
     }
 }

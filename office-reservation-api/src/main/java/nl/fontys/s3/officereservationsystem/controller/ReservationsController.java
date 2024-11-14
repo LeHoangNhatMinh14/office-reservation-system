@@ -24,7 +24,7 @@ public class ReservationsController {
 
     @GetMapping
     public ResponseEntity<List<Reservation>> getReservationByRoomId(@RequestParam("roomId") Long roomId) {
-        List<Reservation> reservations = reservationService.getReservationsByRoom(roomId);
+        List<Reservation> reservations = reservationService.getReservationsByRoomId(roomId);
         return ResponseEntity.status(HttpStatus.OK).body(reservations);
     }
 
