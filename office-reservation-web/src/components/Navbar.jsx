@@ -11,6 +11,7 @@ function Navbar() {
                 <li><Link to="/schedule">Schedule</Link></li>
                 <li><Link to="/teams">Teams</Link></li>
                 <li><Link to="/reservation">Reservation</Link></li>
+                
             </ul>
         </nav>
     );

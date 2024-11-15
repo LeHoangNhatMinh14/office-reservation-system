@@ -1,0 +1,69 @@
+.teamOverviewContainer {
+  background-color: #F4F0EC;
+  margin-top: 9vh;
+  height: 80vh;
+  width: 70vw;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+.teamOverviewHeader {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.teamOverviewHeader h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.teamOverviewContent {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.teamView {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.teamView:hover {
+  transform: translateY(-5px);
+}
+
+.teamHeader {
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.teamMembers {
+  margin-top: 10px;
+  padding-left: 10px;
+}
+
+.teamMember {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.teamActions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.roleSelector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
