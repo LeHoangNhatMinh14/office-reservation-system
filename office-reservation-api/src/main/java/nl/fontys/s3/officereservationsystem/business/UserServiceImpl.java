@@ -1,5 +1,6 @@
 package nl.fontys.s3.officereservationsystem.business;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import nl.fontys.s3.officereservationsystem.business.converter.UserConverter;
 import nl.fontys.s3.officereservationsystem.business.interfaces.UserService;
@@ -16,6 +17,15 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+
+    @Transactional
+    @Override
+    public User createUser(User user) {
+        UserEntity userEntity = UserConverter.convert(user);
+        UserEntity savedUserEntity = userRepository.save(userEntity);
+
+        return UserConverter.convert(savedUserEntity);
+    }
 
     @Override
     public List<User> getAllUsers() {
@@ -44,14 +54,7 @@ public class UserServiceImpl implements UserService {
                 .map(UserConverter::convert);
     }
 
-    @Override
-    public User createUser(User user) {
-        UserEntity userEntity = UserConverter.convert(user);
-        UserEntity savedUserEntity = userRepository.save(userEntity);
-
-        return UserConverter.convert(savedUserEntity);
-    }
-
+    @Transactional
     @Override
     public void updateUser(Long id, User updatedUser) {
         Optional<UserEntity> existingUser = userRepository.findById(id);
@@ -66,6 +69,7 @@ public class UserServiceImpl implements UserService {
         this.userRepository.save(userEntity);
     }
 
+    @Transactional
     @Override
     public void deleteUser(Long id) {
         Optional<UserEntity> existingUser = userRepository.findById(id);

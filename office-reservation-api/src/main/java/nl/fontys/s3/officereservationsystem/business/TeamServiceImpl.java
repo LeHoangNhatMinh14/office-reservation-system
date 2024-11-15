@@ -19,7 +19,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Transactional
     @Override
-    public Team save(Team team) {
+    public Team createTeam(Team team) {
         TeamEntity teamEntity = TeamConverter.convert(team);
         TeamEntity savedTeamEntity = this.teamRepository.save(teamEntity);
 
@@ -27,20 +27,27 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<Team> findAll() {
+    public List<Team> getAllTeams() {
         return this.teamRepository.findAll().stream()
                 .map(TeamConverter::convert)
                 .toList();
     }
 
     @Override
-    public Optional<Team> findById(Long id) {
+    public Optional<Team> getTeamById(Long id) {
         return this.teamRepository.findById(id).map(TeamConverter::convert);
+    }
+
+    @Override
+    public List<Team> getTeamsByUserId(Long userId) {
+        return this.teamRepository.findByUserId(userId).stream()
+                .map(TeamConverter::convert)
+                .toList();
     }
 
     @Transactional
     @Override
-    public void update(Team team) {
+    public void updateTeam(Team team) {
         if(!this.teamRepository.existsById(team.getId())) {
             throw new IllegalArgumentException("Team with id " + team.getId() + " does not exist.");
         }
@@ -51,18 +58,11 @@ public class TeamServiceImpl implements TeamService {
 
     @Transactional
     @Override
-    public void deleteById(Long id) {
+    public void deleteTeam(Long id) {
         if(!this.teamRepository.existsById(id)) {
             throw new IllegalArgumentException("Team with id " + id + " does not exist.");
         }
 
         this.teamRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Team> filterByUserId(Long id) {
-        return this.teamRepository.findByUserId(id).stream()
-                .map(TeamConverter::convert)
-                .toList();
     }
 }
