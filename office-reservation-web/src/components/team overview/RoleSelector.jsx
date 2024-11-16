@@ -1,27 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import styles from "../../styles/teams.module.css";
 
-// Component for Assigning Roles
-const RoleSelector = ({ onAssignRole }) => {
-  const [selectedRole, setSelectedRole] = useState("User");
+// Component to Assign Roles to Team Members
+const RoleSelector = ({ onAssignRole, currentRole }) => {
+  // State to track the selected role, initialized to "User"
+  const [selectedRole, setSelectedRole] = useState(currentRole || "User");
 
-  const roles = ["User", "Moderator", "Admin"];
+  // Update the selected role when currentRole prop changes
+  useEffect(() => {
+    setSelectedRole(currentRole);
+  }, [currentRole]);
 
-  const handleRoleChange = (e) => {
-    setSelectedRole(e.target.value);
+  // Function to handle the change in role selection from the dropdown
+  const handleRoleChange = (event) => {
+    setSelectedRole(event.target.value); // Update the selected role based on user input
   };
 
+  // Function to handle the assignment of the selected role
   const handleAssign = () => {
-    onAssignRole(selectedRole);
+    onAssignRole(selectedRole); // Pass the selected role to the parent component via the callback function
   };
 
   return (
-    <div className="role-selector">
-      <select value={selectedRole} onChange={handleRoleChange}>
-        {roles.map((role, index) => (
-          <option key={index} value={role}>{role}</option>
-        ))}
+    <div className={styles.roleSelector}>
+      {/* Dropdown to select a role */}
+      <select value={selectedRole} onChange={handleRoleChange} className={styles.roleDropdown}>
+        <option value="User">User</option>
+        <option value="Manager">Manager</option>
+        <option value="Editor">Editor</option>
       </select>
-      <button onClick={handleAssign}>Assign Role</button>
+      {/* Button to assign the selected role */}
+      <button className={styles.assignButton} onClick={handleAssign}>Assign Role</button>
     </div>
   );
 };

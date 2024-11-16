@@ -1,11 +1,14 @@
 .teamOverviewContainer {
-  background-color: #F4F0EC;
-  margin-top: 9vh;
-  height: 80vh;
-  width: 70vw;
+  background-color: #f4f0ec;
+  margin: 9vh auto 0 auto; /* Center the container horizontally and set margin-top like before */
+  height: 85vh; /* Increase height to cover a larger part of the page */
+  width: 85vw; /* Increase width to leave some margin on the sides */
   border-radius: 20px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: add some shadow for depth */
 }
 
 .teamOverviewHeader {
@@ -13,15 +16,25 @@
   margin-bottom: 20px;
 }
 
-.teamOverviewHeader h1 {
-  font-size: 2rem;
-  color: #333;
-}
-
 .teamOverviewContent {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  width: 100%;
+}
+
+.roleToggleButton {
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.roleToggleButton:hover {
+  background-color: #b90000;
 }
 
 .teamView {
@@ -31,6 +44,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
+  width: 100%;
 }
 
 .teamView:hover {
@@ -48,6 +62,7 @@
 .teamMembers {
   margin-top: 10px;
   padding-left: 10px;
+  width: 100%;
 }
 
 .teamMember {
@@ -66,4 +81,88 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.roleAssignButton {
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.roleAssignButton:hover {
+  background-color: #b90000;
+}
+
+.deleteMemberButton {
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.deleteMemberButton:hover {
+  background-color: #b90000;
+}
+
+.teamMemberBox {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.teamMemberBox:hover {
+  border-color: #ff0000;
+}
+
+.selectedMember {
+  background-color: #ff0000;
+  color: #fff;
+  border-color: #ff0000;
+}
+
+.roleSelector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.roleDropdown {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.roleDropdown:hover,
+.roleDropdown:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.assignButton {
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.assignButton:hover {
+  background-color: #cc0000;
 }

@@ -1,74 +1,82 @@
 import React, { useState } from "react";
+import styles from "../../styles/teams.module.css";
 import RoleSelector from "./RoleSelector";
+import TeamMemberBox from "./TeamMemberBox";
 
 // Component to Show Individual Team Details
-const TeamView = ({ team }) => {
+const TeamView = ({ team, isAdmin }) => {
   const [showMembers, setShowMembers] = useState(false);
   const [selectedMembers, setSelectedMembers] = useState([]);
+  const [teamMembers, setTeamMembers] = useState(
+    team.members.map((member) => ({
+      name: member,
+      role: "Member", // Set the default role as "Member"
+    }))
+  );
 
   const toggleShowMembers = () => {
     setShowMembers(!showMembers);
   };
 
-  const handleMemberSelect = (member) => {
+  const handleMemberSelect = (memberName) => {
     setSelectedMembers((prevSelected) => {
-      if (prevSelected.includes(member)) {
-        return prevSelected.filter((m) => m !== member);
+      if (prevSelected.includes(memberName)) {
+        return prevSelected.filter((m) => m !== memberName);
       } else {
-        return [...prevSelected, member];
+        return [...prevSelected, memberName];
       }
     });
   };
 
   const handleDeleteMembers = () => {
-    // Uncomment and modify to make backend call for deleting members
-    // fetch('/deleteMembers', {
-    //   method: 'POST',
-    //   body: JSON.stringify(selectedMembers),
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // }).then(response => response.json()).then(data => {
-    //   console.log('Deleted:', data);
-    // });
     console.log("Deleting members: ", selectedMembers);
+    setTeamMembers((prevMembers) =>
+      prevMembers.filter((member) => !selectedMembers.includes(member.name))
+    );
+    setSelectedMembers([]); // Clear selected members after deletion
   };
 
   const handleAssignRole = (role) => {
-    // Uncomment and modify to make backend call for assigning roles
-    // fetch('/assignRole', {
-    //   method: 'POST',
-    //   body: JSON.stringify({ members: selectedMembers, role }),
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // }).then(response => response.json()).then(data => {
-    //   console.log('Role Assigned:', data);
-    // });
+    if (role === "Admin") {
+      console.log("Cannot assign Admin role.");
+      return;
+    }
+
+    // Assign role to selected members
+    setTeamMembers((prevMembers) =>
+      prevMembers.map((member) => {
+        if (selectedMembers.includes(member.name)) {
+          return { ...member, role };
+        }
+        return member;
+      })
+    );
+
     console.log("Assigning role ", role, " to members: ", selectedMembers);
+    setSelectedMembers([]); // Clear selected members after role assignment
   };
 
   return (
-    <div className="team-view">
-      <div className="team-header" onClick={toggleShowMembers}>
+    <div className={styles.teamView}>
+      <div className={styles.teamHeader} onClick={toggleShowMembers}>
         {team.name} <span>{showMembers ? "v" : ">"}</span>
       </div>
       {showMembers && (
-        <div className="team-members">
-          {team.members.map((member, index) => (
-            <div key={index} className="team-member">
-              <input
-                type="checkbox"
-                onChange={() => handleMemberSelect(member)}
-                checked={selectedMembers.includes(member)}
-              />
-              {member}
-            </div>
+        <div className={styles.teamMembers}>
+          {teamMembers.map((member, index) => (
+            <TeamMemberBox
+              key={index}
+              member={member}
+              isSelected={selectedMembers.includes(member.name)}
+              onSelect={handleMemberSelect}
+            />
           ))}
-          <div className="team-actions">
-            <button onClick={handleDeleteMembers}>Delete Selected Members</button>
-            <RoleSelector onAssignRole={handleAssignRole} />
-          </div>
+          {isAdmin && (
+            <div className={styles.teamActions}>
+              <button className={styles.deleteMemberButton} onClick={handleDeleteMembers}>Delete Selected Members</button>
+              <RoleSelector onAssignRole={handleAssignRole} />
+            </div>
+          )}
         </div>
       )}
     </div>
