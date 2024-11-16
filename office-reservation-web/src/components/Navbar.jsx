@@ -6,6 +6,7 @@ function Navbar() {
     return (
         <nav className={styles.navBar}>
             <h1 className={styles.logo}>driessen</h1>
+<<<<<<< HEAD
             <ul className={styles.navLinks}>
                 <li><Link to="/room">Room</Link></li>
                 <li><Link to="/schedule">Schedule</Link></li>
@@ -13,6 +14,8 @@ function Navbar() {
                 <li><Link to="/reservation">Reservation</Link></li>
                 
             </ul>
+=======
+>>>>>>> dev
         </nav>
     );
 }
