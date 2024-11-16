@@ -25,9 +25,8 @@ const RoleSelector = ({ onAssignRole, currentRole }) => {
     <div className={styles.roleSelector}>
       {/* Dropdown to select a role */}
       <select value={selectedRole} onChange={handleRoleChange} className={styles.roleDropdown}>
-        <option value="User">User</option>
+        <option value="Member">Member</option>
         <option value="Manager">Manager</option>
-        <option value="Editor">Editor</option>
       </select>
       {/* Button to assign the selected role */}
       <button className={styles.assignButton} onClick={handleAssign}>Assign Role</button>

@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import styles from "../../styles/teams.module.css";
 import RoleSelector from "./RoleSelector";
-import TeamMemberBox from "./TeamMemberBox";
 
-// Component to Show Individual Team Details
-const TeamView = ({ team, isAdmin }) => {
+const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
   const [showMembers, setShowMembers] = useState(false);
   const [selectedMembers, setSelectedMembers] = useState([]);
   const [teamMembers, setTeamMembers] = useState(
     team.members.map((member) => ({
       name: member,
-      role: "Member", // Set the default role as "Member"
+      role: "Member",
     }))
   );
 
@@ -29,11 +27,10 @@ const TeamView = ({ team, isAdmin }) => {
   };
 
   const handleDeleteMembers = () => {
-    console.log("Deleting members: ", selectedMembers);
     setTeamMembers((prevMembers) =>
       prevMembers.filter((member) => !selectedMembers.includes(member.name))
     );
-    setSelectedMembers([]); // Clear selected members after deletion
+    setSelectedMembers([]);
   };
 
   const handleAssignRole = (role) => {
@@ -42,7 +39,6 @@ const TeamView = ({ team, isAdmin }) => {
       return;
     }
 
-    // Assign role to selected members
     setTeamMembers((prevMembers) =>
       prevMembers.map((member) => {
         if (selectedMembers.includes(member.name)) {
@@ -52,29 +48,53 @@ const TeamView = ({ team, isAdmin }) => {
       })
     );
 
-    console.log("Assigning role ", role, " to members: ", selectedMembers);
-    setSelectedMembers([]); // Clear selected members after role assignment
+    setSelectedMembers([]);
+  };
+
+  const handleDeleteTeam = () => {
+    onDeleteTeam(team.name); // Callback function to handle the deletion of the team
   };
 
   return (
     <div className={styles.teamView}>
-      <div className={styles.teamHeader} onClick={toggleShowMembers}>
-        {team.name} <span>{showMembers ? "v" : ">"}</span>
+      <div className={styles.teamHeader}>
+        <span onClick={toggleShowMembers} className={styles.teamName}>
+          {team.name} <span>{showMembers ? "v" : ">"}</span>
+        </span>
+        {isAdmin && (
+          <button
+            className={styles.deleteTeamButton}
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent toggle when clicking delete
+              handleDeleteTeam();
+            }}
+          >
+            Delete Team
+          </button>
+        )}
       </div>
       {showMembers && (
         <div className={styles.teamMembers}>
           {teamMembers.map((member, index) => (
-            <TeamMemberBox
+            <div
               key={index}
-              member={member}
-              isSelected={selectedMembers.includes(member.name)}
-              onSelect={handleMemberSelect}
-            />
+              className={`${styles.teamMemberBox} ${
+                selectedMembers.includes(member.name) ? styles.selectedMember : ""
+              }`}
+              onClick={() => handleMemberSelect(member.name)}
+            >
+              {member.name} - {member.role}
+            </div>
           ))}
           {isAdmin && (
             <div className={styles.teamActions}>
-              <button className={styles.deleteMemberButton} onClick={handleDeleteMembers}>Delete Selected Members</button>
-              <RoleSelector onAssignRole={handleAssignRole} />
+              <RoleSelector onAssignRole={handleAssignRole} currentRole="Member" />
+              <button
+                className={styles.deleteMemberButton}
+                onClick={handleDeleteMembers}
+              >
+                Delete Selected Members
+              </button>
             </div>
           )}
         </div>
