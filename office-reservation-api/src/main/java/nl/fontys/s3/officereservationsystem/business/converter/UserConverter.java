@@ -3,6 +3,9 @@ package nl.fontys.s3.officereservationsystem.business.converter;
 import nl.fontys.s3.officereservationsystem.domain.User;
 import nl.fontys.s3.officereservationsystem.persistence.entity.UserEntity;
 
+import java.util.List;
+import java.util.Optional;
+
 public final class UserConverter {
     private UserConverter() {}
 
@@ -27,4 +30,7 @@ public final class UserConverter {
                 .isAdmin(user.isAdmin())
                 .build();
     }
+
+
+
 }

@@ -3,6 +3,7 @@ package nl.fontys.s3.officereservationsystem.controller;
 import lombok.AllArgsConstructor;
 import nl.fontys.s3.officereservationsystem.business.interfaces.UserService;
 import nl.fontys.s3.officereservationsystem.domain.User;
+import nl.fontys.s3.officereservationsystem.persistence.entity.UserEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,13 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = userService.createUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+        try {
+            userService.createUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @GetMapping
