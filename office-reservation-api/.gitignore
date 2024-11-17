@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# Ignore specific files
+LeaveService.java
+LeaveController.java
+LeaveServiceImpl.java
+LeaveRepository.java
