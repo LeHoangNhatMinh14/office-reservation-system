@@ -6,8 +6,9 @@ const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
   const [showMembers, setShowMembers] = useState(false);
   const [selectedMembers, setSelectedMembers] = useState([]);
   const [teamMembers, setTeamMembers] = useState(
-    team.members.map((member) => ({
-      name: member,
+    team.users.map((user) => ({
+      id: user.id,
+      name: `${user.firstName} ${user.lastName}`,
       role: "Member",
     }))
   );
@@ -16,19 +17,19 @@ const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
     setShowMembers(!showMembers);
   };
 
-  const handleMemberSelect = (memberName) => {
+  const handleMemberSelect = (memberId) => {
     setSelectedMembers((prevSelected) => {
-      if (prevSelected.includes(memberName)) {
-        return prevSelected.filter((m) => m !== memberName);
+      if (prevSelected.includes(memberId)) {
+        return prevSelected.filter((m) => m !== memberId);
       } else {
-        return [...prevSelected, memberName];
+        return [...prevSelected, memberId];
       }
     });
   };
 
   const handleDeleteMembers = () => {
     setTeamMembers((prevMembers) =>
-      prevMembers.filter((member) => !selectedMembers.includes(member.name))
+      prevMembers.filter((member) => !selectedMembers.includes(member.id))
     );
     setSelectedMembers([]);
   };
@@ -41,7 +42,7 @@ const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
 
     setTeamMembers((prevMembers) =>
       prevMembers.map((member) => {
-        if (selectedMembers.includes(member.name)) {
+        if (selectedMembers.includes(member.id)) {
           return { ...member, role };
         }
         return member;
@@ -77,11 +78,11 @@ const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
         <div className={styles.teamMembers}>
           {teamMembers.map((member, index) => (
             <div
-              key={index}
+              key={member.id}
               className={`${styles.teamMemberBox} ${
-                selectedMembers.includes(member.name) ? styles.selectedMember : ""
+                selectedMembers.includes(member.id) ? styles.selectedMember : ""
               }`}
-              onClick={() => handleMemberSelect(member.name)}
+              onClick={() => handleMemberSelect(member.id)}
             >
               {member.name} - {member.role}
             </div>

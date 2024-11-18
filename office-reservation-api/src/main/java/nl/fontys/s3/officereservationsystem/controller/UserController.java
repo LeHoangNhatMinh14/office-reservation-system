@@ -53,13 +53,4 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-
-    @PostMapping("/{id}/roles")
-    public ResponseEntity<User> assignRoleToUser(@PathVariable Long id, @RequestParam String role) {
-        User updatedUser = userService.assignRole(id, role);
-        return ResponseEntity.ok(updatedUser);
-    }
-
-
-
 }
