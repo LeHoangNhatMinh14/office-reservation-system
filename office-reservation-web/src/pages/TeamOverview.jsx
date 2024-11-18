@@ -15,7 +15,8 @@ const TeamOverview = () => {
     const fetchTeams = async () => {
       try {
         const fetchedTeams = await TeamCalls.getAllTeams();
-        setTeams(fetchedTeams);
+        // Ensure fetchedTeams is an array before setting state
+        setTeams(Array.isArray(fetchedTeams) ? fetchedTeams : []);
       } catch (error) {
         console.error("Error fetching teams:", error);
       }
@@ -58,9 +59,13 @@ const TeamOverview = () => {
           </button>
         </div>
         <div className={styles.teamOverviewContent}>
-          {teams.map((team, index) => (
-            <TeamView key={index} team={team} isAdmin={isAdmin} onDeleteTeam={deleteTeam} />
-          ))}
+          {teams && teams.length > 0 ? (
+            teams.map((team, index) => (
+              <TeamView key={index} team={team} isAdmin={isAdmin} onDeleteTeam={deleteTeam} />
+            ))
+          ) : (
+            <p>No teams available</p>
+          )}
         </div>
       </div>
       {/* Render AddTeam modal when showAddTeam is true */}

@@ -14,7 +14,7 @@ class TeamApi {
   // Create a new team
   async createTeam(teamData) {
     try {
-      const response = await this.apiClient.post('/', teamData);
+      const response = await this.apiClient.post('', teamData);
       return response.data;
     } catch (error) {
       console.error('Error creating team:', error);
@@ -22,17 +22,17 @@ class TeamApi {
     }
   }
 
-  // Get all teams
   async getAllTeams() {
     try {
-      const response = await this.apiClient.get('/');
+      const response = await this.apiClient.get();
+      console.log("Fetched teams:", response.data);
       return response.data;
     } catch (error) {
       console.error('Error fetching all teams:', error);
       throw error;
     }
   }
-
+  
   // Get team by ID
   async getTeamById(id) {
     try {
