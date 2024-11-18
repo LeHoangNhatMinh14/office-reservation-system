@@ -1,14 +1,16 @@
 package nl.fontys.s3.officereservationsystem.business;
 
-import jakarta.persistence.Table;
+
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import nl.fontys.s3.officereservationsystem.business.converter.ReservationConverter;
 import nl.fontys.s3.officereservationsystem.business.interfaces.ReservationService;
 import nl.fontys.s3.officereservationsystem.domain.Reservation;
 import nl.fontys.s3.officereservationsystem.domain.Room;
+import nl.fontys.s3.officereservationsystem.domain.Table;
 import nl.fontys.s3.officereservationsystem.persistence.ReservationRepository;
 import nl.fontys.s3.officereservationsystem.persistence.RoomRepository;
+import nl.fontys.s3.officereservationsystem.persistence.TableRepository;
 import nl.fontys.s3.officereservationsystem.persistence.entity.ReservationEntity;
 import nl.fontys.s3.officereservationsystem.persistence.entity.RoomEntity;
 import nl.fontys.s3.officereservationsystem.persistence.entity.TableEntity;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,12 +27,14 @@ import java.util.stream.Collectors;
 public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
     private final RoomRepository roomRepository;
+    private final TableRepository tableRepository;
 
     @Transactional
     @Override
     public void createReservation(Reservation reservation) {
         ReservationEntity entity = ReservationConverter.convert(reservation);
         List<ReservationEntity> existingReservations = reservationRepository.findByTableId(entity.getTable().getId());
+
 
         for (ReservationEntity existingReservation : existingReservations) {
             if (existingReservation.getDate().equals(entity.getDate()) &&
@@ -71,6 +76,7 @@ public class ReservationServiceImpl implements ReservationService {
             }
         }
         return roomReservations;
+
     }
 
     @Transactional
