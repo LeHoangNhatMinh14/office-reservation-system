@@ -8,6 +8,7 @@ import nl.fontys.s3.officereservationsystem.persistence.UserRepository;
 import nl.fontys.s3.officereservationsystem.persistence.entity.UserEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -65,6 +66,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
         public void deleteUser(Long id) {
             Optional<UserEntity> existingUser = userRepository.findById(id);
             if (existingUser.isPresent()) {
@@ -74,7 +76,18 @@ public class UserServiceImpl implements UserService {
                 throw new IllegalArgumentException("User with id " + id + " does not exist");
             }
         }
+        public User assignRole(Long id, String role) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("User with id " + id + " does not exist"));
+        if (user.getRoles() == null) {
+            user.setRoles(new ArrayList<>());
+        }
+        user.getRoles().add(role); // Assuming `roles` is a List<String> or similar
+        return userRepository.save(user);
+    }
     }
 
 
 
+
+    
