@@ -14,39 +14,37 @@ import java.util.Optional;
 @RequestMapping("/rooms")
 @AllArgsConstructor
 public class RoomController {
-
     private final RoomService roomService;
+
+    @PostMapping
+    public ResponseEntity<Room> createRoom(@RequestBody Room room) {
+        Room createdRoom = roomService.createRoom(room);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdRoom);
+    }
 
     @GetMapping
     public ResponseEntity<List<Room>> getAllRooms() {
         List<Room> rooms = roomService.getAllRooms();
-        return new ResponseEntity<>(rooms, HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(rooms);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Room> getRoomById(@PathVariable Long id) {
-        Optional<Room> room = roomService.getRoomById(id);
-        return room.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<Room> getRoomById(@PathVariable("id") Long id) {
+        Optional<Room> roomOptional = roomService.getRoomById(id);
+        return roomOptional.map(room -> ResponseEntity.ok().body(room))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
-    @PostMapping
-    public ResponseEntity<Room> createRoom(@RequestBody Room room) {
-        Room createdRoom = roomService.createRoom(room);
-        return new ResponseEntity<>(createdRoom, HttpStatus.CREATED);
-    }
+
+    //TODO: ask Minh why it returns Room object
     @PutMapping("/{id}")
-    public ResponseEntity<Room> updateRoom(@PathVariable Long id, @RequestBody Room room) {
-        try {
-            Room updatedRoom = roomService.updateRoom(id, room);
-            return new ResponseEntity<>(updatedRoom, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Room> updateRoom(@PathVariable("id") Long id, @RequestBody Room room) {
+        Room updatedRoom = roomService.updateRoom(id, room);
+        return ResponseEntity.ok().body(updatedRoom);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteRoom(@PathVariable("id") Long id) {
         roomService.deleteRoom(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok().build();
     }
 }

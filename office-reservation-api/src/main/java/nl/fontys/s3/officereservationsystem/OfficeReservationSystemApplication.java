@@ -10,7 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 @SpringBootApplication
-public class OfficeReservationSystemApplication {
+public class            OfficeReservationSystemApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(OfficeReservationSystemApplication.class, args);

@@ -1,0 +1,273 @@
+.teamOverviewContainer {
+  background-color: #f4f0ec;
+  margin: 40px auto 0 auto; /* Center the container horizontally and set margin-top like before */
+  height: 70vh; /* Increase height to cover a larger part of the page */
+  width: 85vw; /* Increase width to leave some margin on the sides */
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin-top: 2vh;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: add some shadow for depth */
+}
+
+.teamOverviewHeader {
+  text-align: center;
+  margin-bottom: 20px;
+  z-index: 1;
+}
+
+.teamOverviewContent {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.roleToggleButton {
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.roleToggleButton:hover {
+  background-color: #b90000;
+}
+
+.teamView {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  width: 100%;
+}
+.teamView:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add more shadow on hover to create depth */
+}
+
+.teamHeader {
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.teamMembers {
+  margin-top: 10px;
+  padding-left: 10px;
+  width: 100%;
+}
+
+.teamMember {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.teamActions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between; /* Move delete member button to the right */
+  align-items: center;
+  width: 100%;
+}
+
+.roleSelector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.roleAssignButton {
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.roleAssignButton:hover {
+  background-color: #b90000;
+}
+
+.deleteMemberButton {
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: auto; /* Align delete member button to the right */
+}
+
+.deleteMemberButton:hover {
+  background-color: #b90000;
+}
+
+.teamMemberBox {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.teamMemberBox:hover {
+  border-color: #ff0000;
+}
+
+.selectedMember {
+  background-color: #ff0000;
+  color: #fff;
+  border-color: #ff0000;
+}
+
+.roleSelector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.roleDropdown {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.roleDropdown:hover,
+.roleDropdown:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.assignButton {
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.assignButton:hover {
+  background-color: #cc0000;
+}
+
+.newTeamButton {
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: auto;
+}
+
+.newTeamButton:hover {
+  background-color: #b30000;
+}
+
+.newTeamButtonContainer{
+  margin-left:auto
+}
+
+.addTeamContainer {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  width: 85%; /* Increase width percentage for better responsiveness */
+  max-width: 85vw; /* Set a maximum width for larger screens */
+  margin: 5vh auto; /* Adjust margin to allow it to be responsive and add vertical spacing */
+  margin-top: 12vh;
+  margin-bottom: 1vh;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.addTeamForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.inputField {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.selectField {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.addTeamButton {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.addTeamButton:hover {
+  background-color: #0056b3;
+}
+
+.addTeamHeader {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  flex-grow: 1; /* Allow the header to grow and fill available space */
+}
+
+.deleteTeamButton {
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.deleteTeamButton:hover {
+  background-color: #b30000;
+}
+
+.right {
+
+}
+
+.overviewHeader{
+
+}

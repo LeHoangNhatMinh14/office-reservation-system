@@ -10,5 +10,6 @@
         <module name="nl.fontys.s3.office-reservation-system.main" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="17" />
   </component>
 </project>

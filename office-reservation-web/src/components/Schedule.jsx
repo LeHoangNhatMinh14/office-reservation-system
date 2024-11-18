@@ -1,40 +1,80 @@
-import styles from "../styles/Schedule.module.css";
 import React from "react";
+import styles from "../styles/Schedule.module.css";
 
-const Schedule = () =>{
+const Schedule = () => {
+    const schedule = [
+        {
+            day: "Monday",
+            tasks: [
+                {
+                    team: "Team Alpha",
+                    members: 6,
+                    start: "09:00",
+                    end: "11:00",
+                },
+            ],
+        },
+        {
+            day: "Tuesday",
+            tasks: [
+                {
+                    team: "Team Beta",
+                    members: 4,
+                    start: "10:00",
+                    end: "12:00",
+                },
+            ],
+        },
+        {
+            day: "Wednesday",
+            tasks: [
+                {
+                    team: "Team Gamma",
+                    members: 5,
+                    start: "14:00",
+                    end: "16:00",
+                },
+            ],
+        },
+        {
+            day: "Thursday",
+            tasks: [
+                {
+                    team: "Team Delta",
+                    members: 7,
+                    start: "08:30",
+                    end: "10:30",
+                },
+            ],
+        },
+        {
+            day: "Friday",
+            tasks: [],
+        },
+    ];
 
-
-    return(
+    return (
         <div className={styles.scheduleContainer}>
-            <div className={styles.monday}>
-                <h2>Monday</h2>
-                <div className={styles.work}>
-                    <h3 className={styles.team}>Team 1</h3>
-                    <h2 className={styles.members}>Members: 6</h2>
-                    <h2 className={styles.timeStart}>Start: 09:00</h2>
-                    <h2 className={styles.timeEnd}>End: 09:00</h2>
+            {schedule.map((day) => (
+                <div className={styles.day} key={day.day}>
+                    <h2>{day.day}</h2>
+                    {day.tasks.length > 0 ? (
+                        day.tasks.map((task, index) => (
+                            <div className={styles.work} key={index}>
+                                <h3>{task.team}</h3>
+                                <p>Members: {task.members}</p>
+                                <p className={styles.time}>
+                                    {task.start} - {task.end}
+                                </p>
+                            </div>
+                        ))
+                    ) : (
+                        <p className={styles.noTasks}>No tasks scheduled</p>
+                    )}
                 </div>
-            </div>
-            <div className={styles.tuesday}>
-                <h2>Tuesday</h2>
-            </div>
-            <div className={styles.wednesday}>
-                <h2>Wednesday</h2>
-            </div>
-            <div className={styles.thursday}>
-                <h2>Thursday</h2>
-            </div>
-            <div className={styles.friday}>
-                <h2>Friday</h2>
-            </div>
-            <div className={styles.saturday}>
-                <h2>Saturday</h2>
-            </div>
-            <div className={styles.sunday}>
-                <h2>Sunday</h2>
-            </div>
+            ))}
         </div>
     );
-}
+};
 
 export default Schedule;

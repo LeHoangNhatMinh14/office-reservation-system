@@ -1,9 +1,6 @@
 package nl.fontys.s3.officereservationsystem.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -17,8 +14,8 @@ public class Reservation {
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
-    private Long tableId;
+    private Table table;
     private ReservationType reservationType;
-    private Long seatedUserId;
-    private Long reservationUserId;
+    private User seatedUser;
+    private User reservationUser;
 }

@@ -1,6 +1,5 @@
 package nl.fontys.s3.officereservationsystem.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +15,5 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    @JsonProperty("isAdmin")
     private boolean isAdmin;
 }
