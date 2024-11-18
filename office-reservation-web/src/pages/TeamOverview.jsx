@@ -35,7 +35,9 @@ const TeamOverview = () => {
     <div>
       <div className={styles.addTeamContainer}>
         <h1>Team Overview</h1>
+        <div className={styles.right}>
         <button className={styles.newTeamButton} onClick={toggleAddTeam}>+</button>
+        </div>
       </div>
       <div className={styles.teamOverviewContainer}>
         <div className={styles.teamOverviewHeader}>
