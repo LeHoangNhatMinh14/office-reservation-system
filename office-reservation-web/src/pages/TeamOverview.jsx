@@ -1,16 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/teams.module.css";
 import TeamView from "../components/team overview/TeamView";
 import AddTeam from "../components/team overview/AddTeam"; // Import the AddTeam component
+import TeamCalls from "../components/api calls/TeamCalls";
 
 // Parent Component for Team Overview
 const TeamOverview = () => {
-  const [teams, setTeams] = useState([
-    { name: "Team Alpha", members: ["Alice", "Bob", "Charlie"] },
-    { name: "Team Beta", members: ["David", "Eve", "Frank"] },
-  ]);
+  const [teams, setTeams] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showAddTeam, setShowAddTeam] = useState(false); // Track visibility of AddTeam modal
+
+  useEffect(() => {
+    // Fetch teams from API when the component mounts
+    const fetchTeams = async () => {
+      try {
+        const fetchedTeams = await TeamCalls.getAllTeams();
+        setTeams(fetchedTeams);
+      } catch (error) {
+        console.error("Error fetching teams:", error);
+      }
+    };
+
+    fetchTeams();
+  }, []);
 
   // Function to toggle role
   const toggleRole = () => {
@@ -36,7 +48,7 @@ const TeamOverview = () => {
       <div className={styles.addTeamContainer}>
         <h1>Team Overview</h1>
         <div className={styles.right}>
-        <button className={styles.newTeamButton} onClick={toggleAddTeam}>+</button>
+          <button className={styles.newTeamButton} onClick={toggleAddTeam}>+</button>
         </div>
       </div>
       <div className={styles.teamOverviewContainer}>
@@ -47,7 +59,7 @@ const TeamOverview = () => {
         </div>
         <div className={styles.teamOverviewContent}>
           {teams.map((team, index) => (
-            <TeamView key={index} team={team} isAdmin={isAdmin} onDeleteTeam={deleteTeam}/>
+            <TeamView key={index} team={team} isAdmin={isAdmin} onDeleteTeam={deleteTeam} />
           ))}
         </div>
       </div>
