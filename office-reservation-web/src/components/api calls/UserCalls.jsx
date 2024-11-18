@@ -14,7 +14,7 @@ class UserApi {
   // Create a new user
   async createUser(userData) {
     try {
-      const response = await this.apiClient.post('/', userData);
+      const response = await this.apiClient.post('', userData);
       return response.data;
     } catch (error) {
       console.error('Error creating user:', error);
@@ -25,7 +25,7 @@ class UserApi {
   // Get all users
   async getAllUsers() {
     try {
-      const response = await this.apiClient.get('/');
+      const response = await this.apiClient.get();
       return response.data;
     } catch (error) {
       console.error('Error fetching all users:', error);

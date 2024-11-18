@@ -14,7 +14,7 @@ class ReservationApi {
   // Create a new reservation
   async createReservation(reservationData) {
     try {
-      const response = await this.apiClient.post('/', reservationData);
+      const response = await this.apiClient.post('', reservationData);
       return response.data;
     } catch (error) {
       console.error('Error creating reservation:', error);

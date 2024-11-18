@@ -14,7 +14,7 @@ class RoomApi {
   // Create a new room
   async createRoom(roomData) {
     try {
-      const response = await this.apiClient.post('/', roomData);
+      const response = await this.apiClient.post('', roomData);
       return response.data;
     } catch (error) {
       console.error('Error creating room:', error);
@@ -25,7 +25,7 @@ class RoomApi {
   // Get all rooms
   async getAllRooms() {
     try {
-      const response = await this.apiClient.get('/');
+      const response = await this.apiClient.get();
       return response.data;
     } catch (error) {
       console.error('Error fetching all rooms:', error);
