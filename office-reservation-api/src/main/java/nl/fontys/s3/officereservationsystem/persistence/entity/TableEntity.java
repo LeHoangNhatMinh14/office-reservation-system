@@ -20,4 +20,7 @@ public class TableEntity {
 
     @Column(name = "island_number", nullable = false)
     private int islandNumber;
+
+    @Column(name = "room_id")
+    private Long roomId;
 }

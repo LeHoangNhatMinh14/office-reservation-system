@@ -10,6 +10,7 @@ public final class TableConverter {
         return Table.builder()
                 .id(entity.getId())
                 .islandNumber(entity.getIslandNumber())
+                .roomId(entity.getRoomId())
                 .build();
     }
 
@@ -17,6 +18,7 @@ public final class TableConverter {
         return TableEntity.builder()
                 .id(table.getId())
                 .islandNumber(table.getIslandNumber())
+                .roomId(table.getRoomId())
                 .build();
     }
 }
