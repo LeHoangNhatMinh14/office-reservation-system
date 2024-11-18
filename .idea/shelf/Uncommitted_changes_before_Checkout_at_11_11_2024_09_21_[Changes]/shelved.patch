@@ -1,0 +1,134 @@
+Index: office-reservation-web/src/components/Login.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { useState } from 'react';\r\nimport { useNavigate } from 'react-router-dom';\r\nimport { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';\r\nimport styles from '../styles/Login.module.css';\r\nimport axios from 'axios';\r\nconst Login = () => {\r\n    const [email, setEmail] = useState('');\r\n    const [password, setPassword] = useState('');\r\n    const navigate = useNavigate();\r\n\r\n    const handleLogin = async (e) => {\r\n        e.preventDefault();\r\n        const response = await axios.get('http://localhost:8080/users/login', {\r\n            params: {\r\n                email: email,\r\n                password: password,\r\n            }\r\n        });\r\n        if(response.data != null)\r\n        {\r\n            navigate('/profile');\r\n        }\r\n    }\r\n\r\n    const handleGoogleLoginSuccess = (response) => {\r\n        console.log('Google login successful:', response);\r\n        navigate('/profile');\r\n    };\r\n\r\n    const handleGoogleLoginFailure = (error) => {\r\n        console.log('Google login failed:', error);\r\n        alert('Google login failed, please try again.');\r\n    };\r\n\r\n    return (\r\n        <GoogleOAuthProvider clientId=\"YOUR_GOOGLE_CLIENT_ID\">\r\n            <div className={styles.loginPage}>\r\n                {/* Navigation Bar */}\r\n              {/* <nav className={styles.navbar}>\r\n                    <a href=\"/\">Home</a>\r\n                    <a href=\"/signup\">Sign Up</a>\r\n                    <a href=\"/help\">Help</a>\r\n                </nav>*/ }\r\n                <div className={styles.loginContainer}>\r\n                    {/* Logo */}\r\n                    <img src=\"/path/to/driessen-logo.jpg\" alt=\"Driessen Logo\" className={styles.logo} />\r\n                    {/* Login Form */}\r\n                    <h1 className={styles.formTitle}>Login</h1>\r\n                    <form onSubmit={handleLogin} className={styles.form}>\r\n                        <input\r\n                            type=\"email\"\r\n                            placeholder=\"Email\"\r\n                            value={email}\r\n                            onChange={(e) => setEmail(e.target.value)}\r\n                            className={styles.input}\r\n                        />\r\n                        <input\r\n                            type=\"password\"\r\n                            placeholder=\"Password\"\r\n                            value={password}\r\n                            onChange={(e) => setPassword(e.target.value)}\r\n                            className={styles.input}\r\n                        />\r\n                        <button type=\"submit\" className={styles.button}>Login</button>\r\n                    </form>\r\n                    <div className={styles.ssoSection}>\r\n                        <GoogleLogin\r\n                            onSuccess={handleGoogleLoginSuccess}\r\n                            onError={handleGoogleLoginFailure}\r\n                            useOneTap\r\n                        />\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </GoogleOAuthProvider>\r\n    );\r\n};\r\n\r\nexport default Login;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/office-reservation-web/src/components/Login.jsx b/office-reservation-web/src/components/Login.jsx
+--- a/office-reservation-web/src/components/Login.jsx	(revision 53456ac28ddbb3fdc10c63be47fc2f01c8538d03)
++++ b/office-reservation-web/src/components/Login.jsx	(date 1731278742415)
+@@ -10,16 +10,21 @@
+ 
+     const handleLogin = async (e) => {
+         e.preventDefault();
+-        const response = await axios.get('http://localhost:8080/users/login', {
+-            params: {
+-                email: email,
+-                password: password,
+-            }
+-        });
+-        if(response.data != null)
+-        {
+-            navigate('/profile');
++        try{
++            const response = await axios.post('http://localhost:8080/users/login', {
++                params: {
++                    email: email,
++                    password: password,
++                }
++            });
++            if(response.data != null)
++            {
++                navigate('/profile');
++            }
+         }
++        catch (error) {
++            console.error('Error logging in:', error);
++        }
+     }
+ 
+     const handleGoogleLoginSuccess = (response) => {
+Index: office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/config/WebConfig.java
+===================================================================
+diff --git a/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/config/WebConfig.java b/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/config/WebConfig.java
+new file mode 100644
+--- /dev/null	(date 1731278502994)
++++ b/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/config/WebConfig.java	(date 1731278502994)
+@@ -0,0 +1,17 @@
++package nl.fontys.s3.officereservationsystem.controller.config;
++import org.springframework.context.annotation.Configuration;
++import org.springframework.web.servlet.config.annotation.CorsRegistry;
++import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
++
++@Configuration
++public class
++WebConfig implements WebMvcConfigurer {
++    @Override
++    public void addCorsMappings(CorsRegistry registry) {
++        registry.addMapping("/**")
++                .allowedOrigins("http://localhost:5174")
++                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
++                .allowedHeaders("*")
++                .allowCredentials(true);
++    }
++}
+\ No newline at end of file
+Index: office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/config/LoginRequest.java
+===================================================================
+diff --git a/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/config/LoginRequest.java b/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/config/LoginRequest.java
+new file mode 100644
+--- /dev/null	(date 1731277609094)
++++ b/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/config/LoginRequest.java	(date 1731277609094)
+@@ -0,0 +1,11 @@
++package nl.fontys.s3.officereservationsystem.controller.config;
++
++import lombok.Getter;
++import lombok.Setter;
++
++@Getter
++@Setter
++public class LoginRequest {
++    private String email;
++    private String password;
++}
+Index: office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/UserController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package nl.fontys.s3.officereservationsystem.controller;\r\n\r\nimport lombok.AllArgsConstructor;\r\n\r\n\r\nimport nl.fontys.s3.officereservationsystem.business.UserService;\r\nimport nl.fontys.s3.officereservationsystem.domain.User;\r\nimport org.springframework.http.HttpStatus;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\nimport java.util.List;\r\n\r\n@AllArgsConstructor\r\n@RestController\r\n@RequestMapping(\"/users\")\r\npublic class UserController {\r\n    private final UserService userService;\r\n\r\n    @GetMapping(\"/all\")\r\n    public ResponseEntity<List<User>> getAllUsers() {\r\n        List<User> users = userService.getAllUsers();\r\n        return ResponseEntity.ok(users);\r\n    }\r\n\r\n    @PostMapping(\"\")\r\n    public ResponseEntity<User> createUser(@RequestBody User user) {\r\n        User createdUser = userService.createUser(user);\r\n        return ResponseEntity.ok(createdUser);\r\n    }\r\n\r\n    @GetMapping(\"/login\")\r\n    public ResponseEntity<User> login(@RequestParam String email, @RequestParam String password) {\r\n        User user = userService.login(email, password);\r\n        if (user != null) {\r\n            return ResponseEntity.ok(user); // Return user object if login is successful\r\n        } else {\r\n            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null); // Return 401 if login fails\r\n        }\r\n    }\r\n\r\n    @GetMapping(\"/{id}\")\r\n    public ResponseEntity<User> getUserById(@PathVariable(\"id\") Long id) {\r\n        User user = userService.getUserById(id)\r\n                .orElseThrow(() -> new IllegalArgumentException(\"User with id \" + id + \" does not exist\"));\r\n        return ResponseEntity.ok(user);\r\n    }\r\n\r\n    @PutMapping(\"/{id}\")\r\n    public ResponseEntity<Void> updateUser(@PathVariable(\"id\") Long id, @RequestBody User user) {\r\n        userService.updateUser(id, user);\r\n        return ResponseEntity.ok().build();\r\n    }\r\n\r\n    @DeleteMapping(\"/{id}\")\r\n    public ResponseEntity<Void> deleteUser(@PathVariable(\"id\") Long id) {\r\n        userService.deleteUser(id);\r\n        return ResponseEntity.ok().build();\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/UserController.java b/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/UserController.java
+--- a/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/UserController.java	(revision 53456ac28ddbb3fdc10c63be47fc2f01c8538d03)
++++ b/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/UserController.java	(date 1731278516346)
+@@ -3,7 +3,9 @@
+ import lombok.AllArgsConstructor;
+ 
+ 
++import lombok.NoArgsConstructor;
+ import nl.fontys.s3.officereservationsystem.business.UserService;
++import nl.fontys.s3.officereservationsystem.controller.config.LoginRequest;
+ import nl.fontys.s3.officereservationsystem.domain.User;
+ import org.springframework.http.HttpStatus;
+ import org.springframework.http.ResponseEntity;
+@@ -11,9 +13,10 @@
+ 
+ import java.util.List;
+ 
+-@AllArgsConstructor
+ @RestController
++@AllArgsConstructor
+ @RequestMapping("/users")
++@CrossOrigin(origins = "http://localhost:5174")
+ public class UserController {
+     private final UserService userService;
+ 
+@@ -29,9 +32,9 @@
+         return ResponseEntity.ok(createdUser);
+     }
+ 
+-    @GetMapping("/login")
+-    public ResponseEntity<User> login(@RequestParam String email, @RequestParam String password) {
+-        User user = userService.login(email, password);
++    @PostMapping("/login")
++    public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest) {
++        User user = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
+         if (user != null) {
+             return ResponseEntity.ok(user); // Return user object if login is successful
+         } else {
+@@ -59,3 +62,4 @@
+     }
+ 
+ }
++

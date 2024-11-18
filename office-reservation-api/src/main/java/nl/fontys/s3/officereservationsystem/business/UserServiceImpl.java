@@ -1,66 +1,80 @@
 package nl.fontys.s3.officereservationsystem.business;
 
+import lombok.AllArgsConstructor;
+import nl.fontys.s3.officereservationsystem.business.converter.UserConverter;
 import nl.fontys.s3.officereservationsystem.business.interfaces.UserService;
 import nl.fontys.s3.officereservationsystem.domain.User;
-import nl.fontys.s3.officereservationsystem.persistence.impl.UserRepositoryImpl;
+import nl.fontys.s3.officereservationsystem.persistence.UserRepository;
+import nl.fontys.s3.officereservationsystem.persistence.entity.UserEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserRepositoryImpl userRepository;
+    private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepositoryImpl userRepository) {
-        this.userRepository = userRepository;
-    }
+
 
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        // Retrieve the list of users (currently generic `List<?>`)
+        List<?> users = userRepository.findAll();
+
+        // Convert each user and collect the results into a new list
+        return users.stream()
+                .map(user -> UserConverter.convert((UserEntity) user)) // Convert each user
+                .filter(Objects::nonNull)          // Ensure only valid Users are included
+                .map(User.class::cast)                   // Cast to User after filtering
+                .toList();                               // Collect into a list
     }
 
-    public User getUserById(Long id) {
+    public Optional<User> getUserById(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("Id cannot be null");
         }
-        return userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User with id " + id + " does not exist"));
+
+        return Optional.ofNullable(userRepository.findById(id).map(UserConverter::convert)
+                .orElseThrow(() -> new NoSuchElementException("User with id " + id + " does not exist")));
     }
 
-    public User getUserByEmail(String email) {
+    public Optional<User> getUserByEmail(String email) {
         if (email == null) {
             throw new IllegalArgumentException("Email cannot be null");
         }
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new NoSuchElementException("User with email " + email + " does not exist"));
+        return Optional.ofNullable(userRepository.findByEmail(email).map(UserConverter::convert)
+                .orElseThrow(() -> new NoSuchElementException("User with email " + email + " does not exist")));
 
     }
 
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public void createUser(User user) {
+        UserEntity newUser = UserConverter.convert(user);
+        userRepository.save(newUser);
     }
 
     public void updateUser(Long id, User updatedUser) {
-        Optional<User> existingUser = userRepository.findById(id);
+        Optional<UserEntity> existingUser = userRepository.findById(id);
         if (existingUser.isPresent()) {
             deleteUser(id);
-            userRepository.save(updatedUser);
-        }
-        else {
-            throw new IllegalArgumentException("User with id " + id + " does not exist");
-        }
-
-    }
-
-    public void deleteUser(Long id) {
-        Optional<User> existingUser = userRepository.findById(id);
-        if (existingUser.isPresent()) {
-            userRepository.deleteById(id);
-        }
-        else{
+            userRepository.save(UserConverter.convert(updatedUser));
+        } else {
             throw new IllegalArgumentException("User with id " + id + " does not exist");
         }
     }
-}
+
+        public void deleteUser(Long id) {
+            Optional<UserEntity> existingUser = userRepository.findById(id);
+            if (existingUser.isPresent()) {
+                userRepository.deleteById(id);
+            }
+            else{
+                throw new IllegalArgumentException("User with id " + id + " does not exist");
+            }
+        }
+    }
+
+
+
