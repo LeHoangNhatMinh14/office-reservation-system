@@ -12,4 +12,5 @@ public interface UserService {
     public User getUserByEmail(String email);
     public User getUserById(Long id);
     public List<User> getAllUsers();
+    User assignRole(Long id, String role);
 }

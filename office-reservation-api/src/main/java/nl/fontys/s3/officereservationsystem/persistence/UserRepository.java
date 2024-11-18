@@ -12,4 +12,5 @@ public interface UserRepository
     Optional<User> findByEmail(String email);
     User save(User user);
     void deleteById(Long id);
+    List<User> findByRolesContaining(String role);
 }

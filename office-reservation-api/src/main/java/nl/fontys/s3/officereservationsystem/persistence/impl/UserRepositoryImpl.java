@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -35,5 +36,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     public void deleteById(Long id) {
         users.removeIf(user -> user.getId().equals(id));
+    }
+    public List<User> findByRolesContaining(String role) {
+        // Filter users whose roles contain the given role
+        return users.stream()
+                .filter(user -> user.getRoles() != null && user.getRoles().contains(role))
+                .collect(Collectors.toList());
     }
 }
