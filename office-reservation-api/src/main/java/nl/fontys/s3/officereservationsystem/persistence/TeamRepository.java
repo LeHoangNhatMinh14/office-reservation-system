@@ -8,6 +8,10 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TeamRepository extends JpaRepository<TeamEntity, Long> {
-    @Query("SELECT t FROM TeamEntity t JOIN t.users u JOIN t.teamManagers m WHERE u.id = :userId OR m.id = :userId")
+    @Query("SELECT DISTINCT t FROM TeamEntity t " +
+            "LEFT JOIN t.users u " +
+            "LEFT JOIN t.teamManagers m " +
+            "WHERE u.id = :userId OR m.id = :userId")
     List<TeamEntity> findByUserId(@Param("userId") Long userId);
+    boolean existsByName(String name);
 }
