@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/teams.module.css";
 import RoleSelector from "./RoleSelector";
 
 const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
   const [showMembers, setShowMembers] = useState(false);
   const [selectedMembers, setSelectedMembers] = useState([]);
-  const [teamMembers, setTeamMembers] = useState(
-    team.users.map((user) => ({
-      id: user.id,
-      name: `${user.firstName} ${user.lastName}`,
-      role: "Member",
-    }))
-  );
+  const [teamMembers, setTeamMembers] = useState([]);
+
+  useEffect(() => {
+    if (team?.users && team?.teamManagers) {
+      const members = team.users.map((user) => {
+        // Check if the user is a manager and assign the role accordingly
+        const isManager = team.teamManagers.some((manager) => manager.id === user.id);
+        return {
+          id: user.id,
+          name: `${user.firstName} ${user.lastName}`,
+          role: isManager ? "Manager" : "Member",
+        };
+      });
+      setTeamMembers(members); // Update team members state
+    }
+  }, [team]); // This will run every time `team` changes
 
   const toggleShowMembers = () => {
     setShowMembers(!showMembers);
@@ -58,8 +67,8 @@ const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
 
   return (
     <div className={styles.teamView}>
-      <div className={styles.teamHeader}>
-        <span onClick={toggleShowMembers} className={styles.teamName}>
+      <div onClick={toggleShowMembers} className={styles.teamHeader}>
+        <span className={styles.teamName}>
           {team.name} <span>{showMembers ? "v" : ">"}</span>
         </span>
         {isAdmin && (
@@ -76,17 +85,21 @@ const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
       </div>
       {showMembers && (
         <div className={styles.teamMembers}>
-          {teamMembers.map((member, index) => (
-            <div
-              key={member.id}
-              className={`${styles.teamMemberBox} ${
-                selectedMembers.includes(member.id) ? styles.selectedMember : ""
-              }`}
-              onClick={() => handleMemberSelect(member.id)}
-            >
-              {member.name} - {member.role}
-            </div>
-          ))}
+          {teamMembers.length === 0 ? (
+            <p>No team members available</p>
+          ) : (
+            teamMembers.map((member) => (
+              <div
+                key={member.id}
+                className={`${styles.teamMemberBox} ${
+                  selectedMembers.includes(member.id) ? styles.selectedMember : ""
+                }`}
+                onClick={() => handleMemberSelect(member.id)}
+              >
+                {member.name} - {member.role}
+              </div>
+            ))
+          )}
           {isAdmin && (
             <div className={styles.teamActions}>
               <RoleSelector onAssignRole={handleAssignRole} currentRole="Member" />

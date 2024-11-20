@@ -3,6 +3,7 @@ import styles from "../styles/teams.module.css";
 import TeamView from "../components/team overview/TeamView";
 import AddTeam from "../components/team overview/AddTeam"; // Import the AddTeam component
 import TeamCalls from "../components/api calls/TeamCalls";
+import Svg from "../assets/plusTeam.svg"
 
 // Parent Component for Team Overview
 const TeamOverview = () => {
@@ -49,7 +50,9 @@ const TeamOverview = () => {
       <div className={styles.addTeamContainer}>
         <h1>Team Overview</h1>
         <div className={styles.right}>
-          <button className={styles.newTeamButton} onClick={toggleAddTeam}>+</button>
+          <button className={styles.newTeamButton} onClick={toggleAddTeam}>
+            <img src={Svg} alt="" />
+          </button>
         </div>
       </div>
       <div className={styles.teamOverviewContainer}>
