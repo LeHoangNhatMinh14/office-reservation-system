@@ -8,7 +8,11 @@ import Profile from './components/Profile';
 import Schedule from './components/Schedule';
 import TableReservations from './components/TableReservations';
 import Workers from './components/Workers';
+
 import UserManagement from './components/UserManagement';
+
+import TeamOverview from './pages/TeamOverview';
+
 
 function App() {
     const location = useLocation();
@@ -27,7 +31,10 @@ function App() {
                 <Route path="/schedule" element={<Schedule />} />
                 <Route path="/reserve" element={<TableReservations />} />
                 <Route path="/coworkers" element={<Workers />} />
+
                 <Route path="/usermanagement" element={<UserManagement/>}/>
+                <Route path="/teams" element={<TeamOverview />} />
+
             </Routes>
             
             {/* Footer should be displayed on all pages */}

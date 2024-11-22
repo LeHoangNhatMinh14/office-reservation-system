@@ -1,15 +1,17 @@
 package nl.fontys.s3.officereservationsystem.persistence;
 
-import nl.fontys.s3.officereservationsystem.domain.Team;
+import nl.fontys.s3.officereservationsystem.persistence.entity.TeamEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface TeamRepository {
-    Team save(Team team);
-    List<Team> findAll();
-    Optional<Team> findById(Long id);
-    void update(Team team);
-    void deleteById(Long id);
-    List<Team> filterByUserId(Long id);
+public interface TeamRepository extends JpaRepository<TeamEntity, Long> {
+    @Query("SELECT DISTINCT t FROM TeamEntity t " +
+            "LEFT JOIN t.users u " +
+            "LEFT JOIN t.teamManagers m " +
+            "WHERE u.id = :userId OR m.id = :userId")
+    List<TeamEntity> findByUserId(@Param("userId") Long userId);
+    boolean existsByName(String name);
 }

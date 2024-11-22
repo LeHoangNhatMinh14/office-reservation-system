@@ -1,76 +1,66 @@
 package nl.fontys.s3.officereservationsystem.business;
 
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import nl.fontys.s3.officereservationsystem.business.converter.UserConverter;
 import nl.fontys.s3.officereservationsystem.business.interfaces.UserService;
+import nl.fontys.s3.officereservationsystem.business.validator.UserValidator;
 import nl.fontys.s3.officereservationsystem.domain.User;
-import nl.fontys.s3.officereservationsystem.persistence.impl.UserRepositoryImpl;
+import nl.fontys.s3.officereservationsystem.persistence.UserRepository;
+import nl.fontys.s3.officereservationsystem.persistence.entity.UserEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserRepositoryImpl userRepository;
+    private final UserRepository userRepository;
+    private final UserValidator userValidator;
 
-    public UserServiceImpl(UserRepositoryImpl userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    public User getUserById(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Id cannot be null");
-        }
-        return userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User with id " + id + " does not exist"));
-    }
-
-    public User getUserByEmail(String email) {
-        if (email == null) {
-            throw new IllegalArgumentException("Email cannot be null");
-        }
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new NoSuchElementException("User with email " + email + " does not exist"));
-
-    }
-
+    @Transactional
+    @Override
     public User createUser(User user) {
-        return userRepository.save(user);
+        userValidator.validateUserForCreation(user);
+        UserEntity userEntity = UserConverter.convert(user);
+        UserEntity savedUserEntity = userRepository.save(userEntity);
+        return UserConverter.convert(savedUserEntity);
     }
 
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(UserConverter::convert)
+                .toList();
+    }
+
+    @Override
+    public Optional<User> getUserById(Long id) {
+        userValidator.validateIdExists(id);
+        return userRepository.findById(id)
+                .map(UserConverter::convert);
+    }
+
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .map(UserConverter::convert);
+    }
+
+    @Transactional
+    @Override
     public void updateUser(Long id, User updatedUser) {
-        Optional<User> existingUser = userRepository.findById(id);
-        if (existingUser.isPresent()) {
-            deleteUser(id);
-            userRepository.save(updatedUser);
-        }
-        else {
-            throw new IllegalArgumentException("User with id " + id + " does not exist");
-        }
-
+        userValidator.validateUserForUpdate(id, updatedUser);
+        updatedUser.setId(id);
+        UserEntity userEntity = UserConverter.convert(updatedUser);
+        userRepository.save(userEntity);
     }
 
+    @Transactional
+    @Override
     public void deleteUser(Long id) {
-        Optional<User> existingUser = userRepository.findById(id);
-        if (existingUser.isPresent()) {
-            userRepository.deleteById(id);
-        }
-        else{
-            throw new IllegalArgumentException("User with id " + id + " does not exist");
-        }
-    }
-    public User assignRole(Long id, String role) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User with id " + id + " does not exist"));
-        if (user.getRoles() == null) {
-            user.setRoles(new ArrayList<>());
-        }
-        user.getRoles().add(role); // Assuming `roles` is a List<String> or similar
-        return userRepository.save(user);
+        userValidator.validateIdExists(id);
+        userRepository.deleteById(id);
     }
 }

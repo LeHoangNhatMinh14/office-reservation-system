@@ -1,0 +1,106 @@
+.modalBackdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .addTeamModal {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #ff0000;
+  }
+  
+  .closeButton:hover {
+    color: #b30000;
+  }
+  
+  .cancelButton {
+    background-color: #ccc;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s;
+  }
+  
+  .cancelButton:hover {
+    background-color: #999;
+  }
+  
+  .memberSelection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .memberList {
+    max-height: 150px; /* Set max-height to make it scrollable */
+    overflow-y: auto; /* Allow vertical scrolling */
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .memberItem {
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    margin-bottom: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .memberItem:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .selectedMember {
+    background-color: #ff0000;
+    color: #fff;
+  }
+  
+  .addTeamButton {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .addTeamButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .addTeamHeader {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  

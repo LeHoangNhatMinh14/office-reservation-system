@@ -43,5 +43,12 @@
 }
 
 .navLinks li a:hover {
-    color: #e71234; /* Driessen red on hover */
+    color: #e71234;
+    border-radius: 02px;
+    border-bottom-color: #E71234;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom-style: solid;
+    transition: color 2s , border-bottom-color 2s, border-bottom-width 10ms;
 }
