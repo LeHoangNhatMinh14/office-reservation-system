@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "../../styles/teams.module.css";
 import RoleSelector from "./RoleSelector";
+import TeamCalls from "../api calls/TeamCalls"
 
 const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
   const [showMembers, setShowMembers] = useState(false);
@@ -9,18 +10,27 @@ const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
 
   useEffect(() => {
     if (team?.users && team?.teamManagers) {
-      const members = team.users.map((user) => {
-        // Check if the user is a manager and assign the role accordingly
-        const isManager = team.teamManagers.some((manager) => manager.id === user.id);
-        return {
-          id: user.id,
-          name: `${user.firstName} ${user.lastName}`,
-          role: isManager ? "Manager" : "Member",
-        };
-      });
-      setTeamMembers(members); // Update team members state
+      // Combine users and managers into a single list with roles
+      const usersWithRoles = team.users.map((user) => ({
+        id: user.id,
+        name: `${user.firstName} ${user.lastName}`,
+        role: "Member",
+      }));
+  
+      const managersWithRoles = team.teamManagers
+        .filter((manager) => !team.users.some((user) => user.id === manager.id)) // Avoid duplicate entries
+        .map((manager) => ({
+          id: manager.id,
+          name: `${manager.firstName} ${manager.lastName}`,
+          role: "Manager",
+        }));
+  
+      // Combine the two lists
+      const combinedMembers = [...usersWithRoles, ...managersWithRoles];
+  
+      setTeamMembers(combinedMembers); // Update team members state
     }
-  }, [team]); // This will run every time `team` changes
+  }, [team]);  
 
   const toggleShowMembers = () => {
     setShowMembers(!showMembers);
@@ -36,35 +46,112 @@ const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
     });
   };
 
-  const handleDeleteMembers = () => {
-    setTeamMembers((prevMembers) =>
-      prevMembers.filter((member) => !selectedMembers.includes(member.id))
-    );
-    setSelectedMembers([]);
+  const handleDeleteMembers = async () => {
+    try {
+      // Clone the current team data
+      const updatedTeam = {
+        ...team,
+        users: team.users.filter((user) => !selectedMembers.includes(user.id)),
+        teamManagers: team.teamManagers.filter(
+          (manager) => !selectedMembers.includes(manager.id)
+        ),
+      };
+  
+      // Call the API to update the team with the updated lists
+      await TeamCalls.updateTeam(team.id, updatedTeam);
+  
+      // Update the local state to reflect the changes
+      const updatedMembers = updatedTeam.users.concat(
+        updatedTeam.teamManagers.map((manager) => ({
+          id: manager.id,
+          name: `${manager.firstName} ${manager.lastName}`,
+          role: "Manager",
+        }))
+      ).map((user) => ({
+        id: user.id,
+        name: `${user.firstName} ${user.lastName}`,
+        role: updatedTeam.teamManagers.some((manager) => manager.id === user.id)
+          ? "Manager"
+          : "Member",
+      }));
+  
+      setTeamMembers(updatedMembers);
+      setSelectedMembers([]); // Clear the selection
+    } catch (error) {
+      console.error("Error updating team:", error);
+    }
   };
+  
 
-  const handleAssignRole = (role) => {
-    if (role === "Admin") {
-      console.log("Cannot assign Admin role.");
+  const handleAssignRole = async (role) => {
+    if (selectedMembers.length !== 1) {
+      console.error("Please select exactly one member to assign a role.");
       return;
     }
-
-    setTeamMembers((prevMembers) =>
-      prevMembers.map((member) => {
-        if (selectedMembers.includes(member.id)) {
-          return { ...member, role };
-        }
-        return member;
-      })
-    );
-
-    setSelectedMembers([]);
+  
+    const memberId = selectedMembers[0]; // Get the selected member's ID
+    const updatedUsers = [...team.users];
+    const updatedManagers = [...team.teamManagers];
+  
+    // Find the selected member's current role and update lists accordingly
+    const memberIndexInUsers = updatedUsers.findIndex((user) => user.id === memberId);
+    const memberIndexInManagers = updatedManagers.findIndex((manager) => manager.id === memberId);
+  
+    if (role === "Manager") {
+      if (memberIndexInUsers !== -1) {
+        // Remove from users and add to managers
+        const [user] = updatedUsers.splice(memberIndexInUsers, 1);
+        updatedManagers.push(user);
+      }
+    } else if (role === "Member") {
+      if (memberIndexInManagers !== -1) {
+        // Remove from managers and add to users
+        const [manager] = updatedManagers.splice(memberIndexInManagers, 1);
+        updatedUsers.push(manager);
+      }
+    }
+  
+    // Update the team object
+    const updatedTeam = {
+      ...team,
+      users: updatedUsers,
+      teamManagers: updatedManagers,
+    };
+  
+    try {
+      // Persist changes to the backend
+      await TeamCalls.updateTeam(team.id, updatedTeam);
+      // Update local state to reflect changes
+      setTeamMembers(
+        updatedUsers.map((user) => ({
+          id: user.id,
+          name: `${user.firstName} ${user.lastName}`,
+          role: "Member",
+        }))
+        .concat(
+          updatedManagers.map((manager) => ({
+            id: manager.id,
+            name: `${manager.firstName} ${manager.lastName}`,
+            role: "Manager",
+          }))
+        )
+      );
+      setSelectedMembers([]); // Clear selection
+    } catch (error) {
+      console.error("Error assigning role:", error);
+    }
   };
 
-  const handleDeleteTeam = () => {
-    onDeleteTeam(team.name); // Callback function to handle the deletion of the team
+  const handleDeleteTeam = async () => {
+    try {
+      await TeamCalls.deleteTeam(team.id); // Call API to delete the team
+      onDeleteTeam(team.name); // Callback to update parent component
+    } catch (error) {
+      console.error('Error deleting team:', error);
+    }
   };
 
+  
   return (
     <div className={styles.teamView}>
       <div onClick={toggleShowMembers} className={styles.teamHeader}>
@@ -102,7 +189,14 @@ const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
           )}
           {isAdmin && (
             <div className={styles.teamActions}>
-              <RoleSelector onAssignRole={handleAssignRole} currentRole="Member" />
+              <RoleSelector
+                  onAssignRole={handleAssignRole}
+                  currentRole={
+                    selectedMembers.length === 1
+                      ? teamMembers.find((member) => member.id === selectedMembers[0])?.role
+                      : null
+                  }
+                />
               <button
                 className={styles.deleteMemberButton}
                 onClick={handleDeleteMembers}
