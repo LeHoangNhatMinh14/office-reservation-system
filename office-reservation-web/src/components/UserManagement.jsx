@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import styles from "../styles/UserManagement.module.css"; // Import the CSS module
-import axios from "axios"; // For fetching data
+import styles from "../styles/UserManagement.module.css"; // CSS Module
+import UserApi from "./api calls/UserCalls.jsx"; // API service
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css"; // Toast styles
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);
@@ -8,29 +11,28 @@ const UserManagement = () => {
         firstName: "",
         lastName: "",
         email: "",
-        role: "",
+        password: "",
+        isAdmin: false,
     });
     const [editingIndex, setEditingIndex] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [formSubmitting, setFormSubmitting] = useState(false);
 
-    const roles = ["Admin", "Editor", "Viewer"]; // Predefined roles
+    // Role Mapping for Boolean isAdmin
+    const roles = [
+        { label: "Admin", value: true },
+        { label: "Viewer", value: false },
+    ];
 
-    // Fetch users on mount
+    // Fetch Users from Backend
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get("https://jsonplaceholder.typicode.com/users");
-                const fetchedUsers = response.data.map((user) => ({
-                    id: user.id,
-                    firstName: user.name.split(" ")[0],
-                    lastName: user.name.split(" ")[1] || "",
-                    email: user.email,
-                    role: roles[Math.floor(Math.random() * roles.length)],
-                }));
-                setUsers(fetchedUsers);
-                setLoading(false);
+                const data = await UserApi.getAllUsers();
+                setUsers(data);
             } catch (error) {
-                console.error("Error fetching users:", error);
+                toast.error("Error fetching users. Please try again.");
+            } finally {
                 setLoading(false);
             }
         };
@@ -38,42 +40,72 @@ const UserManagement = () => {
         fetchUsers();
     }, []);
 
-    // Handle input changes
+    // Handle Input Changes
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm({ ...form, [name]: value });
+        setForm({
+            ...form,
+            [name]: name === "isAdmin" ? value === "true" : value, // Convert role to boolean
+        });
     };
 
-    // Handle form submission
-    const handleSubmit = (e) => {
+    // Handle Form Submission
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (editingIndex !== null) {
-            // Update user
-            const updatedUsers = [...users];
-            updatedUsers[editingIndex] = form;
-            setUsers(updatedUsers);
-            setEditingIndex(null);
-        } else {
-            // Create new user
-            setUsers([...users, { ...form, id: Date.now() }]);
+        setFormSubmitting(true);
+
+        try {
+            if (editingIndex !== null) {
+                // Update User
+                const userId = users[editingIndex].id;
+                await UserApi.updateUser(userId, form);
+                const updatedUsers = [...users];
+                updatedUsers[editingIndex] = { ...form, id: userId };
+                setUsers(updatedUsers);
+                toast.success("User updated successfully!");
+                setEditingIndex(null);
+            } else {
+                // Create User
+                const newUser = await UserApi.createUser(form);
+                setUsers([...users, newUser]);
+                toast.success("User created successfully!");
+            }
+            setForm({
+                firstName: "",
+                lastName: "",
+                email: "",
+                password: "",
+                isAdmin: false,
+            });
+        } catch (error) {
+            toast.error("Error saving user. Please try again.");
+        } finally {
+            setFormSubmitting(false);
         }
-        setForm({ firstName: "", lastName: "", email: "", role: "" }); // Reset form
     };
 
-    // Handle edit
+    // Handle Edit
     const handleEdit = (index) => {
         setEditingIndex(index);
         setForm(users[index]);
     };
 
-    // Handle delete
-    const handleDelete = (index) => {
-        const updatedUsers = users.filter((_, i) => i !== index);
-        setUsers(updatedUsers);
+    // Handle Delete
+    const handleDelete = async (index) => {
+        const userId = users[index].id;
+
+        try {
+            await UserApi.deleteUser(userId);
+            setUsers(users.filter((_, i) => i !== index));
+            toast.success("User deleted successfully!");
+        } catch (error) {
+            toast.error("Error deleting user. Please try again.");
+        }
     };
 
     return (
         <div className={styles.userManagementContainer}>
+            <ToastContainer />
             <h1 className={styles.title}>User Management</h1>
 
             {/* User Form */}
@@ -105,9 +137,18 @@ const UserManagement = () => {
                     className={styles.input}
                     required
                 />
+                <input
+                    type="password"
+                    name="password"
+                    value={form.password}
+                    onChange={handleChange}
+                    placeholder="Password"
+                    className={styles.input}
+                    required
+                />
                 <select
-                    name="role"
-                    value={form.role}
+                    name="isAdmin"
+                    value={form.isAdmin}
                     onChange={handleChange}
                     className={styles.select}
                     required
@@ -115,14 +156,20 @@ const UserManagement = () => {
                     <option value="" disabled>
                         Select Role
                     </option>
-                    {roles.map((role, index) => (
-                        <option key={index} value={role}>
-                            {role}
+                    {roles.map((role) => (
+                        <option key={role.value} value={role.value}>
+                            {role.label}
                         </option>
                     ))}
                 </select>
-                <button type="submit" className={styles.submitButton}>
-                    {editingIndex !== null ? "Update User" : "Add User"}
+                <button type="submit" className={styles.submitButton} disabled={formSubmitting}>
+                    {formSubmitting
+                        ? editingIndex !== null
+                            ? "Updating..."
+                            : "Adding..."
+                        : editingIndex !== null
+                            ? "Update User"
+                            : "Add User"}
                 </button>
             </form>
 
@@ -133,43 +180,41 @@ const UserManagement = () => {
             ) : users.length > 0 ? (
                 <table className={styles.table}>
                     <thead>
-                        <tr>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Actions</th>
-                        </tr>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {users.map((user, index) => (
-                            <tr key={user.id}>
-                                <td>{user.firstName}</td>
-                                <td>{user.lastName}</td>
-                                <td>{user.email}</td>
-                                <td>{user.role}</td>
-                                <td>
-                                    <button
-                                        onClick={() => handleEdit(index)}
-                                        className={styles.editButton}
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(index)}
-                                        className={styles.deleteButton}
-                                    >
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
+                    {users.map((user, index) => (
+                        <tr key={user.id}>
+                            <td>{user.firstName}</td>
+                            <td>{user.lastName}</td>
+                            <td>{user.email}</td>
+                            <td>{user.isAdmin ? "Admin" : "Viewer"}</td>
+                            <td>
+                                <button
+                                    onClick={() => handleEdit(index)}
+                                    className={styles.editButton}
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={() => handleDelete(index)}
+                                    className={styles.deleteButton}
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
             ) : (
-                <p className={styles.noData}>
-                    No users available. Add a user to get started.
-                </p>
+                <p className={styles.noData}>No users available. Add a user to get started.</p>
             )}
         </div>
     );
