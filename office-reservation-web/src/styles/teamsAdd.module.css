@@ -1,106 +1,110 @@
 .modalBackdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  
-  .addTeamModal {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    width: 400px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: relative;
-  }
-  
-  .closeButton {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #ff0000;
-  }
-  
-  .closeButton:hover {
-    color: #b30000;
-  }
-  
-  .cancelButton {
-    background-color: #ccc;
-    color: #000;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-left: 10px;
-    transition: background-color 0.3s;
-  }
-  
-  .cancelButton:hover {
-    background-color: #999;
-  }
-  
-  .memberSelection {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 15px;
-  }
-  
-  .memberList {
-    max-height: 150px; /* Set max-height to make it scrollable */
-    overflow-y: auto; /* Allow vertical scrolling */
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  .memberItem {
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
-    margin-bottom: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .memberItem:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .selectedMember {
-    background-color: #ff0000;
-    color: #fff;
-  }
-  
-  .addTeamButton {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .addTeamButton:hover {
-    background-color: #0056b3;
-  }
-  
-  .addTeamHeader {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.addTeamModal {
+  background-color: #ffffff;
+  padding: 20px; /* Reduced padding for better spacing */
+  border-radius: 8px; /* Slightly smaller radius for a modern look */
+  width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow for a subtle 3D effect */
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #ff4d4f;
+}
+
+.closeButton:hover {
+  color: #d9363e; /* Slightly darker hover effect */
+}
+
+.cancelButton {
+  background-color: #e0e0e0;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.cancelButton:hover {
+  background-color: #bdbdbd;
+}
+
+.memberSelection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Consistent spacing between elements */
+  margin-bottom: 20px;
+}
+
+.memberList {
+  max-height: 200px; /* Increased height for more visible content */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid #dcdcdc;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #f7f7f7;
+}
+
+.memberItem {
+  padding: 8px 12px; /* Comfortable padding for clickability */
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  margin-bottom: 5px;
+  background-color: #ffffff; /* Consistent with modern UI design */
+  border: 1px solid transparent; /* Added for a hover effect */
+}
+
+.memberItem:hover {
+  background-color: #e6f7ff; /* Light blue for hover effect */
+  border-color: #91d5ff;
+}
+
+.selectedMember {
+  background-color: #ff4d4f; /* Red for selected state */
+  color: #ffffff; /* White text for better contrast */
+  font-weight: bold; /* Highlight the selected item */
+}
+
+.addTeamButton {
+  background-color: #1890ff; /* Brighter blue for action buttons */
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addTeamButton:hover {
+  background-color: #0056b3; /* Slightly darker hover effect */
+}
+
+.addTeamHeader {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.6rem; /* Slightly larger for prominence */
+  font-weight: bold;
+  color: #333;
+}
