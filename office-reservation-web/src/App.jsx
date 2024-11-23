@@ -6,7 +6,7 @@ import Footer from './components/Footer'; // Importing the footer
 import Login from './components/Login';
 import Profile from './components/Profile';
 import Schedule from './components/Schedule';
-import TableReservations from './components/TableReservations';
+import TableReservations from './pages/TableReservations.jsx';
 import Workers from './components/Workers';
 
 import UserManagement from './components/UserManagement';
@@ -29,7 +29,7 @@ function App() {
                 <Route path="/" element={<Login />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/schedule" element={<Schedule />} />
-                <Route path="/reserve" element={<TableReservations />} />
+                <Route path="/reservation" element={<TableReservations />} />
                 <Route path="/coworkers" element={<Workers />} />
 
                 <Route path="/usermanagement" element={<UserManagement/>}/>
