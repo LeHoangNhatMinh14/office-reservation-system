@@ -16,7 +16,6 @@ public class ReservationsController {
     private final ReservationService reservationService;
 
     // TODO: reservationService.createReservation() should return a Reservation object
-    // TODO: table controller to create table in database
     @PostMapping
     public ResponseEntity<Reservation> createReservation(@RequestBody Reservation reservation) {
         reservationService.createReservation(reservation);
@@ -27,9 +26,8 @@ public class ReservationsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(reservation);
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<Reservation>> getReservationByRoomId(@RequestParam ("roomId") Long roomId) {
-        // ex: http://localhost:8080/reservations?roomId=1
+    @GetMapping
+    public ResponseEntity<List<Reservation>> getReservationByRoomId(@RequestParam("roomId") Long roomId) {
         List<Reservation> reservations = reservationService.getReservationsByRoomId(roomId);
         return ResponseEntity.status(HttpStatus.OK).body(reservations);
     }

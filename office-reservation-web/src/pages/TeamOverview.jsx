@@ -1,34 +1,80 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/teams.module.css";
 import TeamView from "../components/team overview/TeamView";
-import AddTeam from "../components/team overview/AddTeam"; // Import the AddTeam component
+import AddTeam from "../components/team overview/AddTeam";
+import TeamCalls from "../components/api calls/TeamCalls";
+import Svg from "../assets/plusTeam.svg";
 
-// Parent Component for Team Overview
 const TeamOverview = () => {
-  const [teams, setTeams] = useState([
-    { name: "Team Alpha", members: ["Alice", "Bob", "Charlie"] },
-    { name: "Team Beta", members: ["David", "Eve", "Frank"] },
-  ]);
+  const [teams, setTeams] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [showAddTeam, setShowAddTeam] = useState(false); // Track visibility of AddTeam modal
+  const [showAddTeam, setShowAddTeam] = useState(false);
 
-  // Function to toggle role
+  // Fetch all teams on component mount
+  useEffect(() => {
+    const fetchTeams = async () => {
+      try {
+        const fetchedTeams = await TeamCalls.getAllTeams();
+        setTeams(Array.isArray(fetchedTeams) ? fetchedTeams : []);
+      } catch (error) {
+        console.error("Error fetching teams:", error);
+        alert("Failed to load teams. Please try again.");
+      }
+    };
+
+    fetchTeams();
+  }, []);
+
   const toggleRole = () => {
-    setIsAdmin((prevIsAdmin) => !prevIsAdmin);
+    setIsAdmin((prev) => !prev);
   };
 
-  const deleteTeam = (teamName) => {
-    setTeams((prevTeams) => prevTeams.filter((team) => team.name !== teamName));
+  const toggleAddTeamModal = () => {
+    setShowAddTeam((prev) => !prev);
   };
 
-  // Function to toggle the Add Team modal
-  const toggleAddTeam = () => {
-    setShowAddTeam((prevShowAddTeam) => !prevShowAddTeam);
+  const handleAddNewTeam = (newTeam) => {
+    setTeams((prev) => [...prev, newTeam]);
   };
 
-  // Function to add a new team
-  const addNewTeam = (newTeam) => {
-    setTeams((prevTeams) => [...prevTeams, newTeam]);
+  const handleDeleteTeam = async (teamId) => {
+    try {
+      await TeamCalls.deleteTeam(teamId);
+      setTeams((prev) => prev.filter((team) => team.id !== teamId));
+    } catch (error) {
+      console.error("Error deleting team:", error);
+      alert("Failed to delete the team. Please try again.");
+    }
+  };
+
+  const handleEditTeam = async (teamId, updatedData) => {
+    try {
+      const updatedTeam = await TeamCalls.updateTeam(teamId, updatedData);
+      setTeams((prev) =>
+        prev.map((team) => (team.id === teamId ? updatedTeam : team))
+      );
+    } catch (error) {
+      console.error("Error updating team:", error);
+      alert("Failed to update the team. Please try again.");
+    }
+  };
+
+  const handleRemoveTeamMember = async (teamId, userId) => {
+    try {
+      // Fetch the team, remove the member, and update the team
+      const team = await TeamCalls.getTeamById(teamId);
+      const updatedTeam = {
+        ...team,
+        users: team.users.filter((user) => user.id !== userId),
+      };
+      await TeamCalls.updateTeam(teamId, updatedTeam);
+      setTeams((prev) =>
+        prev.map((team) => (team.id === teamId ? updatedTeam : team))
+      );
+    } catch (error) {
+      console.error("Error removing team member:", error);
+      alert("Failed to remove team member. Please try again.");
+    }
   };
 
   return (
@@ -36,23 +82,46 @@ const TeamOverview = () => {
       <div className={styles.addTeamContainer}>
         <h1>Team Overview</h1>
         <div className={styles.right}>
-        <button className={styles.newTeamButton} onClick={toggleAddTeam}>+</button>
+          <button
+            className={styles.newTeamButton}
+            onClick={toggleAddTeamModal}
+            title="Add New Team"
+          >
+            <img src={Svg} alt="Add Team" />
+          </button>
         </div>
       </div>
       <div className={styles.teamOverviewContainer}>
-        <div className={styles.teamOverviewHeader}>
-          <button className={styles.roleToggleButton} onClick={toggleRole}>
-            {isAdmin ? "Switch to User Role" : "Switch to Admin Role"}
-          </button>
-        </div>
+        <button className={styles.roleToggleButton} onClick={toggleRole}>
+          {isAdmin ? "Switch to User Role" : "Switch to Admin Role"}
+        </button>
         <div className={styles.teamOverviewContent}>
-          {teams.map((team, index) => (
-            <TeamView key={index} team={team} isAdmin={isAdmin} onDeleteTeam={deleteTeam}/>
-          ))}
+          {teams.length > 0 ? (
+            teams.map((team) => (
+              <TeamView
+                key={team.id}
+                team={team}
+                isAdmin={isAdmin}
+                onDeleteTeam={() => handleDeleteTeam(team.id)}
+                onEditTeam={(updatedData) =>
+                  handleEditTeam(team.id, updatedData)
+                }
+                onRemoveMember={(userId) =>
+                  handleRemoveTeamMember(team.id, userId)
+                }
+              />
+            ))
+          ) : (
+            <p>No teams available</p>
+          )}
         </div>
       </div>
-      {/* Render AddTeam modal when showAddTeam is true */}
-      {showAddTeam && <AddTeam onClose={toggleAddTeam} onAddTeam={addNewTeam} />}
+      {showAddTeam && (
+        <AddTeam
+          onClose={toggleAddTeamModal}
+          onAddTeam={handleAddNewTeam}
+        />
+      )}
     </div>
   );
 };

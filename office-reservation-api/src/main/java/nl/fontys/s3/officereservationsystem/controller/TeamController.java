@@ -35,7 +35,7 @@ public class TeamController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<List<Team>> getTeamsByUserId(@PathVariable("userId") Long userId) {
         List<Team> teams = teamService.getTeamsByUserId(userId);
         return ResponseEntity.status(HttpStatus.OK).body(teams);

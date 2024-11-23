@@ -1,44 +1,71 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/teamsAdd.module.css";
+import TeamApi from "../api calls/TeamCalls";
+import UserApi from "../api calls/UserCalls";
 
 const AddTeam = ({ onClose, onAddTeam }) => {
-  // Sample list of people to choose from
-  const [people] = useState([
-    "Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace"
-  ]);
-
-  // State to track selected members
+  const [people, setPeople] = useState([]); // Dynamically fetched users
   const [selectedMembers, setSelectedMembers] = useState([]);
-  
-  // Function to handle form submission
-  const handleAddTeam = (event) => {
-    event.preventDefault();
-    const newTeam = {
-      name: event.target.teamName.value,
-      members: selectedMembers,
+
+  // Fetch all users when the component mounts
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const users = await UserApi.getAllUsers();
+        const formattedUsers = users.map(({ id, firstName, lastName }) => ({
+          id,
+          name: `${firstName} ${lastName}`,
+        }));
+        setPeople(formattedUsers);
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
+        alert("An error occurred while fetching users. Please try again.");
+      }
     };
-    onAddTeam(newTeam); // Add the team using parent function
-    onClose(); // Close modal after adding the team
+
+    fetchUsers();
+  }, []);
+
+  const handleAddTeam = async (event) => {
+    event.preventDefault();
+
+    const teamName = event.target.teamName.value.trim();
+    if (!teamName) {
+      alert("Please enter a valid team name.");
+      return;
+    }
+
+    const newTeam = {
+      name: teamName,
+      users: selectedMembers,
+      teamManagers: [], // Add manager selection logic here if needed
+    };
+
+    try {
+      const createdTeam = await TeamApi.createTeam(newTeam);
+      if (onAddTeam) onAddTeam(createdTeam); // Update parent component
+      onClose(); // Close the modal
+    } catch (error) {
+      console.error("Failed to add team:", error);
+      alert("An error occurred while adding the team. Please try again.");
+    }
   };
 
-  // Function to handle selecting members by clicking on their box
-  const handleMemberSelect = (member) => {
-    setSelectedMembers((prevSelected) => {
-      if (prevSelected.includes(member)) {
-        return prevSelected.filter((m) => m !== member); // Remove if already selected
-      } else {
-        return [...prevSelected, member]; // Add if not already selected
-      }
-    });
+  const toggleMemberSelection = (member) => {
+    setSelectedMembers((prev) =>
+      prev.some((m) => m.id === member.id)
+        ? prev.filter((m) => m.id !== member.id)
+        : [...prev, member]
+    );
   };
 
   return (
     <div className={styles.modalBackdrop}>
       <div className={styles.addTeamModal}>
-        <button className={styles.closeButton} onClick={onClose}>X</button>
-        <div className={styles.addTeamHeader}>
-          <h2>Add New Team</h2>
-        </div>
+        <button className={styles.closeButton} onClick={onClose}>
+          X
+        </button>
+        <h2 className={styles.addTeamHeader}>Add New Team</h2>
         <form onSubmit={handleAddTeam} className={styles.addTeamForm}>
           <input
             className={styles.inputField}
@@ -50,23 +77,37 @@ const AddTeam = ({ onClose, onAddTeam }) => {
           <div className={styles.memberSelection}>
             <label>Select Members:</label>
             <div className={styles.memberList}>
-              {people.map((person, index) => (
-                <div
-                  key={index}
-                  className={`${styles.memberItem} ${selectedMembers.includes(person) ? styles.selectedMember : ""}`}
-                  onClick={() => handleMemberSelect(person)}
-                >
-                  {person}
-                </div>
-              ))}
+              {people.length > 0 ? (
+                people.map((person) => (
+                  <div
+                    key={person.id}
+                    className={`${styles.memberItem} ${
+                      selectedMembers.some((m) => m.id === person.id)
+                        ? styles.selectedMember
+                        : ""
+                    }`}
+                    onClick={() => toggleMemberSelection(person)}
+                  >
+                    {person.name}
+                  </div>
+                ))
+              ) : (
+                <p>Loading members...</p>
+              )}
             </div>
           </div>
-          <button type="submit" className={styles.addTeamButton}>
-            Add Team
-          </button>
-          <button type="button" className={styles.cancelButton} onClick={onClose}>
-            Cancel
-          </button>
+          <div className={styles.buttonGroup}>
+            <button type="submit" className={styles.addTeamButton}>
+              Add Team
+            </button>
+            <button
+              type="button"
+              className={styles.cancelButton}
+              onClick={onClose}
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>
