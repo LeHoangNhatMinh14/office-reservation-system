@@ -1,0 +1,19 @@
+.roomManagementContainer {
+    max-width: 1000px;
+    margin: 80px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    color: #2b6777;
+    margin-bottom: 30px;
+}
+
+/* Reuse form and table styles from user management example */
+/* Adjust as needed for room-specific styling */

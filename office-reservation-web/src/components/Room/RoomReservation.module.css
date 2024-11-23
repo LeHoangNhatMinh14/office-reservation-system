@@ -1,0 +1,94 @@
+/* Container */
+.reservation-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+/* Header */
+.reservation-header {
+    display: flex;
+    background-color: #f3f3f3;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 2px solid #ddd;
+}
+
+.header-cell {
+    flex: 1;
+    padding: 15px;
+    border-right: 1px solid #ddd;
+}
+
+.empty-cell {
+    flex: 0.5;
+    padding: 15px;
+    background-color: #f3f3f3;
+    border-right: 1px solid #ddd;
+}
+
+/* Room Row */
+.reservation-row {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+}
+
+.room-name {
+    flex: 0.5;
+    padding: 15px;
+    background-color: #f8f8f8;
+    font-weight: bold;
+    text-align: left;
+    border-right: 1px solid #ddd;
+}
+
+/* Cells */
+.reservation-cell {
+    flex: 1;
+    padding: 15px;
+    text-align: center;
+    border-right: 1px solid #ddd;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+/* Cell Statuses */
+.reservation-cell.available {
+    background-color: #eaffea;
+    color: #2b7f2b;
+}
+
+.reservation-cell.reserved {
+    background-color: #ffe4e4;
+    color: #d32f2f;
+}
+
+.reservation-cell.closed {
+    background-color: #f0f0f0;
+    color: #999999;
+}
+
+/* Hover Effects */
+.reservation-cell:hover {
+    background-color: #ddd;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .reservation-container {
+        font-size: 12px;
+    }
+
+    .reservation-cell {
+        padding: 10px;
+    }
+
+    .room-name, .header-cell {
+        padding: 10px;
+    }
+}
