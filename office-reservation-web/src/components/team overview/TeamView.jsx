@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import styles from "../../styles/teams.module.css";
 import RoleSelector from "./RoleSelector";
 import TeamCalls from "../api calls/TeamCalls"
+import AddMemberToTeam from "./AddMemberToTeam";
 
 const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
   const [showMembers, setShowMembers] = useState(false);
   const [selectedMembers, setSelectedMembers] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
+  const [showAddMemberModal, setShowAddMemberModal] = useState(false);
 
   useEffect(() => {
     if (team?.users && team?.teamManagers) {
@@ -151,6 +153,13 @@ const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
     }
   };
 
+  const handleMemberAdded = (newMember) => {
+    setTeamMembers((prevMembers) => [
+      ...prevMembers,
+      { id: newMember.id, name: `${newMember.firstName} ${newMember.lastName}`, role: "Member" },
+    ]);
+  };
+
   
   return (
     <div className={styles.teamView}>
@@ -190,19 +199,34 @@ const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
           {isAdmin && (
             <div className={styles.teamActions}>
               <RoleSelector
-                  onAssignRole={handleAssignRole}
-                  currentRole={
-                    selectedMembers.length === 1
-                      ? teamMembers.find((member) => member.id === selectedMembers[0])?.role
-                      : null
-                  }
-                />
+                onAssignRole={handleAssignRole}
+                currentRole={
+                  selectedMembers.length === 1
+                    ? teamMembers.find((member) => member.id === selectedMembers[0])?.role
+                    : null
+                }
+              />
+              <div className={styles.actionButtons}>
               <button
                 className={styles.deleteMemberButton}
                 onClick={handleDeleteMembers}
+                disabled={selectedMembers.length === 0}
               >
                 Delete Selected Members
               </button>
+              <button
+                className={styles.newMemberTeamButton}
+                onClick={() => setShowAddMemberModal(true)}
+              >
+                Add Member
+              </button>
+              <AddMemberToTeam
+                team={team}
+                show={showAddMemberModal}
+                onClose={() => setShowAddMemberModal(false)}
+                onMemberAdded={handleMemberAdded}
+              />
+              </div>
             </div>
           )}
         </div>

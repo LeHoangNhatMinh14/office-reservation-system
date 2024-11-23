@@ -294,6 +294,13 @@
   background-color: #b30000;
 }
 
+.newTeamButton {
+}
+
+.newTeamButton:hover{
+  background-color: #b30000;
+}
+
 .right {
   position: absolute;
   padding-right: 1.5vw;
@@ -305,6 +312,29 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.newMemberTeamButton{
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: auto;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+  justify-content: flex-end; /* Align to the right */
+  align-items: center; /* Align vertically in the center */
+}
+
+
+.newMemberTeamButton:hover{
+  background-color: #b30000;
 }
 
 .overviewHeader{
