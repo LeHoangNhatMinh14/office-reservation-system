@@ -1,102 +1,89 @@
-import React, { useState } from "react";
-import "./RoomManagement.module.css";
+import React, { useState, useEffect } from "react";
+import RoomApi from "./RoomCalls.jsx";
+import "../RoomManagement.css";
 
-const RoomManagement = () => {
-    const [layout, setLayout] = useState(""); // Selected layout
-    const [rooms, setRooms] = useState([]); // List of rooms
-    const [roomName, setRoomName] = useState(""); // Room name
 
-    // Predefined layouts
-    const layouts = {
-        "U-shape": (
-            <div className="uShape">
-                <div className="table horizontal"></div>
-                <div className="table vertical left"></div>
-                <div className="table vertical right"></div>
-            </div>
-        ),
-        "Round Table": (
-            <div className="roundTable">
-                <div className="table circle"></div>
-            </div>
-        ),
-        Clusters: (
-            <div className="clusters">
-                <div className="table cluster"></div>
-                <div className="table cluster"></div>
-                <div className="table cluster"></div>
-            </div>
-        ),
-        "Classroom": (
-            <div className="classroom">
-                <div className="table horizontal"></div>
-                <div className="table horizontal"></div>
-                <div className="table horizontal"></div>
-            </div>
-        ),
+const RoomService = () => {
+    const [rooms, setRooms] = useState([]);
+    const [newRoomName, setNewRoomName] = useState("");
+
+    useEffect(() => {
+        fetchRooms();
+    }, []);
+
+    const fetchRooms = async () => {
+        try {
+            const fetchedRooms = await RoomApi.getAllRooms();
+            setRooms(fetchedRooms);
+        } catch (error) {
+            console.error("Error fetching rooms:", error);
+        }
     };
 
-    // Save room
-    const handleSaveRoom = () => {
-        if (roomName && layout) {
-            setRooms([...rooms, { name: roomName, layout }]);
-            setRoomName("");
-            setLayout("");
+    const handleCreateRoom = async () => {
+        if (!newRoomName.trim()) {
+            return alert("Room name cannot be empty");
+        }
+        try {
+            const roomData = { name: newRoomName };
+            await RoomApi.createRoom(roomData);
+            setNewRoomName("");
+            fetchRooms();
+        } catch (error) {
+            console.error("Error creating room:", error);
+        }
+    };
+
+    const handleDeleteRoom = async (id) => {
+        try {
+            await RoomApi.deleteRoom(id);
+            fetchRooms();
+        } catch (error) {
+            console.error("Error deleting room:", error);
         }
     };
 
     return (
-        <div className="roomManagementContainer">
-            <h1>Room Management</h1>
+        <div className={styles.roomServiceContainer}>
+            <div className={styles.roomServiceHeader}>
+                <div className={styles.headerCell}>Room Name</div>
+                <div className={styles.headerCell}>Actions</div>
+            </div>
 
-            {/* Room and Layout Selection */}
-            <div className="form">
+            <div className={styles.roomGrid}>
+                {rooms.map((room) => (
+                    <div key={room.id} className={styles.roomCard}>
+                        <div className={styles.roomCardHeader}>{room.name}</div>
+                        <div className={styles.roomCardFooter}>
+                            <button className={styles.btnEdit}>Edit</button>
+                            <button
+                                className={styles.btnDelete}
+                                onClick={() => handleDeleteRoom(room.id)}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            <div className={styles.addRoomSection}>
                 <input
                     type="text"
-                    placeholder="Enter Room Name"
-                    value={roomName}
-                    onChange={(e) => setRoomName(e.target.value)}
+                    placeholder="New Room Name"
+                    value={newRoomName}
+                    onChange={(e) => setNewRoomName(e.target.value)}
+                    className={styles.inputField}
                 />
-                <select
-                    onChange={(e) => setLayout(e.target.value)}
-                    value={layout}
+                <button
+                    className={styles.addRoomBtn}
+                    onClick={handleCreateRoom}
                 >
-                    <option value="" disabled>
-                        Select Layout
-                    </option>
-                    {Object.keys(layouts).map((key) => (
-                        <option key={key} value={key}>
-                            {key}
-                        </option>
-                    ))}
-                </select>
-                <button onClick={handleSaveRoom}>Save Room</button>
-            </div>
-
-            {/* Preview Layout */}
-            <div className="layoutPreview">
-                <h2>Preview: {layout || "No Layout Selected"}</h2>
-                {layouts[layout] || <p>Select a layout to preview</p>}
-            </div>
-
-            {/* Saved Rooms */}
-            <div className="savedRooms">
-                <h2>Saved Rooms</h2>
-                {rooms.length > 0 ? (
-                    rooms.map((room, index) => (
-                        <div key={index} className="roomCard">
-                            <h3>{room.name}</h3>
-                            <div className="layoutPreview">
-                                {layouts[room.layout]}
-                            </div>
-                        </div>
-                    ))
-                ) : (
-                    <p>No rooms created yet.</p>
-                )}
+                    Add Room
+                </button>
             </div>
         </div>
     );
 };
 
-export default RoomManagement;
+export default RoomService;
