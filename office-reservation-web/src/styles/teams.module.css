@@ -1,7 +1,7 @@
 .teamOverviewContainer {
   background-color: #f4f0ec;
   margin: 40px auto 0 auto; /* Center the container horizontally and set margin-top like before */
-  height: 70vh; /* Increase height to cover a larger part of the page */
+  height: auto; /* Increase height to cover a larger part of the page */
   width: 85vw; /* Increase width to leave some margin on the sides */
   border-radius: 20px;
   display: flex;
@@ -176,15 +176,42 @@
   background-color: #ff0000;
   color: #fff;
   border: none;
-  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  margin-left: auto;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  width: 3vw;
+  height: 5vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.newTeamButton > img {
+  width: 100%;
+  height: 60%;
+  filter: invert(1);
+  object-fit: contain;
+  transition: all 0.75s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .newTeamButton:hover {
   background-color: #b30000;
+  scale: 1.1;
+}
+
+.newTeamButton:hover > img {
+  scale: 1.1;
+  rotate: 10deg;
+}
+
+.newTeamButton:active{
+  scale: 0.95;
+}
+
+.newTeamButton:active > img{
+  rotate: -10deg;
+  scale: 1.5;
 }
 
 .newTeamButtonContainer{
@@ -195,16 +222,19 @@
   background-color: #f9f9f9;
   border: 1px solid #ccc;
   border-radius: 10px;
-  padding: 20px;
-  width: 85%; /* Increase width percentage for better responsiveness */
-  max-width: 85vw; /* Set a maximum width for larger screens */
-  margin: 5vh auto; /* Adjust margin to allow it to be responsive and add vertical spacing */
+  /* padding: 20px; */
+  width: 85%;
+  height: 10vh;
+  max-width: 85vw;
+  margin: 5vh auto;
   margin-top: 12vh;
   margin-bottom: 1vh;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
+  position: relative;
+  justify-content: center;
 }
 
 .addTeamForm {
@@ -264,8 +294,47 @@
   background-color: #b30000;
 }
 
-.right {
+.newTeamButton {
+}
 
+.newTeamButton:hover{
+  background-color: #b30000;
+}
+
+.right {
+  position: absolute;
+  padding-right: 1.5vw;
+}
+
+.addTeamContainer > h1{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.newMemberTeamButton{
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: auto;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+  justify-content: flex-end; /* Align to the right */
+  align-items: center; /* Align vertically in the center */
+}
+
+
+.newMemberTeamButton:hover{
+  background-color: #b30000;
 }
 
 .overviewHeader{
