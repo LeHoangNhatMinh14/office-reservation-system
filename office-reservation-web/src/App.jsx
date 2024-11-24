@@ -11,7 +11,7 @@ import Workers from './components/Workers';
 import RoomManagement from "./components/Room/RoomManagement";
 import UserManagement from './components/UserManagement';
 
-import TeamOverview from './Pages/TeamOverview';
+import TeamOverview from './pages/TeamOverview';
 import RoomReservation from "./components/Room/RoomReservation.jsx";
 
 
