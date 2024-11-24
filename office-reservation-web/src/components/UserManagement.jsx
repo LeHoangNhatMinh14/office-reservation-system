@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import styles from "../styles/UserManagement.module.css"; // CSS Module
 import UserApi from "./api calls/UserCalls.jsx"; // API service
 import { ToastContainer, toast } from "react-toastify";
-
 import "react-toastify/dist/ReactToastify.css"; // Toast styles
+
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);

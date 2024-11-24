@@ -10,10 +10,11 @@ const MainNavbar = () => {
         <nav className={styles.navBar}>
             <img src={logo} alt="" />
             <ul className={styles.navLinks}>
-                <li><Link to="/room">Room</Link></li>
+                <li><Link to="/usermanagement ">User</Link></li>
+                <li><Link to="/roommanagement">Room</Link></li>
                 <li><Link to="/schedule">Schedule</Link></li>
                 <li><Link to="/teams">Teams</Link></li>
-                <li><Link to="/reservation">Reservation</Link></li>
+                <li><Link to="/reserve">Reservation</Link></li>
             </ul>
         </nav>
     );
