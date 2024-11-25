@@ -38,5 +38,11 @@ public class ReservationsController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/table/{tableId}")
+    public ResponseEntity<List<Reservation>> getReservationsByTableId(@PathVariable("tableId") Long tableId) {
+        List<Reservation> reservations = reservationService.getReservationsByTableId(tableId);
+        return ResponseEntity.status(HttpStatus.OK).body(reservations);
+    }
+
     // TODO: set waiting times for reservations
 }

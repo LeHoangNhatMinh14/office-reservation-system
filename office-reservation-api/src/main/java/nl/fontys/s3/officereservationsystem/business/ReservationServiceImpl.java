@@ -58,4 +58,10 @@ public class ReservationServiceImpl implements ReservationService {
         }
         reservationRepository.deleteById(id);
     }
+
+    @Override
+    public List<Reservation> getReservationsByTableId(Long tableid) {
+        return reservationRepository.findByTableId(roomId).stream()
+                .map(ReservationConverter::convert)
+                .toList();
 }
