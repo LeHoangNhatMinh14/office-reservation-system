@@ -8,21 +8,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+
 @AllArgsConstructor
-@RestController("/leave")
+@RestController
+@RequestMapping("/leave")
 public class LeaveController {
     private final LeaveService leaveService;
 
+    // TODO: not working
     @PostMapping("")
     public ResponseEntity<Leave> createLeave(@RequestBody Leave leave) {
+
         try {
             leaveService.createLeave(leave);
-            return ResponseEntity.ok(leave);
+            return ResponseEntity.ok(leave);  // Successfully created
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(leave);
+            return ResponseEntity.badRequest().body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);  // General error handling
         }
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteLeave(@PathVariable("id") Long id) {

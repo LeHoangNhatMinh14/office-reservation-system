@@ -29,6 +29,6 @@ public class LeaveEntity {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-    @Column(name = "reason", nullable = false)
+    @Column(name = "reason")
     private String reason;
 }
