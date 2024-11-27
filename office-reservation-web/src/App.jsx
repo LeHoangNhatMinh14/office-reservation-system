@@ -8,10 +8,11 @@ import Profile from './components/Profile';
 import Schedule from './components/Schedule';
 import TableReservations from './components/TableReservations';
 import Workers from './components/Workers';
-
+import RoomManagement from "./components/Room/RoomManagement";
 import UserManagement from './components/UserManagement';
 
 import TeamOverview from './pages/TeamOverview';
+import RoomReservation from "./components/Room/RoomReservation.jsx";
 
 
 function App() {
@@ -29,12 +30,12 @@ function App() {
                 <Route path="/" element={<Login />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/schedule" element={<Schedule />} />
-                <Route path="/reserve" element={<TableReservations />} />
+                <Route path="/reserve" element={<RoomReservation />} />
                 <Route path="/coworkers" element={<Workers />} />
 
                 <Route path="/usermanagement" element={<UserManagement/>}/>
                 <Route path="/teams" element={<TeamOverview />} />
-
+                <Route path="/roommanagement" element={<RoomManagement />} />
             </Routes>
             
             {/* Footer should be displayed on all pages */}
