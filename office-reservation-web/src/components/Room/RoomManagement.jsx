@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import styles from "./RoomManagement.module.css";
+import RoomOverview from "./overview/RoomOverview.jsx";
 
 const RoomService = () => {
+
+    const [selectedRoom, setSelectedRoom] = useState(null);
+
     // Initialize the room list with at least two default rooms
     const [rooms, setRooms] = useState([
         { id: 1, name: "Conference Room A", capacity: "20", status: "Available" },
@@ -71,6 +75,9 @@ const RoomService = () => {
                                 <p>Status: <span className={room.status.toLowerCase()}>{room.status}</span></p>
                             </div>
                             <div className={styles.roomActions}>
+                                <button className={styles.btnOverview} onClick={() => setSelectedRoom(room)}>
+                                    Overview
+                                </button>
                                 <button className={styles.btnDelete} onClick={() => handleDeleteRoom(room.id)}>
                                     Delete
                                 </button>
@@ -81,6 +88,11 @@ const RoomService = () => {
                     <div className={styles.noRoomsMessage}>No rooms available. Add a new room to get started!</div>
                 )}
             </div>
+            <RoomOverview
+                isOpen={!!selectedRoom}
+                onClose={() => setSelectedRoom(null)}
+                capacity={selectedRoom?.capacity ?? 0}
+            />
         </div>
     );
 };
