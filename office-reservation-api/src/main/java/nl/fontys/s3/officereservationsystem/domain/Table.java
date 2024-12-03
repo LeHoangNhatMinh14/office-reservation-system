@@ -12,5 +12,4 @@ import lombok.NoArgsConstructor;
 public class Table {
     private Long id;
     private int islandNumber;
-    private Long roomId;
 }

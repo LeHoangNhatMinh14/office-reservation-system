@@ -10,6 +10,6 @@ CREATE TABLE reservation (
     reservation_user_id BIGINT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (table_id) REFERENCES room_table(id) ON DELETE CASCADE,
-    FOREIGN KEY (seated_user_id) REFERENCES user(id) ON DELETE CASCADE,
-    FOREIGN KEY (reservation_user_id) REFERENCES user(id) ON DELETE CASCADE
+    FOREIGN KEY (seated_user_id) REFERENCES app_user(id) ON DELETE CASCADE,
+    FOREIGN KEY (reservation_user_id) REFERENCES app_user(id) ON DELETE CASCADE
 );
