@@ -2,10 +2,7 @@ package nl.fontys.s3.officereservationsystem.persistence;
 
 import jakarta.persistence.EntityManager;
 import nl.fontys.s3.officereservationsystem.domain.ReservationType;
-import nl.fontys.s3.officereservationsystem.persistence.entity.ReservationEntity;
-import nl.fontys.s3.officereservationsystem.persistence.entity.RoomEntity;
-import nl.fontys.s3.officereservationsystem.persistence.entity.TableEntity;
-import nl.fontys.s3.officereservationsystem.persistence.entity.UserEntity;
+import nl.fontys.s3.officereservationsystem.persistence.entity.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +28,7 @@ class ReservationRepositoryTest {
     private EntityManager entityManager;
 
     private UserEntity user;
+    private TeamEntity team;
     private TableEntity table;
 
     @BeforeEach
@@ -43,6 +41,12 @@ class ReservationRepositoryTest {
                 .isAdmin(true)
                 .build();
 
+        team = TeamEntity.builder()
+                .name("Test Name")
+                .users(List.of())
+                .teamManagers(List.of(user))
+                .build();
+
         table = TableEntity.builder()
                 .islandNumber(1)
                 .build();
@@ -53,6 +57,7 @@ class ReservationRepositoryTest {
                 .build();
 
         entityManager.persist(user);
+        entityManager.persist(team);
         entityManager.persist(room);
 
         entityManager.flush();
@@ -66,10 +71,10 @@ class ReservationRepositoryTest {
                 .date(LocalDate.now())
                 .startTime(LocalTime.of(9, 0))
                 .endTime(LocalTime.of(10, 0))
-                .reservationType(ReservationType.INDIVIDUAL)
-                .table(table)
-                .seatedUser(user)
-                .reservationUser(user)
+                .reservationType(ReservationType.TEAM)
+                .tableId(table.getId())
+                .userId(null)
+                .teamId(team.getId())
                 .build();
 
         // Act
@@ -91,10 +96,10 @@ class ReservationRepositoryTest {
                 .date(LocalDate.now())
                 .startTime(LocalTime.of(9, 0))
                 .endTime(LocalTime.of(10, 0))
-                .reservationType(ReservationType.INDIVIDUAL)
-                .table(table)
-                .seatedUser(user)
-                .reservationUser(user)
+                .reservationType(ReservationType.TEAM)
+                .tableId(table.getId())
+                .userId(null)
+                .teamId(team.getId())
                 .build();
 
         ReservationEntity reservation2 = ReservationEntity.builder()
@@ -102,9 +107,9 @@ class ReservationRepositoryTest {
                 .startTime(LocalTime.of(13, 0))
                 .endTime(LocalTime.of(15, 0))
                 .reservationType(ReservationType.INDIVIDUAL)
-                .table(table)
-                .seatedUser(user)
-                .reservationUser(user)
+                .tableId(table.getId())
+                .userId(user.getId())
+                .teamId(null)
                 .build();
 
         reservationRepository.save(reservation1);
@@ -137,10 +142,10 @@ class ReservationRepositoryTest {
                 .date(LocalDate.now())
                 .startTime(LocalTime.of(9, 0))
                 .endTime(LocalTime.of(10, 0))
-                .reservationType(ReservationType.INDIVIDUAL)
-                .table(table)
-                .seatedUser(user)
-                .reservationUser(user)
+                .reservationType(ReservationType.TEAM)
+                .tableId(table.getId())
+                .userId(null)
+                .teamId(team.getId())
                 .build();
 
         ReservationEntity savedReservation = reservationRepository.save(reservation);
@@ -164,20 +169,20 @@ class ReservationRepositoryTest {
                 .date(LocalDate.now())
                 .startTime(LocalTime.of(9, 0))
                 .endTime(LocalTime.of(10, 0))
-                .reservationType(ReservationType.INDIVIDUAL)
-                .table(table)
-                .seatedUser(user)
-                .reservationUser(user)
+                .reservationType(ReservationType.TEAM)
+                .tableId(table.getId())
+                .userId(null)
+                .teamId(team.getId())
                 .build();
 
         ReservationEntity reservation2 = ReservationEntity.builder()
                 .date(LocalDate.now())
-                .startTime(LocalTime.of(13, 0))
-                .endTime(LocalTime.of(15, 0))
+                .startTime(LocalTime.of(9, 0))
+                .endTime(LocalTime.of(10, 0))
                 .reservationType(ReservationType.INDIVIDUAL)
-                .table(table)
-                .seatedUser(user)
-                .reservationUser(user)
+                .tableId(table.getId())
+                .userId(user.getId())
+                .teamId(null)
                 .build();
 
         reservationRepository.save(reservation1);
@@ -203,20 +208,20 @@ class ReservationRepositoryTest {
                 .date(LocalDate.now())
                 .startTime(LocalTime.of(9, 0))
                 .endTime(LocalTime.of(10, 0))
-                .reservationType(ReservationType.INDIVIDUAL)
-                .table(table)
-                .seatedUser(user)
-                .reservationUser(user)
+                .reservationType(ReservationType.TEAM)
+                .tableId(table.getId())
+                .userId(null)
+                .teamId(team.getId())
                 .build();
 
         ReservationEntity reservation2 = ReservationEntity.builder()
                 .date(LocalDate.now())
-                .startTime(LocalTime.of(13, 0))
-                .endTime(LocalTime.of(15, 0))
+                .startTime(LocalTime.of(9, 0))
+                .endTime(LocalTime.of(10, 0))
                 .reservationType(ReservationType.INDIVIDUAL)
-                .table(table)
-                .seatedUser(user)
-                .reservationUser(user)
+                .tableId(table.getId())
+                .userId(user.getId())
+                .teamId(null)
                 .build();
 
         reservationRepository.save(reservation1);

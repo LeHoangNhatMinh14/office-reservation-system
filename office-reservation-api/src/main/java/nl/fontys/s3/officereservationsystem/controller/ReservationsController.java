@@ -19,7 +19,7 @@ public class ReservationsController {
     @PostMapping
     public ResponseEntity<Reservation> createReservation(@RequestBody Reservation reservation) {
         reservationService.createReservation(reservation);
-        if (reservation.getTable() == null) {
+        if (reservation.getTableId() == null) {
             // Handle the error, e.g., log it or throw a custom exception
             throw new IllegalArgumentException("Table cannot be null");
         }
