@@ -14,8 +14,8 @@ public class Reservation {
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
-    private Table table;
+    private Long tableId;
     private ReservationType reservationType;
-    private User seatedUser;
-    private User reservationUser;
+    private Long teamId;
+    private Long userId;
 }

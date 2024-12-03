@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import nl.fontys.s3.officereservationsystem.domain.Reservation;
 import nl.fontys.s3.officereservationsystem.business.exception.InvalidFieldException;
 import nl.fontys.s3.officereservationsystem.business.exception.EntityNotFoundException;
+import nl.fontys.s3.officereservationsystem.domain.ReservationType;
 import nl.fontys.s3.officereservationsystem.persistence.TableRepository;
 import org.springframework.stereotype.Component;
 
@@ -29,20 +30,27 @@ public class ReservationValidator {
         if (reservation.getEndTime() == null) {
             throw new InvalidFieldException("End Time");
         }
-        if (reservation.getTable() == null) {
+        if (reservation.getTableId() == null) {
             throw new InvalidFieldException("Table");
         }
-        if (reservation.getReservationUser() == null) {
-            throw new InvalidFieldException("Reservation User");
+        if (reservation.getReservationType() == null) {
+            throw new InvalidFieldException("Reservation Type");
         }
-        if (reservation.getSeatedUser() == null) {
-            throw new InvalidFieldException("Seated User");
+        if (reservation.getReservationType().equals(ReservationType.INDIVIDUAL)) {
+            if (reservation.getUserId() == null) {
+                throw new InvalidFieldException("User");
+            }
+        }
+        if (reservation.getReservationType().equals(ReservationType.TEAM)) {
+            if (reservation.getTeamId() == null) {
+                throw new InvalidFieldException("Team");
+            }
         }
     }
 
     private void validateTableExists(Reservation reservation) {
-        if (reservation.getTable() != null && !tableRepository.existsById(reservation.getTable().getId())) {
-            throw new EntityNotFoundException("Table", reservation.getTable().getId());
+        if (reservation.getTableId() != null && !tableRepository.existsById(reservation.getTableId())) {
+            throw new EntityNotFoundException("Table", reservation.getTableId());
         }
     }
 }

@@ -26,7 +26,7 @@ public class ReservationServiceImpl implements ReservationService {
     public void createReservation(Reservation reservation) {
         reservationValidator.validateReservationForCreation(reservation);
         ReservationEntity entity = ReservationConverter.convert(reservation);
-        List<ReservationEntity> existingReservations = reservationRepository.findByTableId(entity.getTable().getId());
+        List<ReservationEntity> existingReservations = reservationRepository.findByTableId(entity.getTableId());
 
         for (ReservationEntity existingReservation : existingReservations) {
             if (existingReservation.getDate().equals(entity.getDate()) &&

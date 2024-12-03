@@ -13,7 +13,7 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<ReservationEntity, Long> {
     @Query(value = "SELECT r.* FROM reservation r JOIN room_table t ON r.table_id = t.id WHERE t.room_id = :roomId", nativeQuery = true)
     List<ReservationEntity> findByRoomId(@Param("roomId") Long roomId);
+    List<ReservationEntity> findByTeamId(Long teamId);
     List<ReservationEntity> findByTableId(Long tableId);
-    List<ReservationEntity> findByReservationType(ReservationType reservationType);
 }
 

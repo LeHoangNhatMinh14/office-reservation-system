@@ -28,7 +28,7 @@ public class DatabaseDataInitializer {
     public void populateDatabaseInitialDummyData() {
 
         if (userRepository.count() == 0) {
-            UserEntity user1 = userRepository.save(UserEntity.builder()
+            userRepository.save(UserEntity.builder()
                     .firstName("Alice")
                     .lastName("Johnson")
                     .email("alice.johnson@example.com")
@@ -36,7 +36,7 @@ public class DatabaseDataInitializer {
                     .isAdmin(false)
                     .build());
 
-            UserEntity user2 = userRepository.save(UserEntity.builder()
+            userRepository.save(UserEntity.builder()
                     .firstName("Bob")
                     .lastName("Smith")
                     .email("bob.smith@example.com")
@@ -74,17 +74,16 @@ public class DatabaseDataInitializer {
 
         if (reservationRepository.count() == 0) {
             RoomEntity room = roomRepository.findByName("Conference Room A").orElseThrow();
-            UserEntity user1 = userRepository.findByEmail("alice.johnson@example.com").orElseThrow();
-            UserEntity user2 = userRepository.findByEmail("bob.smith@example.com").orElseThrow();
+            UserEntity user = userRepository.findByEmail("alice.johnson@example.com").orElseThrow();
 
             ReservationEntity reservation = ReservationEntity.builder()
                     .date(LocalDate.now())
                     .startTime(LocalTime.of(9, 0))
                     .endTime(LocalTime.of(10, 0))
                     .reservationType(ReservationType.INDIVIDUAL)
-                    .table(room.getTables().get(0))
-                    .seatedUser(user1)
-                    .reservationUser(user2)
+                    .tableId(room.getTables().get(0).getId())
+                    .teamId(null)
+                    .userId(user.getId())
                     .build();
             reservationRepository.save(reservation);
         }
