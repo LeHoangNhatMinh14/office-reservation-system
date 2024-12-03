@@ -8,10 +8,6 @@ import java.util.List;
 
 @Service
 public interface TableService {
-    void createTable(Table table);
-    List<Table> getTablesByRoomId(Long roomId);
     Table getTableById(Long id);
     List<Table> getAllTables();
-
-
 }

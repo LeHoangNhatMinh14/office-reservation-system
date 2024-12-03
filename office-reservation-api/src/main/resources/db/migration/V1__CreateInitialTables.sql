@@ -22,7 +22,7 @@ CREATE TABLE team (
 );
 
 -- Create user table
-CREATE TABLE user (
+CREATE TABLE app_user (
     id BIGINT AUTO_INCREMENT,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE team_user (
     user_id BIGINT,
     PRIMARY KEY (team_id, user_id),
     FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES app_user(id) ON DELETE CASCADE
 );
 
 -- Create team_manager table
@@ -47,5 +47,5 @@ CREATE TABLE team_manager (
     manager_id BIGINT,
     PRIMARY KEY (team_id, manager_id),
     FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE CASCADE,
-    FOREIGN KEY (manager_id) REFERENCES user(id) ON DELETE CASCADE
+    FOREIGN KEY (manager_id) REFERENCES app_user(id) ON DELETE CASCADE
 );

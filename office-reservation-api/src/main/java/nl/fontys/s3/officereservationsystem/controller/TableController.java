@@ -15,16 +15,6 @@ import java.util.List;
 public class TableController {
     private final TableService tableService;
 
-    @PostMapping("")
-    public ResponseEntity<Table> createTable(@RequestBody Table table) {
-       try {
-           tableService.createTable(table);
-           return ResponseEntity.ok().body(table);
-         } catch (Exception e) {
-           return ResponseEntity.badRequest().body(null);
-         }
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Table> getTableById(@PathVariable("id") Long id) {
         Table table = tableService.getTableById(id);
