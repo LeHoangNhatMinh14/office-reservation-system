@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 
 @AllArgsConstructor
 @RestController
@@ -17,15 +19,17 @@ public class LeaveController {
 
     // TODO: not working
     @PostMapping("")
-    public ResponseEntity<Leave> createLeave(@RequestBody Leave leave) {
-
+    public ResponseEntity<Object> createLeave(@RequestBody Leave leave) {
+        System.out.println("Received request body: {}"+ leave);
         try {
             leaveService.createLeave(leave);
-            return ResponseEntity.ok(leave);  // Successfully created
+            return ResponseEntity.ok(leave); // Successfully created
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null);
+            // Return the specific error message for bad requests
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);  // General error handling
+            // General error handling with detailed message
+            return ResponseEntity.status(500).body(Map.of("error", "An unexpected error occurred: " + e.getMessage()));
         }
     }
 

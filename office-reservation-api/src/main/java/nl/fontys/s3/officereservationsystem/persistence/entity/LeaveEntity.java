@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "leave")
+@Table(name = "`leave`")
 public class LeaveEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

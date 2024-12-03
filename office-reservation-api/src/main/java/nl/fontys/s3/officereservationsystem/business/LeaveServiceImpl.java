@@ -1,5 +1,6 @@
 package nl.fontys.s3.officereservationsystem.business;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import nl.fontys.s3.officereservationsystem.business.converter.LeaveConverter;
 import nl.fontys.s3.officereservationsystem.business.interfaces.LeaveService;
@@ -16,16 +17,16 @@ public class LeaveServiceImpl implements LeaveService {
     private final LeaveRepository leaveRepository;
     private final UserRepository userRepository;
 
-    public void createLeave(Leave leave) {
-        if (!leaveRepository.existsById(leave.getId())){
-            throw new IllegalArgumentException("Leave with id " + leave.getId() + " already exists");
-        }
-        if (leave.getStartDate().isAfter(leave.getEndDate())){
-            throw new IllegalArgumentException("Start date is after end date");
-        }
-        if (leave.getStartDate().isEqual(leave.getEndDate())){
-            throw new IllegalArgumentException("Start date is equal to end date");
-        }
+    public void createLeave(@Valid Leave leave) {
+//        if (!leaveRepository.existsById(leave.getId())){
+//            throw new IllegalArgumentException("Leave with id " + leave.getId() + " already exists");
+//        }
+//        if (leave.getStartDate().isAfter(leave.getEndDate())){
+//            throw new IllegalArgumentException("Start date is after end date");
+//        }
+//        if (leave.getStartDate().isEqual(leave.getEndDate())){
+//            throw new IllegalArgumentException("Start date is equal to end date");
+//        }
         Long userId = leave.getUserId();
         userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User with id " + userId + " not found"));
         leaveRepository.save(LeaveConverter.convert(leave));
