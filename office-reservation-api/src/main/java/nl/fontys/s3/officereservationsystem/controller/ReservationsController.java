@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,6 @@ public class ReservationsController {
     public ResponseEntity<Reservation> createReservation(@RequestBody Reservation reservation) {
         reservationService.createReservation(reservation);
         if (reservation.getTableId() == null) {
-            // Handle the error, e.g., log it or throw a custom exception
             throw new IllegalArgumentException("Table cannot be null");
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(reservation);
@@ -38,5 +38,12 @@ public class ReservationsController {
         return ResponseEntity.ok().build();
     }
 
-    // TODO: set waiting times for reservations
+    @GetMapping("/weekly")
+    public ResponseEntity<List<Reservation>> getAllReservationsWeekly(@RequestParam("date") LocalDate date) {
+        if (date == null) {
+            throw new IllegalArgumentException("Date cannot be null");
+        }
+        List<Reservation> reservations = reservationService.getAllReservationsWeekly(date);
+        return ResponseEntity.status(HttpStatus.OK).body(reservations);
+    }
 }

@@ -11,8 +11,11 @@ import nl.fontys.s3.officereservationsystem.persistence.ReservationRepository;
 import nl.fontys.s3.officereservationsystem.persistence.entity.ReservationEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -57,5 +60,20 @@ public class ReservationServiceImpl implements ReservationService {
             throw new IllegalArgumentException("Reservation with id " + id + " not found");
         }
         reservationRepository.deleteById(id);
+    }
+
+
+    public List<Reservation> getAllReservationsWeekly(LocalDate date) {
+        // Determine the start and end of the week
+        LocalDate startOfWeek = date.with(DayOfWeek.MONDAY);
+        LocalDate endOfWeek = date.with(DayOfWeek.SUNDAY);
+
+        // Filter reservations within the week
+        return reservationRepository.findAll().stream()
+                .map(ReservationConverter::convert)
+                .filter(reservation ->
+                        !reservation.getDate().isBefore(startOfWeek) &&
+                                !reservation.getDate().isAfter(endOfWeek))
+                .collect(Collectors.toList());
     }
 }
