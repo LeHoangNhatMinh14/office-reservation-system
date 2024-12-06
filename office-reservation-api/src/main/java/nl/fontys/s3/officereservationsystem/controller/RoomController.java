@@ -1,5 +1,6 @@
 package nl.fontys.s3.officereservationsystem.controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 import nl.fontys.s3.officereservationsystem.business.interfaces.RoomService;
 import nl.fontys.s3.officereservationsystem.domain.Room;
@@ -17,18 +18,21 @@ public class RoomController {
     private final RoomService roomService;
 
     @PostMapping
+    @RolesAllowed("ADMIN")
     public ResponseEntity<Room> createRoom(@RequestBody Room room) {
         Room createdRoom = roomService.createRoom(room);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdRoom);
     }
 
     @GetMapping
+    @RolesAllowed({"ADMIN", "USER"})
     public ResponseEntity<List<Room>> getAllRooms() {
         List<Room> rooms = roomService.getAllRooms();
         return ResponseEntity.status(HttpStatus.OK).body(rooms);
     }
 
     @GetMapping("/{id}")
+    @RolesAllowed({"ADMIN", "USER"})
     public ResponseEntity<Room> getRoomById(@PathVariable("id") Long id) {
         Optional<Room> roomOptional = roomService.getRoomById(id);
         return roomOptional.map(room -> ResponseEntity.ok().body(room))
@@ -37,12 +41,14 @@ public class RoomController {
 
     //TODO: ask Minh why it returns Room object
     @PutMapping("/{id}")
+    @RolesAllowed("ADMIN")
     public ResponseEntity<Room> updateRoom(@PathVariable("id") Long id, @RequestBody Room room) {
         Room updatedRoom = roomService.updateRoom(id, room);
         return ResponseEntity.ok().body(updatedRoom);
     }
 
     @DeleteMapping("/{id}")
+    @RolesAllowed("ADMIN")
     public ResponseEntity<Void> deleteRoom(@PathVariable("id") Long id) {
         roomService.deleteRoom(id);
         return ResponseEntity.ok().build();

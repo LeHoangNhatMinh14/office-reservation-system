@@ -1,5 +1,6 @@
 package nl.fontys.s3.officereservationsystem.controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 import nl.fontys.s3.officereservationsystem.business.interfaces.ReservationService;
 import nl.fontys.s3.officereservationsystem.domain.Reservation;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/reservations")
+@RolesAllowed({"ADMIN", "USER"})
 @AllArgsConstructor
 public class ReservationsController {
     private final ReservationService reservationService;
