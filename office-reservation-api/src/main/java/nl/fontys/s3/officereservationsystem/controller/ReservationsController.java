@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -45,5 +46,13 @@ public class ReservationsController {
         }
         List<Reservation> reservations = reservationService.getAllReservationsWeekly(date);
         return ResponseEntity.status(HttpStatus.OK).body(reservations);
+    }
+    @GetMapping("/isAvailable")
+    // example: http://locahost:8080/reservations/isAvailable?tableId=1&date=2022-01-01&startTime=10:00&endTime=12:00
+    public ResponseEntity<Boolean> isTableAvailable(@RequestParam("tableId") Long tableId, @RequestParam("date") LocalDate date, @RequestParam("startTime") LocalTime startTime, @RequestParam("endTime") LocalTime endTime) {
+        if (tableId == null || date == null || startTime == null || endTime == null) {
+            throw new IllegalArgumentException("TableId, date, startTime and endTime cannot be null");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(reservationService.isTableAvailable(tableId, date, startTime, endTime));
     }
 }
