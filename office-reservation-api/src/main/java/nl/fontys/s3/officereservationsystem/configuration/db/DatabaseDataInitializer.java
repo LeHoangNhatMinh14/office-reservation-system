@@ -1,7 +1,9 @@
 package nl.fontys.s3.officereservationsystem.configuration.db;
 
 import lombok.AllArgsConstructor;
+import nl.fontys.s3.officereservationsystem.business.interfaces.UserService;
 import nl.fontys.s3.officereservationsystem.domain.ReservationType;
+import nl.fontys.s3.officereservationsystem.domain.User;
 import nl.fontys.s3.officereservationsystem.persistence.ReservationRepository;
 import nl.fontys.s3.officereservationsystem.persistence.RoomRepository;
 import nl.fontys.s3.officereservationsystem.persistence.TeamRepository;
@@ -22,13 +24,14 @@ public class DatabaseDataInitializer {
     private final RoomRepository roomRepository;
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
     private final ReservationRepository reservationRepository;
 
     @EventListener(ApplicationReadyEvent.class)
     public void populateDatabaseInitialDummyData() {
 
         if (userRepository.count() == 0) {
-            userRepository.save(UserEntity.builder()
+            userService.createUser(User.builder()
                     .firstName("Alice")
                     .lastName("Johnson")
                     .email("alice.johnson@example.com")
@@ -36,7 +39,7 @@ public class DatabaseDataInitializer {
                     .isAdmin(false)
                     .build());
 
-            userRepository.save(UserEntity.builder()
+            userService.createUser(User.builder()
                     .firstName("Bob")
                     .lastName("Smith")
                     .email("bob.smith@example.com")
