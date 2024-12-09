@@ -82,4 +82,85 @@ class LeaveServiceImplTest {
         verify(userRepository, times(1)).findById(leave.getUserId());
         verify(leaveRepository, times(0)).save(any(LeaveEntity.class));
     }
+
+    @Test
+    void getLeaveById_shouldReturnLeave() {
+        // Arrange
+        LeaveEntity leave = LeaveEntity.builder()
+                .id(1L)
+                .userId(1L)
+                .startDate(LocalDate.of(2024, 12, 13))
+                .endDate(LocalDate.of(2024, 12, 29))
+                .reason("Test Reason")
+                .build();
+
+        Leave expectedLeave = Leave.builder()
+                .id(1L)
+                .userId(1L)
+                .startDate(LocalDate.of(2024, 12, 13))
+                .endDate(LocalDate.of(2024, 12, 29))
+                .reason("Test Reason")
+                .build();
+
+        when(leaveRepository.findById(leave.getId()))
+                .thenReturn(Optional.of(leave));
+
+        // Act
+        Leave result = leaveService.getLeaveById(leave.getId());
+
+        // Assert
+        assertEquals(expectedLeave, result);
+        verify(leaveRepository, times(1)).findById(leave.getId());
+    }
+
+    @Test
+    void getLeaveById_shouldThrowException_whenLeaveNotFound() {
+        // Arrange
+        Long leaveId = 1L;
+
+        when(leaveRepository.findById(leaveId))
+                .thenReturn(Optional.empty());
+
+        // Act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> leaveService.getLeaveById(leaveId));
+
+        // Assert
+        assertEquals("Leave with id 1 not found", exception.getMessage());
+        verify(leaveRepository, times(1)).findById(leaveId);
+    }
+
+    @Test
+    void deleteLeave_shouldDeleteLeave() {
+        // Arrange
+        Long leaveId = 1L;
+
+        when(leaveRepository.existsById(leaveId))
+                .thenReturn(true);
+
+        // Act
+        leaveService.deleteLeave(leaveId);
+
+        // Assert
+        verify(leaveRepository, times(1)).existsById(leaveId);
+        verify(leaveRepository, times(1)).deleteById(leaveId);
+    }
+
+    @Test
+    void deleteLeave_shouldThrowException_whenLeaveNotFound() {
+        // Arrange
+        Long leaveId = 1L;
+
+        when(leaveRepository.existsById(leaveId))
+                .thenReturn(false);
+
+        // Act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> leaveService.deleteLeave(leaveId));
+
+        // Assert
+        assertEquals("Leave with id 1 not found", exception.getMessage());
+        verify(leaveRepository, times(1)).existsById(leaveId);
+        verify(leaveRepository, times(0)).deleteById(leaveId);
+    }
 }
