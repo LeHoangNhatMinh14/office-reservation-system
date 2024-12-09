@@ -42,6 +42,7 @@ public class ReservationsController {
     }
 
     @GetMapping("/weekly")
+    // example: http://localhost:8080/reservations/weekly?date=2024-12-23
     public ResponseEntity<List<Reservation>> getAllReservationsWeekly(@RequestParam("date") LocalDate date) {
         if (date == null) {
             throw new IllegalArgumentException("Date cannot be null");
@@ -50,7 +51,7 @@ public class ReservationsController {
         return ResponseEntity.status(HttpStatus.OK).body(reservations);
     }
     @GetMapping("/isAvailable")
-    // example: http://locahost:8080/reservations/isAvailable?tableId=1&date=2022-01-01&startTime=10:00&endTime=12:00
+    // example: http://localhost:8080/reservations/isAvailable?tableId=1&date=2024-12-23&startTime=09:00&endTime=11:00
     public ResponseEntity<Boolean> isTableAvailable(@RequestParam("tableId") Long tableId, @RequestParam("date") LocalDate date, @RequestParam("startTime") LocalTime startTime, @RequestParam("endTime") LocalTime endTime) {
         if (tableId == null || date == null || startTime == null || endTime == null) {
             throw new IllegalArgumentException("TableId, date, startTime and endTime cannot be null");
