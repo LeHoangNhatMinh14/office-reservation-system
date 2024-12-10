@@ -26,7 +26,7 @@ class TableServiceImplTest {
     private TableServiceImpl tableService;
 
     @Test
-    void getAllRooms_shouldReturnRooms() {
+    void getAllTables_shouldReturnTables() {
         // Arrange
         TableEntity table = TableEntity.builder()
                 .id(1L)
@@ -50,7 +50,7 @@ class TableServiceImplTest {
     }
 
     @Test
-    void getRoomById_shouldReturnRoom() {
+    void getTableById_shouldReturnTable() {
         // Arrange
         TableEntity table = TableEntity.builder()
                 .id(1L)

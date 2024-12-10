@@ -69,7 +69,7 @@ class ReservationServiceImplTest {
     }
 
     @Test
-    void createLeave_shouldThrowException_whenTimeOverlaps() {
+    void createReservation_shouldThrowException_whenTimeOverlaps() {
         // Arrange
         Reservation reservation = Reservation.builder()
                 .date(LocalDate.now())
@@ -107,7 +107,7 @@ class ReservationServiceImplTest {
 
     @ParameterizedTest
     @MethodSource("provideForCreate_shouldThrowException_whenInvalidDataIsSupplied")
-    void createLeave_shouldThrowException_whenInvalidDataIsSupplied(Reservation reservation, String fieldName) {
+    void createReservation_shouldThrowException_whenInvalidDataIsSupplied(Reservation reservation, String fieldName) {
         // Arrange
         String expectedMessage = String.format(
                 "400 BAD_REQUEST \"INVALID_%s: %s cannot be blank or null.\"",

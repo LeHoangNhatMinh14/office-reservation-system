@@ -49,12 +49,7 @@ public class TeamValidator {
 
     private void validateUniqueName(Team team) {
         if (teamRepository.existsByName(team.getName())) {
-            TeamEntity existingTeam = teamRepository.findById(team.getId())
-                    .orElseThrow(() -> new EntityNotFoundException("Team", team.getId()));
-
-            if (!existingTeam.getName().equals(team.getName())) {
-                throw new NameAlreadyExistsException("Team");
-            }
+            throw new NameAlreadyExistsException("Team");
         }
     }
 
