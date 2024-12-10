@@ -6,7 +6,6 @@ import nl.fontys.s3.officereservationsystem.business.exception.InvalidFieldExcep
 import nl.fontys.s3.officereservationsystem.business.exception.NameAlreadyExistsException;
 import nl.fontys.s3.officereservationsystem.business.exception.EntityNotFoundException;
 import nl.fontys.s3.officereservationsystem.persistence.RoomRepository;
-import nl.fontys.s3.officereservationsystem.persistence.entity.RoomEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -38,12 +37,7 @@ public class RoomValidator {
 
     private void validateUniqueName(Room room) {
         if (roomRepository.existsByName(room.getName())) {
-            RoomEntity existingRoom = roomRepository.findById(room.getId())
-                    .orElseThrow(() -> new EntityNotFoundException("Room", room.getId()));
-
-            if (!existingRoom.getName().equals(room.getName())) {
-                throw new NameAlreadyExistsException("Room");
-            }
+            throw new NameAlreadyExistsException("Room");
         }
     }
 
