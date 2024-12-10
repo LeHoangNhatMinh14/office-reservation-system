@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -15,5 +16,6 @@ public interface ReservationRepository extends JpaRepository<ReservationEntity, 
     List<ReservationEntity> findByRoomId(@Param("roomId") Long roomId);
     List<ReservationEntity> findByTeamId(Long teamId);
     List<ReservationEntity> findByTableId(Long tableId);
+    List<ReservationEntity> findByTableIdAndDate(Long tableId, LocalDate date);
 }
 

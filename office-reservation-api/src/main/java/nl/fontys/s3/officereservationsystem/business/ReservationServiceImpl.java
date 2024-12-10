@@ -29,16 +29,20 @@ public class ReservationServiceImpl implements ReservationService {
     public void createReservation(Reservation reservation) {
         reservationValidator.validateReservationForCreation(reservation);
         ReservationEntity entity = ReservationConverter.convert(reservation);
-        List<ReservationEntity> existingReservations = reservationRepository.findByTableId(entity.getTableId());
 
-        for (ReservationEntity existingReservation : existingReservations) {
-            if (existingReservation.getDate().equals(entity.getDate()) &&
-                    isTimeOverlap(existingReservation.getStartTime(), existingReservation.getEndTime(),
-                            entity.getStartTime(), entity.getEndTime())) {
-                throw new IllegalArgumentException("Table is already reserved for the given time slot.");
-            }
+        if (!isTableAvailable(entity.getTableId(), entity.getDate(), entity.getStartTime(), entity.getEndTime())) {
+            throw new IllegalArgumentException("Table is already reserved for the given time slot.");
         }
+
         reservationRepository.save(entity);
+    }
+
+    public boolean isTableAvailable(Long tableId, LocalDate date, LocalTime startTime, LocalTime endTime) {
+        List<ReservationEntity> existingReservations = reservationRepository.findByTableIdAndDate(tableId, date);
+
+        return existingReservations.stream().noneMatch(existingReservation ->
+                isTimeOverlap(existingReservation.getStartTime(), existingReservation.getEndTime(), startTime, endTime)
+        );
     }
 
     private boolean isTimeOverlap(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2) {
@@ -63,12 +67,11 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+    @Override
     public List<Reservation> getAllReservationsWeekly(LocalDate date) {
-        // Determine the start and end of the week
         LocalDate startOfWeek = date.with(DayOfWeek.MONDAY);
         LocalDate endOfWeek = date.with(DayOfWeek.SUNDAY);
 
-        // Filter reservations within the week
         return reservationRepository.findAll().stream()
                 .map(ReservationConverter::convert)
                 .filter(reservation ->
