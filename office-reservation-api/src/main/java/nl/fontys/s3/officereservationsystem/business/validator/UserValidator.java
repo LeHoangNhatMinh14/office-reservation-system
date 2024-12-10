@@ -6,7 +6,6 @@ import nl.fontys.s3.officereservationsystem.business.exception.EmailAlreadyExist
 import nl.fontys.s3.officereservationsystem.business.exception.EntityNotFoundException;
 import nl.fontys.s3.officereservationsystem.business.exception.InvalidFieldException;
 import nl.fontys.s3.officereservationsystem.persistence.UserRepository;
-import nl.fontys.s3.officereservationsystem.persistence.entity.UserEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -51,12 +50,7 @@ public class UserValidator {
 
     private void validateUniqueEmail(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
-            UserEntity existingUser = userRepository.findById(user.getId())
-                    .orElseThrow(() -> new EntityNotFoundException("User", user.getId()));
-
-            if (!existingUser.getEmail().equals(user.getEmail())) {
-                throw new EmailAlreadyExistsException();
-            }
+            throw new EmailAlreadyExistsException();
         }
     }
 }
