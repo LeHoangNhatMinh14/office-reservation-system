@@ -15,6 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +34,9 @@ class UserServiceImplTest {
 
     @Mock
     private UserValidator userValidator;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -54,9 +58,11 @@ class UserServiceImplTest {
                 .firstName("John")
                 .lastName("Doe")
                 .email("johndoe@example.com")
-                .password("password")
+                .password("encodedPassword")
                 .isAdmin(false)
                 .build();
+
+        when(passwordEncoder.encode(user.getPassword())).thenReturn("encodedPassword");
 
         when(userRepository.save(any(UserEntity.class)))
                 .thenReturn(userEntity);
@@ -66,6 +72,7 @@ class UserServiceImplTest {
 
         // Assert
         verify(userValidator, times(1)).validateUserForCreation(user);
+        verify(passwordEncoder, times(1)).encode(any());
         verify(userRepository, times(1)).save(any(UserEntity.class));
     }
 
@@ -99,6 +106,7 @@ class UserServiceImplTest {
         // Assert
         assertEquals(expectedMessage, exception.getMessage());
         verify(userValidator, times(1)).validateUserForCreation(user);
+        verify(passwordEncoder, times(0)).encode(any());
         verify(userRepository, times(0)).save(any(UserEntity.class));
     }
 

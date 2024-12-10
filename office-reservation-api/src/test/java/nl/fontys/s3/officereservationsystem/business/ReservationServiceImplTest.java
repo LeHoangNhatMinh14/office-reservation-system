@@ -56,7 +56,7 @@ class ReservationServiceImplTest {
                 .teamId(1L)
                 .build();
 
-        when(reservationRepository.findByTableId(reservation.getTableId()))
+        when(reservationRepository.findByTableIdAndDate(reservation.getTableId(), reservation.getDate()))
                 .thenReturn(List.of());
 
         // Act
@@ -64,13 +64,13 @@ class ReservationServiceImplTest {
 
         // Assert
         verify(reservationValidator, times(1)).validateReservationForCreation(reservation);
-        verify(reservationRepository, times(1)).findByTableId(reservation.getTableId());
+        verify(reservationRepository, times(1)).findByTableIdAndDate(reservation.getTableId(), reservation.getDate());
         verify(reservationRepository, times(1)).save(any(ReservationEntity.class));
     }
 
     @Test
     void createReservation_shouldThrowException_whenTimeOverlaps() {
-        // Arrange
+// Arrange
         Reservation reservation = Reservation.builder()
                 .date(LocalDate.now())
                 .startTime(LocalTime.of(9, 0))
@@ -91,7 +91,7 @@ class ReservationServiceImplTest {
                 .teamId(2L)
                 .build();
 
-        when(reservationRepository.findByTableId(reservation.getTableId()))
+        when(reservationRepository.findByTableIdAndDate(reservation.getTableId(), reservation.getDate()))
                 .thenReturn(List.of(reservationOverlap));
 
         // Act
@@ -101,7 +101,7 @@ class ReservationServiceImplTest {
         // Assert
         assertEquals("Table is already reserved for the given time slot.", exception.getMessage());
         verify(reservationValidator, times(1)).validateReservationForCreation(reservation);
-        verify(reservationRepository, times(1)).findByTableId(reservation.getTableId());
+        verify(reservationRepository, times(1)).findByTableIdAndDate(reservation.getTableId(), reservation.getDate());
         verify(reservationRepository, times(0)).save(any(ReservationEntity.class));
     }
 
