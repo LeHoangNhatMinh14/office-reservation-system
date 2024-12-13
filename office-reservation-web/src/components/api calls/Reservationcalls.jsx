@@ -25,7 +25,7 @@ class ReservationApi {
   // Get reservations by room ID
   async getReservationsByRoomId(roomId) {
     try {
-      const response = await this.apiClient.get('/', {
+      const response = await this.apiClient.get('', {
         params: { roomId },
       });
       return response.data;
