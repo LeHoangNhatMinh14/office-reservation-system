@@ -106,7 +106,8 @@
 }
 
 .btnEdit,
-.btnDelete {
+.btnDelete,
+.btnOverview {
     padding: 10px;
     border: none;
     border-radius: 4px;
@@ -133,6 +134,15 @@
 
 .btnDelete:hover {
     background: #c82333;
+}
+
+.btnOverview {
+    background: #61c883;
+    color: white;
+}
+
+.btnOverview:hover {
+    background: #46a666;
 }
 
 /* No Rooms Message */
