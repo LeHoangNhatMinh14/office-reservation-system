@@ -5,7 +5,7 @@ import MainNavbar from './components/MainNavbar'; // New navbar for other pages
 import Footer from './components/Footer'; // Importing the footer
 import Login from './components/Login';
 import Profile from './components/Profile';
-import Schedule from './components/Schedule';
+import Schedule from './pages/SchedulePage';
 
 import Workers from './components/Workers';
 import RoomManagement from "./components/Room/RoomManagement";
