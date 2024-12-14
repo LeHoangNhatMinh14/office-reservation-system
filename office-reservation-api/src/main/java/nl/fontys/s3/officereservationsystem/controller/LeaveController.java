@@ -1,6 +1,7 @@
 package nl.fontys.s3.officereservationsystem.controller;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 import nl.fontys.s3.officereservationsystem.business.interfaces.LeaveService;
 import nl.fontys.s3.officereservationsystem.domain.Leave;
@@ -11,9 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 
-@AllArgsConstructor
 @RestController
 @RequestMapping("/leave")
+@RolesAllowed({"ADMIN", "USER"})
+@AllArgsConstructor
 public class LeaveController {
     private final LeaveService leaveService;
 

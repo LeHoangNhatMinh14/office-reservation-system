@@ -12,6 +12,7 @@ public final class LeaveConverter {
                 .userId(leave.getUserId())
                 .startDate(leave.getStartDate())
                 .endDate(leave.getEndDate())
+                .reason(leave.getReason())
                 .build();
     }
 
@@ -21,6 +22,7 @@ public final class LeaveConverter {
                 .userId(entity.getUserId())
                 .startDate(entity.getStartDate())
                 .endDate(entity.getEndDate())
+                .reason(entity.getReason())
                 .build();
     }
 }

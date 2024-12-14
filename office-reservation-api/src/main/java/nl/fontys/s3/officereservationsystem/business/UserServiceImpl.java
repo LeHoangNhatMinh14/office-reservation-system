@@ -8,6 +8,7 @@
     import nl.fontys.s3.officereservationsystem.domain.User;
     import nl.fontys.s3.officereservationsystem.persistence.UserRepository;
     import nl.fontys.s3.officereservationsystem.persistence.entity.UserEntity;
+    import org.springframework.security.crypto.password.PasswordEncoder;
     import org.springframework.stereotype.Service;
 
     import java.util.List;
@@ -18,11 +19,16 @@
     public class UserServiceImpl implements UserService {
         private final UserRepository userRepository;
         private final UserValidator userValidator;
+        private final PasswordEncoder passwordEncoder;
 
         @Transactional
         @Override
         public User createUser(User user) {
             userValidator.validateUserForCreation(user);
+
+            String encryptedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encryptedPassword);
+
             UserEntity userEntity = UserConverter.convert(user);
             UserEntity savedUserEntity = userRepository.save(userEntity);
             return UserConverter.convert(savedUserEntity);
