@@ -4,27 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="39842fb5-2777-4bdf-bc1a-431ac60c6488" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/office-reservation-web/src/components/Room/RoomCalls.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-web/src/components/Room/RoomManagement.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-web/src/components/Room/RoomManagement.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-web/src/components/Room/RoomReservation.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-web/src/components/Room/RoomReservation.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-web/src/components/Room/test.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-web/src/styles/RoomManagement.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_12_11_2024_04_19_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_11_2024_04_19_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_13_11_2024_21_34_[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/MainNavbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/MainNavbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/UserManagement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/UserManagement.jsx" afterDir="false" />
-    </list>
+    <list default="true" id="39842fb5-2777-4bdf-bc1a-431ac60c6488" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,22 +40,22 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitLabMergeRequestFiltersHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPENED",
-    "assignee": {
-      "type": "org.jetbrains.plugins.gitlab.mergerequest.ui.filters.GitLabMergeRequestsFiltersValue.MergeRequestsMemberFilterValue.MergeRequestsAssigneeFilterValue",
-      "username": "project_60588_bot_c6ef783d0950d4c46bacd34cdd5b0079",
-      "fullname": "gilton"
+  <component name="GitLabMergeRequestFiltersHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPENED&quot;,
+    &quot;assignee&quot;: {
+      &quot;type&quot;: &quot;org.jetbrains.plugins.gitlab.mergerequest.ui.filters.GitLabMergeRequestsFiltersValue.MergeRequestsMemberFilterValue.MergeRequestsAssigneeFilterValue&quot;,
+      &quot;username&quot;: &quot;project_60588_bot_c6ef783d0950d4c46bacd34cdd5b0079&quot;,
+      &quot;fullname&quot;: &quot;gilton&quot;
     }
   }
-}]]></component>
-  <component name="GitLabMergeRequestsSettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "first": "https://git.fhict.nl/I506501/office-reservation-system.git",
-    "second": "e39d3a72-b623-4917-9520-161543e2097f"
+}</component>
+  <component name="GitLabMergeRequestsSettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;first&quot;: &quot;https://git.fhict.nl/I506501/office-reservation-system.git&quot;,
+    &quot;second&quot;: &quot;e39d3a72-b623-4917-9520-161543e2097f&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/office-reservation-api/src/main/resources/application.properties" root0="SKIP_INSPECTION" />
   </component>
@@ -94,7 +74,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.OfficeReservationSystemApplication.executor": "Run",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "scheduling-frontend",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/GT/Desktop/New folder (32)/office-reservation-system",
     "node.js.detected.package.eslint": "true",
