@@ -1,93 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/Schedule.module.css";
 import { addDays, format, startOfWeek } from "date-fns";
+import ReservationApi from "../components/api calls/Reservationcalls";
 
 const SchedulePage = () => {
-    const schedules = [
-        [
-            {
-                day: "Sunday",
-                reservations: [
-                    {
-                        date: "2024-12-22",
-                        startTime: "09:00",
-                        endTime: "11:00",
-                        tableId: 1,
-                        reservationType: "Team Meeting",
-                        teamName: "Team Alpha",
-                        userName: "Alice Johnson",
-                    },
-                ],
-            },
-            {
-                day: "Monday",
-                reservations: [
-                    {
-                        date: "2024-12-23",
-                        startTime: "10:00",
-                        endTime: "12:00",
-                        tableId: 2,
-                        reservationType: "Project Discussion",
-                        teamName: "Team Beta",
-                        userName: "Bob Smith",
-                    },
-                ],
-            },
-            {
-                day: "Tuesday",
-                reservations: [
-                    {
-                        date: "2024-12-24",
-                        startTime: "13:00",
-                        endTime: "15:00",
-                        tableId: 3,
-                        reservationType: "Team Sync",
-                        teamName: "Team Gamma",
-                        userName: "Charlie Brown",
-                    },
-                ],
-            },
-            {
-                day: "Wednesday",
-                reservations: [
-                    {
-                        date: "2024-12-25",
-                        startTime: "08:30",
-                        endTime: "10:30",
-                        tableId: 4,
-                        reservationType: "Team Standup",
-                        teamName: "Team Delta",
-                        userName: "Dana White",
-                    },
-                ],
-            },
-            {
-                day: "Thursday",
-                reservations: [
-                    {
-                        date: "2024-12-26",
-                        startTime: "14:00",
-                        endTime: "16:00",
-                        tableId: 5,
-                        reservationType: "Team Briefing",
-                        teamName: "Team Epsilon",
-                        userName: "Eve Adams",
-                    },
-                ],
-            },
-            {
-                day: "Friday",
-                reservations: [],
-            },
-            {
-                day: "Saturday",
-                reservations: [],
-            },
-        ],
-    ];
-
     const [currentWeek, setCurrentWeek] = useState(0);
     const [currentDate, setCurrentDate] = useState(startOfWeek(new Date()));
+    const [schedules, setSchedules] = useState([]);
+
+    useEffect(() => {
+        fetchReservations();
+    }, [currentWeek]);
+
+    const fetchReservations = async () => {
+        try {
+            const weekStart = format(currentDate, "yyyy-MM-dd");
+    
+            // Fetch all reservations for the week starting from `weekStart`
+            const reservations = await ReservationApi.getAllReservationsWeekly(weekStart);
+    
+            // Format reservations into a weekly schedule
+            const formattedSchedule = Array.from({ length: 7 }, (_, dayIndex) => {
+                const day = addDays(currentDate, dayIndex);
+                const dayKey = format(day, "yyyy-MM-dd");
+                return {
+                    day: format(day, "EEEE"),
+                    reservations: reservations.filter(reservation => reservation.date === dayKey),
+                };
+            });
+    
+            setSchedules(formattedSchedule);
+        } catch (error) {
+            console.error("Error fetching reservations:", error);
+        }
+    };    
 
     const handlePreviousWeek = () => {
         setCurrentWeek(currentWeek - 1);
@@ -100,7 +46,6 @@ const SchedulePage = () => {
     };
 
     const weekDates = Array.from({ length: 7 }, (_, index) => addDays(currentDate, index));
-    const currentSchedule = schedules[currentWeek] || [];
 
     return (
         <div className={styles.scheduleContainer}>
@@ -127,7 +72,7 @@ const SchedulePage = () => {
                 {weekDates.map((date, index) => (
                     <div key={index} className={styles.dayColumn}>
                         <div className={styles.dayContent}>
-                            {currentSchedule[index] && currentSchedule[index].reservations.map((reservation, resIndex) => (
+                            {schedules[index]?.reservations.map((reservation, resIndex) => (
                                 <div
                                     key={resIndex}
                                     className={styles.reservationBlock}

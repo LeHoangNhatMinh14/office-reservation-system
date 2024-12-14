@@ -5,64 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="39842fb5-2777-4bdf-bc1a-431ac60c6488" name="Changes" comment="merge">
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/SignInServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/interfaces/SignInService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/configuration/security/PasswordEncoderConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/configuration/security/WebSecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/configuration/security/auth/AuthenticationRequestFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/configuration/security/auth/Http401UnauthorizedEntryPoint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/configuration/security/auth/RequestAuthenticatedUserProvider.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/configuration/security/token/AccessToken.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/configuration/security/token/AccessTokenDecoder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/configuration/security/token/AccessTokenEncoder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/configuration/security/token/exception/InvalidAccessTokenException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/configuration/security/token/impl/AccessTokenEncoderDecoderImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/configuration/security/token/impl/AccessTokenImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/SignInController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/domain/Credential.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/test/java/nl/fontys/s3/officereservationsystem/business/LeaveServiceImplTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/test/java/nl/fontys/s3/officereservationsystem/business/ReservationServiceImplTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/test/java/nl/fontys/s3/officereservationsystem/business/RoomServiceImplTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/test/java/nl/fontys/s3/officereservationsystem/business/SignInServiceImplTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/test/java/nl/fontys/s3/officereservationsystem/business/TableServiceImplTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/test/java/nl/fontys/s3/officereservationsystem/business/TeamServiceImplTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-api/src/test/java/nl/fontys/s3/officereservationsystem/business/UserServiceImplTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-web/src/assets/images/conference-room.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-web/src/assets/images/meeting-room.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-web/src/components/Room/TableReservationPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-web/src/components/Room/TableReservationPage.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-web/src/components/Room/overview/Modal.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-web/src/components/Room/overview/Modal.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-web/src/components/Room/overview/RoomOverview.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-web/src/components/Room/overview/RoomOverview.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/office-reservation-web/src/utils/generateRooms.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/ReservationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/ReservationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/converter/LeaveConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/converter/LeaveConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/interfaces/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/interfaces/ReservationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/validator/RoomValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/validator/RoomValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/validator/TeamValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/validator/TeamValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/validator/UserValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/validator/UserValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/configuration/db/DatabaseDataInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/configuration/db/DatabaseDataInitializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/configuration/web/WebConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/LeaveController.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/LeaveController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/ReservationsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/ReservationsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/RoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/RoomController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/TableController.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/TableController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/TeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/TeamController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/persistence/ReservationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/persistence/ReservationRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/test/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/test/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web.zip" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/Room/RoomManagement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/Room/RoomManagement.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/Room/RoomManagement.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/Room/RoomManagement.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/Room/RoomReservation.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/Room/RoomReservation.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/api calls/Reservationcalls.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/api calls/Reservationcalls.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +77,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.OfficeReservationSystemApplication.executor": "Run",
-    "git-widget-placeholder": "Merging scheduling-frontend",
+    "git-widget-placeholder": "scheduling-frontend",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/GT/Desktop/New folder (32)/office-reservation-system",
     "node.js.detected.package.eslint": "true",
@@ -187,7 +131,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734082757803</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="merge">
+      <option name="closed" value="true" />
+      <created>1734175000884</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1734175000884</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
