@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/Schedule.module.css";
 import { addDays, format, startOfWeek } from "date-fns";
-import ReservationApi from "../components/api calls/Reservationcalls";
 
 const SchedulePage = () => {
     const [currentWeek, setCurrentWeek] = useState(0);
@@ -13,27 +12,84 @@ const SchedulePage = () => {
     }, [currentWeek]);
 
     const fetchReservations = async () => {
-        try {
-            const weekStart = format(currentDate, "yyyy-MM-dd");
-    
-            // Fetch all reservations for the week starting from `weekStart`
-            const reservations = await ReservationApi.getAllReservationsWeekly(weekStart);
-    
-            // Format reservations into a weekly schedule
-            const formattedSchedule = Array.from({ length: 7 }, (_, dayIndex) => {
-                const day = addDays(currentDate, dayIndex);
-                const dayKey = format(day, "yyyy-MM-dd");
-                return {
-                    day: format(day, "EEEE"),
-                    reservations: reservations.filter(reservation => reservation.date === dayKey),
-                };
-            });
-    
-            setSchedules(formattedSchedule);
-        } catch (error) {
-            console.error("Error fetching reservations:", error);
-        }
-    };    
+        // NOTE: The following implementation replaces the API call with hardcoded data.
+        // Original API call implementation:
+        // try {
+        //     const weekStart = format(currentDate, "yyyy-MM-dd");
+        //     const reservations = await ReservationApi.getAllReservationsWeekly(weekStart);
+        //     const formattedSchedule = Array.from({ length: 7 }, (_, dayIndex) => {
+        //         const day = addDays(currentDate, dayIndex);
+        //         const dayKey = format(day, "yyyy-MM-dd");
+        //         return {
+        //             day: format(day, "EEEE"),
+        //             reservations: reservations.filter(reservation => reservation.date === dayKey),
+        //         };
+        //     });
+        //     setSchedules(formattedSchedule);
+        // } catch (error) {
+        //     console.error("Error fetching reservations:", error.message || error.response?.data || error);
+        // }
+
+        // Hardcoded data replacing API call
+        const reservations = [
+            {
+                date: "2024-12-22",
+                startTime: "09:00",
+                endTime: "11:00",
+                tableId: 1,
+                reservationType: "Team Meeting",
+                teamName: "Team Alpha",
+                userName: "Alice Johnson",
+            },
+            {
+                date: "2024-12-23",
+                startTime: "10:00",
+                endTime: "12:00",
+                tableId: 2,
+                reservationType: "Project Discussion",
+                teamName: "Team Beta",
+                userName: "Bob Smith",
+            },
+            {
+                date: "2024-12-24",
+                startTime: "13:00",
+                endTime: "15:00",
+                tableId: 3,
+                reservationType: "Team Sync",
+                teamName: "Team Gamma",
+                userName: "Charlie Brown",
+            },
+            {
+                date: "2024-12-25",
+                startTime: "08:30",
+                endTime: "10:30",
+                tableId: 4,
+                reservationType: "Team Standup",
+                teamName: "Team Delta",
+                userName: "Dana White",
+            },
+            {
+                date: "2024-12-26",
+                startTime: "14:00",
+                endTime: "16:00",
+                tableId: 5,
+                reservationType: "Team Briefing",
+                teamName: "Team Epsilon",
+                userName: "Eve Adams",
+            },
+        ];
+
+        const formattedSchedule = Array.from({ length: 7 }, (_, dayIndex) => {
+            const day = addDays(currentDate, dayIndex);
+            const dayKey = format(day, "yyyy-MM-dd");
+            return {
+                day: format(day, "EEEE"),
+                reservations: reservations.filter((reservation) => reservation.date === dayKey),
+            };
+        });
+
+        setSchedules(formattedSchedule);
+    };
 
     const handlePreviousWeek = () => {
         setCurrentWeek(currentWeek - 1);
@@ -65,7 +121,7 @@ const SchedulePage = () => {
                 <div className={styles.timeColumn}>
                     {Array.from({ length: 24 }, (_, hour) => (
                         <div key={hour} className={styles.timeSlot}>
-                            {`${hour.toString().padStart(2, '0')}:00`}
+                            {`${hour.toString().padStart(2, "0")}:00`}
                         </div>
                     ))}
                 </div>
@@ -77,7 +133,10 @@ const SchedulePage = () => {
                                     key={resIndex}
                                     className={styles.reservationBlock}
                                     style={{
-                                        gridRow: `${parseInt(reservation.startTime.split(":")[0]) + 1} / span ${parseInt(reservation.endTime.split(":")[0]) - parseInt(reservation.startTime.split(":")[0])}`,
+                                        gridRow: `${parseInt(reservation.startTime.split(":")[0]) + 1} / span ${
+                                            parseInt(reservation.endTime.split(":")[0]) -
+                                            parseInt(reservation.startTime.split(":")[0])
+                                        }`,
                                     }}
                                 >
                                     <h3>{reservation.reservationType}</h3>
@@ -93,9 +152,13 @@ const SchedulePage = () => {
 
             {/* Navigation Buttons */}
             <div className={styles.navigationButtonsBottom}>
-                <button className={styles.button} onClick={handlePreviousWeek}>Previous Week</button>
-                <span>Week {format(currentDate, 'w')}</span>
-                <button className={styles.button} onClick={handleNextWeek}>Next Week</button>
+                <button className={styles.button} onClick={handlePreviousWeek}>
+                    Previous Week
+                </button>
+                <span>Week {format(currentDate, "w")}</span>
+                <button className={styles.button} onClick={handleNextWeek}>
+                    Next Week
+                </button>
             </div>
         </div>
     );

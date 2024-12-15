@@ -46,6 +46,7 @@ class ReservationApi {
 
     // Get all reservations for the week starting from a specific date
     async getAllReservationsWeekly(startDate) {
+      console.log('response', startDate);
         try {
             const response = await this.apiClient.get('/weekly', {
                 params: { date: startDate },
