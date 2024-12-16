@@ -46,16 +46,18 @@ public class WebSecurityConfig {
                         configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(registry ->
                         registry.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, END_POINT_ROOM, END_POINT_TEAM, END_POINT_USER).hasRole(ROLE_ADMIN)
-                                .requestMatchers(HttpMethod.POST, END_POINT_LEAVE, END_POINT_RESERVATION).hasAnyRole(ROLE_ADMIN, ROLE_USER)
-                                .requestMatchers(HttpMethod.POST, END_POINT_TOKEN).permitAll()
-                                .requestMatchers(HttpMethod.GET, END_POINT_LEAVE, END_POINT_RESERVATION, END_POINT_ROOM, END_POINT_TOKEN, END_POINT_TABLE, END_POINT_TEAM, END_POINT_USER).hasAnyRole(ROLE_ADMIN, ROLE_USER)
-                                .requestMatchers(HttpMethod.PUT, END_POINT_ROOM, END_POINT_USER).hasRole(ROLE_ADMIN)
-                                .requestMatchers(HttpMethod.PUT, END_POINT_TEAM).hasAnyRole(ROLE_ADMIN, ROLE_USER)
-                                .requestMatchers(HttpMethod.DELETE, END_POINT_ROOM, END_POINT_TEAM, END_POINT_USER).hasRole(ROLE_ADMIN)
-                                .requestMatchers(HttpMethod.DELETE, END_POINT_LEAVE, END_POINT_RESERVATION).hasAnyRole(ROLE_ADMIN, ROLE_USER)
+//                                .requestMatchers(HttpMethod.POST, END_POINT_ROOM, END_POINT_TEAM, END_POINT_USER).hasRole(ROLE_ADMIN)
+//                                .requestMatchers(HttpMethod.POST, END_POINT_LEAVE, END_POINT_RESERVATION).hasAnyRole(ROLE_ADMIN, ROLE_USER)
+//                                .requestMatchers(HttpMethod.POST, END_POINT_TOKEN).permitAll()
+//                                .requestMatchers(HttpMethod.GET, END_POINT_LEAVE, END_POINT_RESERVATION, END_POINT_ROOM, END_POINT_TOKEN, END_POINT_TABLE, END_POINT_TEAM, END_POINT_USER).hasAnyRole(ROLE_ADMIN, ROLE_USER)
+//                                .requestMatchers(HttpMethod.PUT, END_POINT_ROOM, END_POINT_USER).hasRole(ROLE_ADMIN)
+//                                .requestMatchers(HttpMethod.PUT, END_POINT_TEAM).hasAnyRole(ROLE_ADMIN, ROLE_USER)
+//                                .requestMatchers(HttpMethod.DELETE, END_POINT_ROOM, END_POINT_TEAM, END_POINT_USER).hasRole(ROLE_ADMIN)
+//                                .requestMatchers(HttpMethod.DELETE, END_POINT_LEAVE, END_POINT_RESERVATION).hasAnyRole(ROLE_ADMIN, ROLE_USER)
                                 .requestMatchers(SWAGGER_UI_RESOURCES).permitAll()
-                                .anyRequest().authenticated()
+
+//                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
                 .addFilterBefore(authenticationRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
@@ -67,8 +69,10 @@ public class WebSecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173/");
+                        .allowedOrigins("http://localhost:5173"); // Remove trailing slash
+
             }
         };
     }
+
 }

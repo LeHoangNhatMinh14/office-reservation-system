@@ -1,19 +1,42 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import AuthCall from '../components/api calls/AuthCall';
+import TokenManager from '../components/api calls/TokenManager'; // Import TokenManager for token management
 import styles from '../styles/Login.module.css';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        if (email === 'showcase@email' && password === 'password') {
-            navigate('/profile');
-        } else {
-            alert('Invalid credentials');
+        setError(null); // Reset error state
+    
+        // Log credentials to the console for debugging
+        console.log('Attempting login with:');
+        console.log('Email:', email);
+        console.log('Password:', password);
+    
+        try {
+            const response = await AuthCall.signIn({ email, password });
+            console.log('Login successful:', response);
+            
+            // Assuming response.data contains the access token
+            const token = response.data; // Replace with actual token field
+            const claims = TokenManager.setAccessToken(token); // Set token in TokenManager
+
+            if (claims) {
+                alert('Login successful! Token stored in sessionStorage.');
+                navigate('/profile');
+            } else {
+                setError('Invalid token received.');
+            }
+        } catch (error) {
+            console.error('Login failed:', error);
+            setError(error.response?.data || 'Login failed. Please try again.');
         }
     };
 
@@ -30,16 +53,8 @@ const Login = () => {
     return (
         <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
             <div className={styles.loginPage}>
-                {/* Navigation Bar */}
-              {/* <nav className={styles.navbar}>
-                    <a href="/">Home</a>
-                    <a href="/signup">Sign Up</a>
-                    <a href="/help">Help</a>
-                </nav>*/ }
                 <div className={styles.loginContainer}>
-                    {/* Logo */}
                     <img src="/path/to/driessen-logo.jpg" alt="Driessen Logo" className={styles.logo} />
-                    {/* Login Form */}
                     <h1 className={styles.formTitle}>Login</h1>
                     <form onSubmit={handleLogin} className={styles.form}>
                         <input
@@ -58,6 +73,7 @@ const Login = () => {
                         />
                         <button type="submit" className={styles.button}>Login</button>
                     </form>
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
                     <div className={styles.ssoSection}>
                         <GoogleLogin
                             onSuccess={handleGoogleLoginSuccess}
