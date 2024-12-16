@@ -1,0 +1,7 @@
+.room {
+    border: 2px solid #d1d5db;
+    position: relative;
+    max-height: 650px;
+    max-width: 900px;
+    overflow: auto;
+}
