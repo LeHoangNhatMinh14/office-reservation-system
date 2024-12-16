@@ -10,10 +10,12 @@ const TokenManager = {
 
     setAccessToken: (token) => {
         try {
+            console.log("Setting token:", token); // Log the token being set
             const claims = jwtDecode(token); // Decodes JWT token to extract claims
-            sessionStorage.setItem("accessToken", token);
+            console.log("Decoded claims:", claims); // Log decoded claims
+
+            sessionStorage.setItem("acessToken", token);
             sessionStorage.setItem("claims", JSON.stringify(claims));
-            console.log("Token set", claims);
             return claims; // Return decoded claims for further use
         } catch (error) {
             console.error("Invalid token", error);

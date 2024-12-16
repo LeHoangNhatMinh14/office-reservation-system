@@ -1,12 +1,15 @@
 // Axios class to interact with the User API
 import axios from '../../axiosConfig';
+import TokenManager from './TokenManager';
 
 class UserApi {
   constructor() {
-    this.apiClient = axios.create({
-      baseURL: axios.defaults.baseURL + '/users',
+     const token = TokenManager.getAccessToken();
+      this.apiClient = axios.create({
+      baseURL: axios.defaults.baseURL + 'users',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
     });
   }

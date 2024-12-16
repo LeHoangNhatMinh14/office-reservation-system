@@ -1,16 +1,18 @@
 import axios from '../../axiosConfig';
-
+import TokenManager from './TokenManager';
 class ReservationApi {
     constructor() {
+        const token = TokenManager.getAccessToken();
         this.apiClient = axios.create({
             baseURL: axios.defaults.baseURL + '/reservations',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         });
     }
 
-    // Create a new reservation
+    // Create a new reservation 
     async createReservation(reservationData) {
         try {
             const response = await this.apiClient.post('', reservationData);

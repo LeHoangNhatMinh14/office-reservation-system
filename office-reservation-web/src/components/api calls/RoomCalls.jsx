@@ -1,12 +1,15 @@
 // Axios class to interact with the Room API
 import axios from '../../axiosConfig';
+import TokenManager from './TokenManager';
 
 class RoomApi {
   constructor() {
+    const token = TokenManager.getAccessToken();
     this.apiClient = axios.create({
       baseURL: axios.defaults.baseURL + '/rooms',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
     });
   }

@@ -21,16 +21,23 @@ const Login = () => {
         console.log('Password:', password);
     
         try {
+            // Using AuthCall directly without constructor
             const response = await AuthCall.signIn({ email, password });
             console.log('Login successful:', response);
             
-            // Assuming response.data contains the access token
-            const token = response.data; // Replace with actual token field
+            // Assuming the response contains the token in response.data
+            const token = response; // Adjust based on your API response structure
+            if (!token) {
+                setError('No token received.');
+                return;
+            }
+    
+            // Store the token and claims in sessionStorage
             const claims = TokenManager.setAccessToken(token); // Set token in TokenManager
-
+    
             if (claims) {
                 alert('Login successful! Token stored in sessionStorage.');
-                navigate('/profile');
+                navigate('/profile'); // Redirect to profile page
             } else {
                 setError('Invalid token received.');
             }
@@ -39,6 +46,7 @@ const Login = () => {
             setError(error.response?.data || 'Login failed. Please try again.');
         }
     };
+    
 
     const handleGoogleLoginSuccess = (response) => {
         console.log('Google login successful:', response);

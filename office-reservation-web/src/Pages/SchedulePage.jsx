@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/Schedule.module.css";
 import { addDays, format, startOfWeek } from "date-fns";
+import ReservationApi from "../components/api calls/Reservationcalls";
 
 const SchedulePage = () => {
     const [currentWeek, setCurrentWeek] = useState(0);
@@ -14,70 +15,23 @@ const SchedulePage = () => {
     const fetchReservations = async () => {
         // NOTE: The following implementation replaces the API call with hardcoded data.
         // Original API call implementation:
-        // try {
-        //     const weekStart = format(currentDate, "yyyy-MM-dd");
-        //     const reservations = await ReservationApi.getAllReservationsWeekly(weekStart);
-        //     const formattedSchedule = Array.from({ length: 7 }, (_, dayIndex) => {
-        //         const day = addDays(currentDate, dayIndex);
-        //         const dayKey = format(day, "yyyy-MM-dd");
-        //         return {
-        //             day: format(day, "EEEE"),
-        //             reservations: reservations.filter(reservation => reservation.date === dayKey),
-        //         };
-        //     });
-        //     setSchedules(formattedSchedule);
-        // } catch (error) {
-        //     console.error("Error fetching reservations:", error.message || error.response?.data || error);
-        // }
+        try {
+            const weekStart = format(currentDate, "yyyy-MM-dd");
+            const reservations = await ReservationApi.getAllReservationsWeekly(weekStart);
+            const formattedSchedule = Array.from({ length: 7 }, (_, dayIndex) => {
+                const day = addDays(currentDate, dayIndex);
+                const dayKey = format(day, "yyyy-MM-dd");
+                return {
+                    day: format(day, "EEEE"),
+                    reservations: reservations.filter(reservation => reservation.date === dayKey),
+                };
+            });
+            setSchedules(formattedSchedule);
+        } catch (error) {
+            console.error("Error fetching reservations:", error.message || error.response?.data || error);
+        }
 
-        // Hardcoded data replacing API call
-        const reservations = [
-            {
-                date: "2024-12-22",
-                startTime: "09:00",
-                endTime: "11:00",
-                tableId: 1,
-                reservationType: "Team Meeting",
-                teamName: "Team Alpha",
-                userName: "Alice Johnson",
-            },
-            {
-                date: "2024-12-23",
-                startTime: "10:00",
-                endTime: "12:00",
-                tableId: 2,
-                reservationType: "Project Discussion",
-                teamName: "Team Beta",
-                userName: "Bob Smith",
-            },
-            {
-                date: "2024-12-24",
-                startTime: "13:00",
-                endTime: "15:00",
-                tableId: 3,
-                reservationType: "Team Sync",
-                teamName: "Team Gamma",
-                userName: "Charlie Brown",
-            },
-            {
-                date: "2024-12-25",
-                startTime: "08:30",
-                endTime: "10:30",
-                tableId: 4,
-                reservationType: "Team Standup",
-                teamName: "Team Delta",
-                userName: "Dana White",
-            },
-            {
-                date: "2024-12-26",
-                startTime: "14:00",
-                endTime: "16:00",
-                tableId: 5,
-                reservationType: "Team Briefing",
-                teamName: "Team Epsilon",
-                userName: "Eve Adams",
-            },
-        ];
+     
 
         const formattedSchedule = Array.from({ length: 7 }, (_, dayIndex) => {
             const day = addDays(currentDate, dayIndex);

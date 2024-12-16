@@ -4,6 +4,7 @@
 
 // export default axios;
 import axios from 'axios';
+import TokenManager from '../src/components/api calls/TokenManager';
 
 // Set the base URL for all requests
 axios.defaults.baseURL = 'http://localhost:8080/';
@@ -11,9 +12,11 @@ axios.defaults.baseURL = 'http://localhost:8080/';
 // Create an interceptor to add the Authorization header with the token
 axios.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+    const token = sessionStorage.getItem('acessToken');
+    console.log('Token:', token); // Log token
+
+    if (token && !TokenManager.isTokenExpired()) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
     console.log('Request Headers:', config.headers); // Log headers
     return config;

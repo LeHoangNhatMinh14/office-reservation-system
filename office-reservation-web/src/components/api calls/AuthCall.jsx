@@ -1,26 +1,19 @@
 // AuthCall.jsx
 import axios from '../../axiosConfig';
 
-class AuthCall {
-  constructor() {
-    this.apiClient = axios.create({
-      baseURL: axios.defaults.baseURL + '/tokens',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }
-
+const AuthCall = {
   // Sign in and retrieve token
-  async signIn(credentials) {
+  signIn: async (credentials) => {
     try {
-      const response = await this.apiClient.post('', credentials);
+      const response = await axios.post('/tokens', credentials, {
+        headers: { 'Content-Type': 'application/json' },
+      });
       return response.data; // Return the token
     } catch (error) {
       console.error('Error during sign-in:', error);
       throw error;
     }
   }
-}
+};
 
-export default new AuthCall();
+export default AuthCall;

@@ -1,12 +1,15 @@
 // Axios class to interact with the Team API
 import axios from '../../axiosConfig';
+import TokenManager from './TokenManager';
 
 class TeamApi {
   constructor() {
+    const token = TokenManager.getAccessToken();
     this.apiClient = axios.create({
       baseURL: axios.defaults.baseURL + '/teams',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
     });
   }
