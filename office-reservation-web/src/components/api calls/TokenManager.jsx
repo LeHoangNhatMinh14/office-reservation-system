@@ -14,7 +14,7 @@ const TokenManager = {
             const claims = jwtDecode(token); // Decodes JWT token to extract claims
             console.log("Decoded claims:", claims); // Log decoded claims
 
-            sessionStorage.setItem("acessToken", token);
+            sessionStorage.setItem("accessToken", token);
             sessionStorage.setItem("claims", JSON.stringify(claims));
             return claims; // Return decoded claims for further use
         } catch (error) {

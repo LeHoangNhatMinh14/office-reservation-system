@@ -12,7 +12,7 @@ axios.defaults.baseURL = 'http://localhost:8080/';
 // Create an interceptor to add the Authorization header with the token
 axios.interceptors.request.use(
   (config) => {
-    const token = sessionStorage.getItem('acessToken');
+    const token = sessionStorage.getItem('accessToken');
     console.log('Token:', token); // Log token
 
     if (token && !TokenManager.isTokenExpired()) {
