@@ -11,6 +11,8 @@ import nl.fontys.s3.officereservationsystem.persistence.UserRepository;
 import nl.fontys.s3.officereservationsystem.persistence.entity.LeaveEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class LeaveServiceImpl implements LeaveService {
@@ -58,6 +60,12 @@ public class LeaveServiceImpl implements LeaveService {
 
     public Leave getLeaveById(Long id) {
         return leaveRepository.findById(id).map(LeaveConverter::convert).orElseThrow(() -> new IllegalArgumentException("Leave with id " + id + " not found"));
+    }
+
+    public List<Leave> getLeaveByUserId(Long userId) {
+        return leaveRepository.findByUserId(userId).stream()
+                .map(LeaveConverter::convert)
+                .toList();
     }
 
 

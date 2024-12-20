@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -44,6 +45,16 @@ public class LeaveController {
     public ResponseEntity<Leave> getLeaveById(@PathVariable("id") Long id) {
         try {
             Leave leave = leaveService.getLeaveById(id);
+            return ResponseEntity.ok(leave);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<Leave>> getLeaveByUserId(@PathVariable("id") Long id) {
+        try {
+            List<Leave> leave = leaveService.getLeaveByUserId(id);
             return ResponseEntity.ok(leave);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
