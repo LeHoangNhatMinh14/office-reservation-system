@@ -14,6 +14,7 @@ import UserManagement from './components/UserManagement';
 import TeamOverview from '../src/pages/TeamOverview';
 import RoomReservation from "./components/Room/RoomReservation.jsx";
 import TableReservationPage from './components/Room/TableReservationPage';
+import SetLeaveDays from "./components/team overview/SetLeaveDays.jsx";
 
 function App() {
     const location = useLocation();
@@ -36,6 +37,7 @@ function App() {
                 <Route path="/usermanagement" element={<UserManagement/>}/>
                 <Route path="/teams" element={<TeamOverview />} />
                 <Route path="/roommanagement" element={<RoomManagement />} />
+                <Route path="/set-leave-days" element={<SetLeaveDays />} />
             </Routes>
 
             {/* Footer should be displayed on all pages */}
