@@ -6,7 +6,7 @@ class TeamApi {
   constructor() {
     const token = TokenManager.getAccessToken();
     this.apiClient = axios.create({
-      baseURL: axios.defaults.baseURL + '/teams',
+      baseURL: axios.defaults.baseURL + 'teams',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,

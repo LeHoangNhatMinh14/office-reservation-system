@@ -72,11 +72,26 @@ public class ReservationServiceImpl implements ReservationService {
         LocalDate startOfWeek = date.with(DayOfWeek.MONDAY);
         LocalDate endOfWeek = date.with(DayOfWeek.SUNDAY);
 
-        return reservationRepository.findAll().stream()
+        // Log the start and end of the week
+        System.out.println("Start of Week: " + startOfWeek);
+        System.out.println("End of Week: " + endOfWeek);
+
+        // Fetch and filter reservations
+        List<Reservation> reservations = reservationRepository.findAll().stream()
                 .map(ReservationConverter::convert)
-                .filter(reservation ->
-                        !reservation.getDate().isBefore(startOfWeek) &&
-                                !reservation.getDate().isAfter(endOfWeek))
+                .filter(reservation -> {
+                    LocalDate reservationDate = reservation.getDate(); // Ensure this is a LocalDate
+                    boolean isWithinRange = !reservationDate.isBefore(startOfWeek) &&
+                            !reservationDate.isAfter(endOfWeek);
+                    System.out.println("Reservation: " + reservation + " | Within Range: " + isWithinRange);
+                    return isWithinRange;
+                })
                 .collect(Collectors.toList());
+
+        // Log the final list of reservations
+        System.out.println("Filtered Reservations for Week: " + reservations);
+
+        return reservations;
     }
+
 }

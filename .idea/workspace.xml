@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="39842fb5-2777-4bdf-bc1a-431ac60c6488" name="Changes" comment="merge">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/ReservationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/ReservationServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/api calls/Reservationcalls.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/api calls/Reservationcalls.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/api calls/TeamCalls.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/api calls/TeamCalls.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/team overview/AddTeam.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/team overview/AddTeam.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +59,7 @@
   <component name="GitLabMergeRequestsSettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;first&quot;: &quot;https://git.fhict.nl/I506501/office-reservation-system.git&quot;,
-    &quot;second&quot;: &quot;e39d3a72-b623-4917-9520-161543e2097f&quot;
+    &quot;second&quot;: &quot;5acadeab-d7cf-4b8a-9c96-5205d2249fdf&quot;
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
@@ -71,24 +74,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build office-reservation-api.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.OfficeReservationSystemApplication.executor": "Run",
-    "git-widget-placeholder": "scheduling-frontend",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/GT/Desktop/New folder (32)/office-reservation-system",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.gitlab.GitLabSettingsConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build office-reservation-api.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.OfficeReservationSystemApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/fangs/Desktop/project/thing/office-reservation-system&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.gitlab.GitLabSettingsConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="OfficeReservationSystemApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="nl.fontys.s3.office-reservation-system.main" />
@@ -101,8 +104,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
-        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
       </set>
     </attachedChunks>
   </component>
@@ -122,6 +125,13 @@
       <workItem from="1731315306579" duration="10000" />
       <workItem from="1731530784315" duration="192000" />
       <workItem from="1732268953843" duration="2606000" />
+      <workItem from="1734429441959" duration="1870000" />
+      <workItem from="1734436286897" duration="153000" />
+      <workItem from="1734778449607" duration="16000" />
+      <workItem from="1734778683451" duration="597000" />
+      <workItem from="1735110234949" duration="289000" />
+      <workItem from="1735735324160" duration="168000" />
+      <workItem from="1735973347296" duration="7701000" />
     </task>
     <task id="LOCAL-00001" summary="merge">
       <option name="closed" value="true" />
