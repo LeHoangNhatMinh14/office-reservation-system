@@ -113,18 +113,27 @@ const TeamOverview = () => {
         <div className={styles.teamOverviewContent}>
           {teams.length > 0 ? (
             teams.map((team) => (
-              <TeamView
-                key={team.id}
-                team={team}
-                isAdmin={isAdmin}
-                onDeleteTeam={() => handleDeleteTeam(team.id)}
-                onEditTeam={(updatedData) =>
-                  handleEditTeam(team.id, updatedData)
-                }
-                onRemoveMember={(userId) =>
-                  handleRemoveTeamMember(team.id, userId)
-                }
-              />
+            <TeamView
+              key={team.id}
+              team={team}
+              isAdmin={isAdmin}
+              onDeleteTeam={() => handleDeleteTeam(team.id)}
+              onEditTeam={(updatedData) => handleEditTeam(team.id, updatedData)}
+              onRemoveMember={(userId) => handleRemoveTeamMember(team.id, userId)}
+              onMemberAdded={(newMember) => {
+                // Update the global teams state
+                setTeams((prev) =>
+                  prev.map((t) =>
+                    t.id === team.id
+                      ? {
+                          ...t,
+                          users: [...t.users, newMember],
+                        }
+                      : t
+                  )
+                );
+              }}
+            />
             ))
           ) : (
             <p>No teams available</p>

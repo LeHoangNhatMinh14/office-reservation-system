@@ -42,27 +42,15 @@ const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
 
   const handleDeleteMembers = async () => {
     try {
-      // Filter out selected members
-      const updatedUsers = team.users.filter(
-        (user) => !selectedMembers.includes(user.id)
-      );
+      const updatedUsers = team.users.filter((user) => !selectedMembers.includes(user.id));
       const updatedManagers = team.teamManagers.filter(
         (manager) => !selectedMembers.includes(manager.id)
       );
   
-      // Construct updated team
-      const updatedTeam = {
-        ...team,
-        users: updatedUsers,
-        teamManagers: updatedManagers,
-      };
+      const updatedTeam = { ...team, users: updatedUsers, teamManagers: updatedManagers };
   
-      console.log("Updated team payload before sending:", updatedTeam); // Log updated payload
-  
-      // Send update request to backend
       await TeamCalls.updateTeam(team.id, updatedTeam);
   
-      // Update team members state locally
       const updatedTeamMembers = updatedUsers
         .map((user) => ({
           id: user.id,
@@ -77,13 +65,14 @@ const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
           }))
         );
   
-      setTeamMembers(updatedTeamMembers); // Update UI
+      setTeamMembers(updatedTeamMembers);
       setSelectedMembers([]); // Clear selection
     } catch (error) {
       console.error("Error deleting members:", error);
       alert("Failed to delete members. Please try again.");
     }
   };
+  
 
   const handleAssignRole = async (role) => {
   if (selectedMembers.length !== 1) {
@@ -168,7 +157,7 @@ const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
       ...prev,
       { id: newMember.id, name: `${newMember.firstName} ${newMember.lastName}`, role: "Member" },
     ]);
-  };
+  };  
 
   return (
     <div className={styles.teamView}>
