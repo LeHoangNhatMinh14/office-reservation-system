@@ -47,15 +47,22 @@ const TeamOverview = () => {
   };
 
   const handleDeleteTeam = async (teamId) => {
-    console.log("Deleting team with ID:", teamId);
     try {
+      console.log("Attempting to delete team with ID:", teamId);
       await TeamCalls.deleteTeam(teamId);
-      window.location.reload(); // Reload the entire page to fetch the latest data
+      setTeams((prevTeams) => prevTeams.filter((team) => team.id !== teamId)); // Dynamically update state
+      console.log("Team deleted and UI updated");
     } catch (error) {
-      console.error("Error deleting team:", error);
-      alert("Failed to delete the team. Please try again.");
+      if (error.response?.status === 404) {
+        console.warn("Team not found (404). Removing from UI.");
+        setTeams((prevTeams) => prevTeams.filter((team) => team.id !== teamId)); // Handle case gracefully
+      } else {
+        console.error("Error deleting team:", error);
+        alert("Failed to delete the team. Please try again.");
+      }
     }
-  };  
+  };
+  
   
   const handleEditTeam = async (teamId, updatedData) => {
     try {
