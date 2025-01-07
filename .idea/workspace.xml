@@ -6,10 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="39842fb5-2777-4bdf-bc1a-431ac60c6488" name="Changes" comment="merge">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/ReservationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/ReservationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/api calls/Reservationcalls.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/api calls/Reservationcalls.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/api calls/TeamCalls.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/api calls/TeamCalls.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/api calls/TokenManager.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/api calls/TokenManager.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/team overview/AddTeam.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/team overview/AddTeam.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/team overview/RoleSelector.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/team overview/RoleSelector.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/styles/teamsAdd.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/styles/teamsAdd.module.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +133,9 @@
       <workItem from="1734778683451" duration="597000" />
       <workItem from="1735110234949" duration="289000" />
       <workItem from="1735735324160" duration="168000" />
-      <workItem from="1735973347296" duration="7701000" />
+      <workItem from="1735973347296" duration="7804000" />
+      <workItem from="1736154528687" duration="1198000" />
+      <workItem from="1736240580767" duration="7694000" />
     </task>
     <task id="LOCAL-00001" summary="merge">
       <option name="closed" value="true" />

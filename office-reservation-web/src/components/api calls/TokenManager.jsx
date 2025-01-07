@@ -31,7 +31,8 @@ const TokenManager = {
 
     getUserRole: () => {
         const claims = TokenManager.getClaims();
-        return claims?.role || null;
+        console.log("Decoded Claims in getUserRole:", claims); // Debugging
+        return claims?.roles?.[0] || null; // Access the first element in the roles array
     },
 
     isTokenExpired: () => {

@@ -4,6 +4,7 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import AuthCall from '../components/api calls/AuthCall';
 import TokenManager from '../components/api calls/TokenManager'; // Import TokenManager for token management
 import styles from '../styles/Login.module.css';
+import logo from '../assets/driessen.png';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -62,7 +63,6 @@ const Login = () => {
         <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
             <div className={styles.loginPage}>
                 <div className={styles.loginContainer}>
-                    <img src="/path/to/driessen-logo.jpg" alt="Driessen Logo" className={styles.logo} />
                     <h1 className={styles.formTitle}>Login</h1>
                     <form onSubmit={handleLogin} className={styles.form}>
                         <input

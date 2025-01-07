@@ -4,11 +4,22 @@ import TeamView from "../components/team overview/TeamView";
 import AddTeam from "../components/team overview/AddTeam";
 import TeamCalls from "../components/api calls/TeamCalls";
 import Svg from "../assets/plusTeam.svg";
+import TokenManager from "../components/api calls/TokenManager";
 
 const TeamOverview = () => {
-  const [teams, setTeams] = useState([]);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [showAddTeam, setShowAddTeam] = useState(false);
+  const [teams, setTeams] = useState([]); // List of all teams
+  const [isAdmin, setIsAdmin] = useState(false); // Admin mode determined by token role
+  const [showAddTeam, setShowAddTeam] = useState(false); // Modal visibility
+  const [errorMessage, setErrorMessage] = useState(""); // Error message for failures
+
+  // Fetch user role from the token
+  useEffect(() => {
+    const role = TokenManager.getUserRole();
+    console.log("User role:", role); // Should log "ADMIN" or the correct role
+    if (role === "ADMIN") {
+        setIsAdmin(true);
+    }
+  }, []);
 
   // Fetch all teams on component mount
   useEffect(() => {
@@ -25,15 +36,15 @@ const TeamOverview = () => {
     fetchTeams();
   }, []);
 
-  const toggleRole = () => {
-    setIsAdmin((prev) => !prev);
-  };
-
   const toggleAddTeamModal = () => {
     setShowAddTeam((prev) => !prev);
   };
 
   const handleAddNewTeam = (newTeam) => {
+    if (!newTeam) {
+      setErrorMessage("Failed to add team. Please try again.");
+      return;
+    }
     setTeams((prev) => [...prev, newTeam]);
   };
 
@@ -61,7 +72,6 @@ const TeamOverview = () => {
 
   const handleRemoveTeamMember = async (teamId, userId) => {
     try {
-      // Fetch the team, remove the member, and update the team
       const team = await TeamCalls.getTeamById(teamId);
       const updatedTeam = {
         ...team,
@@ -79,8 +89,10 @@ const TeamOverview = () => {
 
   return (
     <div>
-      <div className={styles.addTeamContainer}>
-        <h1>Team Overview</h1>
+      <div className={styles.addTeamContainer
+      }>
+      <h1>Team Overview</h1>
+      {isAdmin && (
         <div className={styles.right}>
           <button
             className={styles.newTeamButton}
@@ -90,40 +102,36 @@ const TeamOverview = () => {
             <img src={Svg} alt="Add Team" />
           </button>
         </div>
-      </div>
-      <div className={styles.teamOverviewContainer}>
-        <button className={styles.roleToggleButton} onClick={toggleRole}>
-          {isAdmin ? "Switch to User Role" : "Switch to Admin Role"}
-        </button>
-        <div className={styles.teamOverviewContent}>
-          {teams.length > 0 ? (
-            teams.map((team) => (
-              <TeamView
-                key={team.id}
-                team={team}
-                isAdmin={isAdmin}
-                onDeleteTeam={() => handleDeleteTeam(team.id)}
-                onEditTeam={(updatedData) =>
-                  handleEditTeam(team.id, updatedData)
-                }
-                onRemoveMember={(userId) =>
-                  handleRemoveTeamMember(team.id, userId)
-                }
-              />
-            ))
-          ) : (
-            <p>No teams available</p>
-          )}
-        </div>
-      </div>
-      {showAddTeam && (
-        <AddTeam
-          onClose={toggleAddTeamModal}
-          onAddTeam={handleAddNewTeam}
-        />
       )}
     </div>
-  );
+    <div className={styles.teamOverviewContainer}>
+      <div className={styles.teamOverviewContent}>
+        {teams.length > 0 ? (
+          teams.map((team) => (
+            <TeamView
+              key={team.id}
+              team={team}
+              isAdmin={isAdmin}
+              onDeleteTeam={() => handleDeleteTeam(team.id)}
+              onEditTeam={(updatedData) =>
+                handleEditTeam(team.id, updatedData)
+              }
+              onRemoveMember={(userId) =>
+                handleRemoveTeamMember(team.id, userId)
+              }
+            />
+          ))
+        ) : (
+          <p>No teams available</p>
+        )}
+      </div>
+    </div>
+    {showAddTeam && (
+      <AddTeam onClose={toggleAddTeamModal} onAddTeam={handleAddNewTeam} />
+    )}
+    {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+  </div>
+);
 };
 
 export default TeamOverview;
