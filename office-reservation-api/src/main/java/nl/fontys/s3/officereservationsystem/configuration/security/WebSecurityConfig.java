@@ -60,7 +60,7 @@ public class WebSecurityConfig {
 //                                .requestMatchers(HttpMethod.DELETE, END_POINT_LEAVE, END_POINT_RESERVATION).hasAnyRole(ROLE_ADMIN, ROLE_USER)
                                 .requestMatchers(SWAGGER_UI_RESOURCES).permitAll()
                                 .requestMatchers(HttpMethod.POST, "/tokens").permitAll()
-                                .anyRequest().authenticated())
+                                .anyRequest().permitAll())
                 .exceptionHandling(configure -> configure.authenticationEntryPoint(authenticationEntryPoint))
                 .addFilterBefore(authenticationRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -76,7 +76,10 @@ public class WebSecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173");// Remove trailing slash
+                        .allowedOrigins("http://localhost:5173")// Remove trailing slash
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow these HTTP methods
+                        .allowedHeaders("*") // Allow all headers
+                        .allowCredentials(true); // Allow credentials if necessary
 
             }
         };
