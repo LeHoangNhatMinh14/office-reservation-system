@@ -70,14 +70,20 @@ class TeamApi {
   }
 
   // Delete team by ID
-  async deleteTeam(id) {
+  async deleteTeam(teamId) {
     try {
-      await this.apiClient.delete(`/${id}`);
+      const response = await this.apiClient.delete(`/${teamId}`);
+      console.log("Team deleted successfully:", response.status); // Confirm deletion
     } catch (error) {
-      console.error('Error deleting team:', error);
-      throw error;
+      if (error.response?.status === 404) {
+        console.warn("Team not found (404). Ignoring since it might be already deleted.");
+      } else {
+        console.error("Error deleting team:", error);
+        throw error;
+      }
     }
   }
+  
 }
 
 export default new TeamApi();

@@ -16,9 +16,7 @@ const TeamOverview = () => {
   useEffect(() => {
     const role = TokenManager.getUserRole();
     console.log("User role:", role); // Should log "ADMIN" or the correct role
-    if (role === "ADMIN") {
-        setIsAdmin(true);
-    }
+    setIsAdmin(role === "ADMIN");
   }, []);
 
   // Fetch all teams on component mount
@@ -50,14 +48,22 @@ const TeamOverview = () => {
 
   const handleDeleteTeam = async (teamId) => {
     try {
+      console.log("Attempting to delete team with ID:", teamId);
       await TeamCalls.deleteTeam(teamId);
-      setTeams((prev) => prev.filter((team) => team.id !== teamId));
+      setTeams((prevTeams) => prevTeams.filter((team) => team.id !== teamId)); // Dynamically update state
+      console.log("Team deleted and UI updated");
     } catch (error) {
-      console.error("Error deleting team:", error);
-      alert("Failed to delete the team. Please try again.");
+      if (error.response?.status === 404) {
+        console.warn("Team not found (404). Removing from UI.");
+        setTeams((prevTeams) => prevTeams.filter((team) => team.id !== teamId)); // Handle case gracefully
+      } else {
+        console.error("Error deleting team:", error);
+        alert("Failed to delete the team. Please try again.");
+      }
     }
   };
-
+  
+  
   const handleEditTeam = async (teamId, updatedData) => {
     try {
       const updatedTeam = await TeamCalls.updateTeam(teamId, updatedData);
@@ -89,49 +95,48 @@ const TeamOverview = () => {
 
   return (
     <div>
-      <div className={styles.addTeamContainer
-      }>
-      <h1>Team Overview</h1>
-      {isAdmin && (
-        <div className={styles.right}>
-          <button
-            className={styles.newTeamButton}
-            onClick={toggleAddTeamModal}
-            title="Add New Team"
-          >
-            <img src={Svg} alt="Add Team" />
-          </button>
-        </div>
-      )}
-    </div>
-    <div className={styles.teamOverviewContainer}>
-      <div className={styles.teamOverviewContent}>
-        {teams.length > 0 ? (
-          teams.map((team) => (
-            <TeamView
-              key={team.id}
-              team={team}
-              isAdmin={isAdmin}
-              onDeleteTeam={() => handleDeleteTeam(team.id)}
-              onEditTeam={(updatedData) =>
-                handleEditTeam(team.id, updatedData)
-              }
-              onRemoveMember={(userId) =>
-                handleRemoveTeamMember(team.id, userId)
-              }
-            />
-          ))
-        ) : (
-          <p>No teams available</p>
+      <div className={styles.addTeamContainer}>
+        <h1>Team Overview</h1>
+        {isAdmin && (
+          <div className={styles.right}>
+            <button
+              className={styles.newTeamButton}
+              onClick={toggleAddTeamModal}
+              title="Add New Team"
+            >
+              <img src={Svg} alt="Add Team" />
+            </button>
+          </div>
         )}
       </div>
+      <div className={styles.teamOverviewContainer}>
+        <div className={styles.teamOverviewContent}>
+          {teams.length > 0 ? (
+            teams.map((team) => (
+              <TeamView
+                key={team.id}
+                team={team}
+                isAdmin={isAdmin}
+                onDeleteTeam={() => handleDeleteTeam(team.id)}
+                onEditTeam={(updatedData) =>
+                  handleEditTeam(team.id, updatedData)
+                }
+                onRemoveMember={(userId) =>
+                  handleRemoveTeamMember(team.id, userId)
+                }
+              />
+            ))
+          ) : (
+            <p>No teams available</p>
+          )}
+        </div>
+      </div>
+      {showAddTeam && (
+        <AddTeam onClose={toggleAddTeamModal} onAddTeam={handleAddNewTeam} />
+      )}
+      {errorMessage && <p className={styles.error}>{errorMessage}</p>}
     </div>
-    {showAddTeam && (
-      <AddTeam onClose={toggleAddTeamModal} onAddTeam={handleAddNewTeam} />
-    )}
-    {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-  </div>
-);
+  );
 };
 
 export default TeamOverview;
