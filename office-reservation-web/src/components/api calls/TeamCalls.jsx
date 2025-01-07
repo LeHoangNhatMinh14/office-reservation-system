@@ -60,14 +60,17 @@ class TeamApi {
 
   // Update team by ID
   async updateTeam(id, teamData) {
+    console.log(`Sending PUT request to /teams/${id}`);
+    console.log("Payload:", teamData);
     try {
       const response = await this.apiClient.put(`/${id}`, teamData);
       return response.data;
     } catch (error) {
-      console.error('Error updating team:', error);
+      console.error("Error in updateTeam:", error.response || error);
       throw error;
     }
   }
+  
 
   // Delete team by ID
   async deleteTeam(teamId) {

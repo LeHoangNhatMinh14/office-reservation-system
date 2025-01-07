@@ -14,4 +14,5 @@ public interface TeamRepository extends JpaRepository<TeamEntity, Long> {
             "WHERE u.id = :userId OR m.id = :userId")
     List<TeamEntity> findByUserId(@Param("userId") Long userId);
     boolean existsByName(String name);
+    boolean existsByNameAndIdNot(String name, Long id);
 }

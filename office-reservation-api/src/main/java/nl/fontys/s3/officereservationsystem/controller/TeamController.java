@@ -50,6 +50,7 @@ public class TeamController {
     @PutMapping("/{id}")
     @RolesAllowed({"ADMIN", "USER"})
     public ResponseEntity<Void> updateTeam(@PathVariable("id") Long id, @RequestBody Team team) {
+        System.out.println("Incoming PUT request: Team ID = " + id + ", Team = " + team);
         team.setId(id);
         teamService.updateTeam(team);
         return ResponseEntity.ok().build();

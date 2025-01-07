@@ -42,88 +42,117 @@ const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
 
   const handleDeleteMembers = async () => {
     try {
+      // Filter out selected members
+      const updatedUsers = team.users.filter(
+        (user) => !selectedMembers.includes(user.id)
+      );
+      const updatedManagers = team.teamManagers.filter(
+        (manager) => !selectedMembers.includes(manager.id)
+      );
+  
+      // Construct updated team
       const updatedTeam = {
         ...team,
-        users: team.users.filter((user) => !selectedMembers.includes(user.id)),
-        teamManagers: team.teamManagers.filter(
-          (manager) => !selectedMembers.includes(manager.id)
-        ),
+        users: updatedUsers,
+        teamManagers: updatedManagers,
       };
-
+  
+      console.log("Updated team payload before sending:", updatedTeam); // Log updated payload
+  
+      // Send update request to backend
       await TeamCalls.updateTeam(team.id, updatedTeam);
-
-      setTeamMembers(
-        updatedTeam.users
-          .map((user) => ({
-            id: user.id,
-            name: `${user.firstName} ${user.lastName}`,
-            role: "Member",
+  
+      // Update team members state locally
+      const updatedTeamMembers = updatedUsers
+        .map((user) => ({
+          id: user.id,
+          name: `${user.firstName} ${user.lastName}`,
+          role: "Member",
+        }))
+        .concat(
+          updatedManagers.map((manager) => ({
+            id: manager.id,
+            name: `${manager.firstName} ${manager.lastName}`,
+            role: "Manager",
           }))
-          .concat(
-            updatedTeam.teamManagers.map((manager) => ({
-              id: manager.id,
-              name: `${manager.firstName} ${manager.lastName}`,
-              role: "Manager",
-            }))
-          )
-      );
-
-      setSelectedMembers([]);
+        );
+  
+      setTeamMembers(updatedTeamMembers); // Update UI
+      setSelectedMembers([]); // Clear selection
     } catch (error) {
-      console.error("Error updating team:", error);
+      console.error("Error deleting members:", error);
+      alert("Failed to delete members. Please try again.");
     }
   };
 
   const handleAssignRole = async (role) => {
-    if (selectedMembers.length !== 1) {
-      alert("Please select exactly one member to assign a role.");
-      return;
+  if (selectedMembers.length !== 1) {
+    alert("Please select exactly one member to assign a role.");
+    return;
+  }
+
+  const memberId = selectedMembers[0];
+  const updatedUsers = [...team.users];
+  const updatedManagers = [...team.teamManagers];
+
+  if (role === "Manager") {
+    const index = updatedUsers.findIndex((user) => user.id === memberId);
+    if (index > -1) {
+      const [user] = updatedUsers.splice(index, 1);
+      updatedManagers.push(user);
     }
-
-    const memberId = selectedMembers[0];
-    const updatedUsers = [...team.users];
-    const updatedManagers = [...team.teamManagers];
-
-    if (role === "Manager") {
-      const index = updatedUsers.findIndex((user) => user.id === memberId);
-      if (index > -1) {
-        const [user] = updatedUsers.splice(index, 1);
-        updatedManagers.push(user);
-      }
-    } else if (role === "Member") {
-      const index = updatedManagers.findIndex(
-        (manager) => manager.id === memberId
-      );
-      if (index > -1) {
-        const [manager] = updatedManagers.splice(index, 1);
-        updatedUsers.push(manager);
-      }
+  } else if (role === "Member") {
+    const index = updatedManagers.findIndex(
+      (manager) => manager.id === memberId
+    );
+    if (index > -1) {
+      const [manager] = updatedManagers.splice(index, 1);
+      updatedUsers.push(manager);
     }
+  }
 
-    const updatedTeam = { ...team, users: updatedUsers, teamManagers: updatedManagers };
-
-    try {
-      await TeamCalls.updateTeam(team.id, updatedTeam);
-      setTeamMembers(
-        updatedUsers
-          .map((user) => ({
-            id: user.id,
-            name: `${user.firstName} ${user.lastName}`,
-            role: "Member",
-          }))
-          .concat(
-            updatedManagers.map((manager) => ({
-              id: manager.id,
-              name: `${manager.firstName} ${manager.lastName}`,
-              role: "Manager",
-            }))
-          )
-      );
-      setSelectedMembers([]);
-    } catch (error) {
-      console.error("Error assigning role:", error);
-    }
+  const updatedTeam = {
+    id: team.id,
+    name: team.name,
+    users: updatedUsers.map((user) => ({
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    })),
+    teamManagers: updatedManagers.map((manager) => ({
+      id: manager.id,
+      firstName: manager.firstName,
+      lastName: manager.lastName,
+    })),
   };
+
+  console.log("Payload for updateTeam:", updatedTeam);
+  console.log(team.id);
+
+  try {
+    await TeamCalls.updateTeam(team.id, updatedTeam);
+
+    setTeamMembers(
+      updatedUsers
+        .map((user) => ({
+          id: user.id,
+          name: `${user.firstName} ${user.lastName}`,
+          role: "Member",
+        }))
+        .concat(
+          updatedManagers.map((manager) => ({
+            id: manager.id,
+            name: `${manager.firstName} ${manager.lastName}`,
+            role: "Manager",
+          }))
+        )
+    );
+    setSelectedMembers([]);
+  } catch (error) {
+    console.error("Error assigning role:", error.response || error);
+    alert("Failed to assign role. Please try again.");
+  }
+};
 
   const handleDeleteTeam = async () => {
     try {

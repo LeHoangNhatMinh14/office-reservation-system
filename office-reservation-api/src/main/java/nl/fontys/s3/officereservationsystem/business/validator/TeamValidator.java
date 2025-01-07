@@ -28,7 +28,7 @@ public class TeamValidator {
     public void validateTeamForUpdate(Long id, Team team) {
         validateIdExists(id);
         validateTeamFields(team);
-        validateUniqueName(team);
+        validateUniqueNameForUpdate(id,team);
         validateTeamManagers(team);
         validateTeamUsers(team);
     }
@@ -49,6 +49,12 @@ public class TeamValidator {
 
     private void validateUniqueName(Team team) {
         if (teamRepository.existsByName(team.getName())) {
+            throw new NameAlreadyExistsException("Team");
+        }
+    }
+
+    private void validateUniqueNameForUpdate(Long teamId, Team team) {
+        if (teamRepository.existsByNameAndIdNot(team.getName(), teamId)) {
             throw new NameAlreadyExistsException("Team");
         }
     }
