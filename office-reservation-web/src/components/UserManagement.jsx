@@ -51,38 +51,46 @@ const UserManagement = () => {
 
     // Handle Form Submission
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        setFormSubmitting(true);
+    e.preventDefault();
+    setFormSubmitting(true);
 
-        try {
-            if (editingIndex !== null) {
-                // Update User
-                const userId = users[editingIndex].id;
-                await UserApi.updateUser(userId, form);
-                const updatedUsers = [...users];
-                updatedUsers[editingIndex] = { ...form, id: userId };
-                setUsers(updatedUsers);
-                toast.success("User updated successfully!");
-                setEditingIndex(null);
-            } else {
-                // Create User
-                const newUser = await UserApi.createUser(form);
-                setUsers([...users, newUser]);
-                toast.success("User created successfully!");
-            }
-            setForm({
-                firstName: "",
-                lastName: "",
-                email: "",
-                password: "",
-                isAdmin: false,
-            });
-        } catch (error) {
-            toast.error("Error saving user. Please try again.");
-        } finally {
-            setFormSubmitting(false);
+    try {
+        if (editingIndex !== null) {
+            // Update User
+            const userId = users[editingIndex].id;
+            console.log("User ID:", userId);
+            const payload = { ...form, id: userId }; // Include ID
+            console.log("Payload:", payload);
+            await UserApi.updateUser(userId, payload); // Send updated payload
+            console.log("User updated successfully!");
+            const updatedUsers = [...users];
+            console.log("Updated Users:", updatedUsers);
+            updatedUsers[editingIndex] = { ...form, id: userId };
+            console.log("Updated Users with Form:", updatedUsers);
+            setUsers(updatedUsers);
+            toast.success("User updated successfully!");
+            setEditingIndex(null);
+        } else {
+            // Create User
+            const newUser = await UserApi.createUser(form);
+            setUsers([...users, newUser]);
+            toast.success("User created successfully!");
         }
-    };
+        setForm({
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            isAdmin: false,
+        });
+    } catch (error) {
+        console.error("Error saving user:", error);
+        toast.error("Error saving user. Please try again.");
+    } finally {
+        setFormSubmitting(false);
+    }
+};
+
 
     // Handle Edit
     const handleEdit = (index) => {

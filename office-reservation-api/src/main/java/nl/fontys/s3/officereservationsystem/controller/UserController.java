@@ -42,6 +42,8 @@ public class UserController {
     @PutMapping("/{id}")
     @RolesAllowed("ADMIN")
     public ResponseEntity<Void> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
+        System.out.println("Updating user with ID: {}"+ id);
+        System.out.println("Request body: {}"+ user);
         userService.updateUser(id, user);
         return ResponseEntity.ok().build();
     }
