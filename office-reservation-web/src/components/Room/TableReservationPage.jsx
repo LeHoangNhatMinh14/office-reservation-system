@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import styles from "./TableReservationPage.module.css";
+import UserApi from "../api calls/UserCalls";
+
 
 const TableReservationPage = ({ rooms = [] }) => {
+    const [users, setUsers] = useState([]);
     const [selectedRoom, setSelectedRoom] = useState("");
     const [selectedTable, setSelectedTable] = useState("");
     const [formData, setFormData] = useState({
@@ -11,7 +14,6 @@ const TableReservationPage = ({ rooms = [] }) => {
         reservedBy: "",
     });
 
-    // Example reservations data
     const [reservations, setReservations] = useState([
         {
             tableId: 1,
@@ -26,6 +28,20 @@ const TableReservationPage = ({ rooms = [] }) => {
             endTime: "15:00",
         },
     ]);
+
+    useEffect(() => {
+        // Fetch all users when the component mounts
+        const fetchUsers = async () => {
+            try {
+                const fetchedUsers = await UserApi.getAllUsers();
+                setUsers(fetchedUsers);
+            } catch (error) {
+                console.error("Error fetching users:", error);
+            }
+        };
+
+        fetchUsers();
+    }, []);
 
     const handleRoomChange = (e) => {
         setSelectedRoom(e.target.value);
@@ -46,10 +62,13 @@ const TableReservationPage = ({ rooms = [] }) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const handleUserChange = (e) => {
+        setFormData({ ...formData, reservedBy: e.target.value });
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Add the new reservation
         setReservations([
             ...reservations,
             {
@@ -63,23 +82,19 @@ const TableReservationPage = ({ rooms = [] }) => {
         alert(`Reserved Table ${selectedTable} in Room ${selectedRoom}`);
     };
 
-    // Get available tables for the selected room
     const availableTables =
         rooms?.find((room) => room.id === parseInt(selectedRoom))?.tables || [];
 
-    // Filter reservations for the selected table and date
     const reservedTimes = reservations.filter(
         (res) =>
             res.tableId === parseInt(selectedTable) && res.date === formData.date
     );
 
-    // Generate time slots
     const timeSlots = [];
     for (let hour = 8; hour < 18; hour++) {
         const slotStart = `${hour.toString().padStart(2, "0")}:00`;
         const slotEnd = `${(hour + 1).toString().padStart(2, "0")}:00`;
 
-        // Check if slot overlaps with existing reservations
         const isReserved = reservedTimes.some(
             (res) =>
                 (slotStart >= res.startTime && slotStart < res.endTime) ||
@@ -182,16 +197,20 @@ const TableReservationPage = ({ rooms = [] }) => {
                 </label>
                 <label className={styles.label}>
                     Reserved By:
-                    <input
-                        type="text"
+                    <select
                         name="reservedBy"
                         value={formData.reservedBy}
-                        onChange={(e) =>
-                            setFormData({ ...formData, reservedBy: e.target.value })
-                        }
-                        className={styles.input}
+                        onChange={handleUserChange}
+                        className={styles.select}
                         required
-                    />
+                    >
+                        <option value="">Select a User</option>
+                        {users.map((user) => (
+                            <option key={user.id} value={user.email}>
+                                {user.firstName} {user.lastName}
+                            </option>
+                        ))}
+                    </select>
                 </label>
                 <button type="submit" className={styles.button}>
                     Reserve Table
