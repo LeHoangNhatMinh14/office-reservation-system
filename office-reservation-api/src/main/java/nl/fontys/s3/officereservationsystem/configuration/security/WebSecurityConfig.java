@@ -4,12 +4,15 @@ import nl.fontys.s3.officereservationsystem.configuration.security.auth.Authenti
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -38,7 +41,8 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity,
-                                           AuthenticationRequestFilter authenticationRequestFilter) throws Exception {
+                                           AuthenticationRequestFilter authenticationRequestFilter,
+                                           AuthenticationEntryPoint authenticationEntryPoint) throws Exception {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -55,21 +59,24 @@ public class WebSecurityConfig {
 //                                .requestMatchers(HttpMethod.DELETE, END_POINT_ROOM, END_POINT_TEAM, END_POINT_USER).hasRole(ROLE_ADMIN)
 //                                .requestMatchers(HttpMethod.DELETE, END_POINT_LEAVE, END_POINT_RESERVATION).hasAnyRole(ROLE_ADMIN, ROLE_USER)
                                 .requestMatchers(SWAGGER_UI_RESOURCES).permitAll()
-
-//                                .anyRequest().authenticated()
-                                .anyRequest().permitAll()
-                )
+                                .requestMatchers(HttpMethod.POST, "/tokens").permitAll()
+                                .anyRequest().authenticated())
+                .exceptionHandling(configure -> configure.authenticationEntryPoint(authenticationEntryPoint))
                 .addFilterBefore(authenticationRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
         return httpSecurity.build();
     }
-
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED); // Sends 401 Unauthorized status
+    }
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173"); // Remove trailing slash
+                        .allowedOrigins("http://localhost:5173");// Remove trailing slash
 
             }
         };

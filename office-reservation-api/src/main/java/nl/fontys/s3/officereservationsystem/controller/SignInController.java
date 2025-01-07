@@ -18,7 +18,7 @@ public class SignInController {
     private final SignInService signInService;
 
     @PostMapping
-    public ResponseEntity<String> signIn(@RequestBody @Valid Credential credential) {
+    public ResponseEntity<String> signIn(@RequestBody Credential credential) {
         String response = signInService.signIn(credential);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

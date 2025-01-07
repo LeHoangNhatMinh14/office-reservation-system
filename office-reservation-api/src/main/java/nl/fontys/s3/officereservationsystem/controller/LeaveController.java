@@ -9,29 +9,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 
 @RestController
-@RequestMapping("/leave")
-@RolesAllowed({"ADMIN", "USER"})
+@RequestMapping("/leave_days")
 @AllArgsConstructor
 public class LeaveController {
     private final LeaveService leaveService;
 
-    // TODO: not working
     @PostMapping("")
-    public ResponseEntity<Object> createLeave(@RequestBody Leave leave) {
+    public ResponseEntity<Leave> createLeave(@RequestBody Leave leave) {
         System.out.println("Received request body: {}"+ leave);
         try {
             leaveService.createLeave(leave);
             return ResponseEntity.ok(leave); // Successfully created
         } catch (IllegalArgumentException e) {
-            // Return the specific error message for bad requests
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        } catch (Exception e) {
-            // General error handling with detailed message
-            return ResponseEntity.status(500).body(Map.of("error", "An unexpected error occurred: " + e.getMessage()));
+            return ResponseEntity.badRequest().build(); // Bad request
         }
     }
 
@@ -50,6 +45,16 @@ public class LeaveController {
     public ResponseEntity<Leave> getLeaveById(@PathVariable("id") Long id) {
         try {
             Leave leave = leaveService.getLeaveById(id);
+            return ResponseEntity.ok(leave);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<Leave>> getLeaveByUserId(@PathVariable("id") Long id) {
+        try {
+            List<Leave> leave = leaveService.getLeaveByUserId(id);
             return ResponseEntity.ok(leave);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();

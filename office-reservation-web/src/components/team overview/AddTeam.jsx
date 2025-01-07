@@ -4,10 +4,11 @@ import TeamApi from "../api calls/TeamCalls";
 import UserApi from "../api calls/UserCalls";
 
 const AddTeam = ({ onClose, onAddTeam }) => {
-  const [people, setPeople] = useState([]); // Dynamically fetched users
+  const [people, setPeople] = useState([]);
   const [selectedMembers, setSelectedMembers] = useState([]);
+  const [selectedManagers, setSelectedManagers] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  // Fetch all users when the component mounts
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -31,31 +32,40 @@ const AddTeam = ({ onClose, onAddTeam }) => {
 
     const teamName = event.target.teamName.value.trim();
     if (!teamName) {
-      alert("Please enter a valid team name.");
+      setErrorMessage("Please enter a valid team name.");
+      return;
+    }
+
+    if (selectedManagers.length === 0) {
+      setErrorMessage("Please assign at least one team manager.");
       return;
     }
 
     const newTeam = {
       name: teamName,
       users: selectedMembers,
-      teamManagers: [], // Add manager selection logic here if needed
+      teamManagers: selectedManagers,
     };
 
     try {
       const createdTeam = await TeamApi.createTeam(newTeam);
-      if (onAddTeam) onAddTeam(createdTeam); // Update parent component
-      onClose(); // Close the modal
+      onAddTeam(createdTeam);
+      onClose();
     } catch (error) {
-      console.error("Failed to add team:", error);
-      alert("An error occurred while adding the team. Please try again.");
+      if (error.response?.data?.message.includes("NameAlreadyExistsException")) {
+        setErrorMessage("A team with this name already exists.");
+      } else {
+        console.error("Failed to add team:", error);
+        alert("An error occurred while adding the team. Please try again.");
+      }
     }
   };
 
-  const toggleMemberSelection = (member) => {
-    setSelectedMembers((prev) =>
-      prev.some((m) => m.id === member.id)
-        ? prev.filter((m) => m.id !== member.id)
-        : [...prev, member]
+  const toggleSelection = (list, setList, person) => {
+    setList((prev) =>
+      prev.some((p) => p.id === person.id)
+        ? prev.filter((p) => p.id !== person.id)
+        : [...prev, person]
     );
   };
 
@@ -74,6 +84,7 @@ const AddTeam = ({ onClose, onAddTeam }) => {
             placeholder="Team Name"
             required
           />
+          {errorMessage && <p className={styles.error}>{errorMessage}</p>}
           <div className={styles.memberSelection}>
             <label>Select Members:</label>
             <div className={styles.memberList}>
@@ -86,13 +97,35 @@ const AddTeam = ({ onClose, onAddTeam }) => {
                         ? styles.selectedMember
                         : ""
                     }`}
-                    onClick={() => toggleMemberSelection(person)}
+                    onClick={() => toggleSelection(selectedMembers, setSelectedMembers, person)}
                   >
                     {person.name}
                   </div>
                 ))
               ) : (
                 <p>Loading members...</p>
+              )}
+            </div>
+          </div>
+          <div className={styles.managerSelection}>
+            <label>Select Managers:</label>
+            <div className={styles.memberList}>
+              {people.length > 0 ? (
+                people.map((person) => (
+                  <div
+                    key={person.id}
+                    className={`${styles.managerItem} ${
+                      selectedManagers.some((m) => m.id === person.id)
+                        ? styles.selectedManager
+                        : ""
+                    }`}
+                    onClick={() => toggleSelection(selectedManagers, setSelectedManagers, person)}
+                  >
+                    {person.name}
+                  </div>
+                ))
+              ) : (
+                <p>Loading managers...</p>
               )}
             </div>
           </div>
@@ -113,5 +146,6 @@ const AddTeam = ({ onClose, onAddTeam }) => {
     </div>
   );
 };
+
 
 export default AddTeam;

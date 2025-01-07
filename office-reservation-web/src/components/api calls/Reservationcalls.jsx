@@ -4,7 +4,7 @@ class ReservationApi {
     constructor() {
         const token = TokenManager.getAccessToken();
         this.apiClient = axios.create({
-            baseURL: axios.defaults.baseURL + '/reservations',
+            baseURL: axios.defaults.baseURL + 'reservations',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
