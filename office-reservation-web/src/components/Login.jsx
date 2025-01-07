@@ -4,7 +4,6 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import AuthCall from '../components/api calls/AuthCall';
 import TokenManager from '../components/api calls/TokenManager'; // Import TokenManager for token management
 import styles from '../styles/Login.module.css';
-import logo from '../assets/driessen.png';
 
 const Login = () => {
     const [email, setEmail] = useState('');
