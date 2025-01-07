@@ -15,6 +15,7 @@ const MainNavbar = () => {
                 <li><Link to="/schedule">Schedule</Link></li>
                 <li><Link to="/teams">Teams</Link></li>
                 <li><Link to="/reserve">Reservation</Link></li>
+                <li><Link to="/">Logout</Link></li>
             </ul>
         </nav>
     );
