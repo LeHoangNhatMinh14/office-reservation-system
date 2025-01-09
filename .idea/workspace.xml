@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="39842fb5-2777-4bdf-bc1a-431ac60c6488" name="Changes" comment="merge">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_13_11_2024_21_34__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_13_11_2024_21_34__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/team overview/AddMemberToTeam.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/team overview/AddMemberToTeam.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/team overview/TeamView.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/team overview/TeamView.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/styles/addMember.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/styles/addMember.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/office-reservation-web/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/office-reservation-web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/Pages/SchedulePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/Pages/SchedulePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/styles/Schedule.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/styles/Schedule.module.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,7 +144,11 @@
       <workItem from="1736260244942" duration="2333000" />
       <workItem from="1736264329804" duration="98000" />
       <workItem from="1736264751352" duration="83000" />
-      <workItem from="1736274339084" duration="10065000" />
+      <workItem from="1736274339084" duration="10683000" />
+      <workItem from="1736321774454" duration="26000" />
+      <workItem from="1736430700126" duration="326000" />
+      <workItem from="1736437475238" duration="7212000" />
+      <workItem from="1736459970540" duration="2402000" />
     </task>
     <task id="LOCAL-00001" summary="merge">
       <option name="closed" value="true" />
