@@ -18,7 +18,7 @@ public class RoomController {
     private final RoomService roomService;
 
     @PostMapping
-    @RolesAllowed("ADMIN")
+    @RolesAllowed({"ADMIN", "USER"})
     public ResponseEntity<Room> createRoom(@RequestBody Room room) {
         Room createdRoom = roomService.createRoom(room);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdRoom);
@@ -41,14 +41,14 @@ public class RoomController {
 
     //TODO: ask Minh why it returns Room object
     @PutMapping("/{id}")
-    @RolesAllowed("ADMIN")
+    @RolesAllowed({"ADMIN", "USER"})
     public ResponseEntity<Room> updateRoom(@PathVariable("id") Long id, @RequestBody Room room) {
         Room updatedRoom = roomService.updateRoom(id, room);
         return ResponseEntity.ok().body(updatedRoom);
     }
 
     @DeleteMapping("/{id}")
-    @RolesAllowed("ADMIN")
+    @RolesAllowed({"ADMIN", "USER"})
     public ResponseEntity<Void> deleteRoom(@PathVariable("id") Long id) {
         roomService.deleteRoom(id);
         return ResponseEntity.ok().build();

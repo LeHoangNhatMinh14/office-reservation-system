@@ -2,6 +2,7 @@ package nl.fontys.s3.officereservationsystem.domain;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -11,5 +12,8 @@ import java.util.List;
 public class Room {
     private Long id;
     private String name;
-    private List<Table> tables;
+    private int capacity;
+    private int height;
+    private int width;
+    private List<Table> tables = new ArrayList<>();
 }

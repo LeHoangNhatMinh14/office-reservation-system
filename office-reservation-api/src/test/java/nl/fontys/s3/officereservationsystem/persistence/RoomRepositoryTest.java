@@ -3,6 +3,7 @@ package nl.fontys.s3.officereservationsystem.persistence;
 import jakarta.persistence.EntityManager;
 import nl.fontys.s3.officereservationsystem.persistence.entity.RoomEntity;
 import nl.fontys.s3.officereservationsystem.persistence.entity.TableEntity;
+import nl.fontys.s3.officereservationsystem.persistence.entity.TableEntityType;
 import nl.fontys.s3.officereservationsystem.persistence.entity.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,11 +33,15 @@ class RoomRepositoryTest {
     @BeforeEach
     void setUp() {
         table1 = TableEntity.builder()
-                .islandNumber(2)
+                .tableType(TableEntityType.SMALL_TABLE)
+                .horizontalPosition(30)
+                .verticalPosition(40)
                 .build();
 
         table2 = TableEntity.builder()
-                .islandNumber(3)
+                .tableType(TableEntityType.SMALL_TABLE)
+                .horizontalPosition(50)
+                .verticalPosition(80)
                 .build();
     }
 
@@ -46,6 +51,8 @@ class RoomRepositoryTest {
         RoomEntity room = RoomEntity.builder()
                 .name("Test Name")
                 .tables(List.of(table1))
+                .width(300)
+                .height(400)
                 .build();
 
         // Act
@@ -84,9 +91,6 @@ class RoomRepositoryTest {
 
         // Assert
         assertThat(rooms).hasSize(2);
-        assertThat(rooms).allSatisfy(room -> {
-            assertThat(room.getTables()).extracting("islandNumber").containsAnyOf(2, 3);
-        });
     }
 
     @Test
@@ -155,6 +159,8 @@ class RoomRepositoryTest {
         RoomEntity room1 = RoomEntity.builder()
                 .name("Test Name")
                 .tables(List.of(table1))
+                .height(300)
+                .width(400)
                 .build();
 
         RoomEntity room2 = RoomEntity.builder()

@@ -48,11 +48,15 @@ class ReservationRepositoryTest {
                 .build();
 
         table = TableEntity.builder()
-                .islandNumber(1)
+                .verticalPosition(10)
+                .horizontalPosition(20)
+                .tableType(TableEntityType.SMALL_TABLE)
                 .build();
 
         RoomEntity room = RoomEntity.builder()
                 .name("Test Room")
+                .width(100)
+                .height(200)
                 .tables(List.of(table))
                 .build();
 

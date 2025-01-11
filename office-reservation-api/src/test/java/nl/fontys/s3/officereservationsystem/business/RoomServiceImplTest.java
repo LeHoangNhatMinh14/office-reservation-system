@@ -6,9 +6,11 @@ import nl.fontys.s3.officereservationsystem.business.exception.NameAlreadyExists
 import nl.fontys.s3.officereservationsystem.business.validator.RoomValidator;
 import nl.fontys.s3.officereservationsystem.domain.Room;
 import nl.fontys.s3.officereservationsystem.domain.Table;
+import nl.fontys.s3.officereservationsystem.domain.TableType;
 import nl.fontys.s3.officereservationsystem.persistence.RoomRepository;
 import nl.fontys.s3.officereservationsystem.persistence.entity.RoomEntity;
 import nl.fontys.s3.officereservationsystem.persistence.entity.TableEntity;
+import nl.fontys.s3.officereservationsystem.persistence.entity.TableEntityType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -43,7 +45,6 @@ class RoomServiceImplTest {
     void createRoom_shouldCreateRoom() {
         // Arrange
         Table table = Table.builder()
-                .islandNumber(1)
                 .build();
 
         Room room = Room.builder()
@@ -53,7 +54,6 @@ class RoomServiceImplTest {
 
         TableEntity tableEntity = TableEntity.builder()
                 .id(1L)
-                .islandNumber(1)
                 .build();
 
         RoomEntity roomEntity = RoomEntity.builder()
@@ -114,23 +114,32 @@ class RoomServiceImplTest {
         // Arrange
         TableEntity table = TableEntity.builder()
                 .id(1L)
-                .islandNumber(1)
+                .tableType(TableEntityType.SMALL_TABLE)
+                .verticalPosition(50)
+                .horizontalPosition(50)
                 .build();
 
         RoomEntity room = RoomEntity.builder()
                 .id(1L)
                 .name("Test Name")
                 .tables(List.of(table))
+                .height(300)
+                .width(400)
                 .build();
 
         Table expectedTable = Table.builder()
                 .id(1L)
-                .islandNumber(1)
+                .verticalPosition(50)
+                .horizontalPosition(50)
+                .tableType(TableType.SMALL_TABLE)
                 .build();
 
         Room expectedRoom = Room.builder()
                 .id(1L)
                 .name("Test Name")
+                .height(300)
+                .width(400)
+                .capacity(4)
                 .tables(List.of(expectedTable))
                 .build();
 
@@ -150,7 +159,6 @@ class RoomServiceImplTest {
         // Arrange
         TableEntity table = TableEntity.builder()
                 .id(1L)
-                .islandNumber(1)
                 .build();
 
         RoomEntity room = RoomEntity.builder()
@@ -161,12 +169,12 @@ class RoomServiceImplTest {
 
         Table expectedTable = Table.builder()
                 .id(1L)
-                .islandNumber(1)
                 .build();
 
         Room expectedRoom = Room.builder()
                 .id(1L)
                 .name("Test Name")
+                .capacity(8)
                 .tables(List.of(expectedTable))
                 .build();
 
@@ -243,10 +251,52 @@ class RoomServiceImplTest {
 
     private static Stream<Arguments> provideForCreate_shouldThrowException_whenInvalidDataIsSupplied() {
         return Stream.of(
-                Arguments.of(null, InvalidFieldException.class, "Room"),
-                Arguments.of(new Room(null, " ", List.of(new Table(null, 5))), InvalidFieldException.class, "Room name"),
-                Arguments.of(new Room(null, "Test Name", List.of(new Table(null, 5))), NameAlreadyExistsException.class, "Room"),
-                Arguments.of(new Room(null, "Test Name", null), InvalidFieldException.class, "Room tables")
+                Arguments.of(
+                        null,
+                        InvalidFieldException.class,
+                        "Room"
+                ),
+                Arguments.of(
+                        Room.builder()
+                                .id(null)
+                                .name(" ")
+                                .capacity(10)
+                                .tables(List.of(
+                                        Table.builder()
+                                                .id(null)
+                                                .tableType(TableType.SMALL_TABLE)
+                                                .build()
+                                ))
+                                .build(),
+                        InvalidFieldException.class,
+                        "Room name"
+                ),
+                Arguments.of(
+                        Room.builder()
+                                .id(null)
+                                .name("Test Name")
+                                .capacity(10)
+                                .tables(List.of(
+                                        Table.builder()
+                                                .id(null)
+                                                .tableType(TableType.SMALL_TABLE)
+                                                .build()
+                                ))
+                                .build(),
+                        NameAlreadyExistsException.class,
+                        "Room"
+                ),
+                Arguments.of(
+                        Room.builder()
+                                .id(null)
+                                .name("Test Name")
+                                .capacity(10)
+                                .tables(null)
+                                .build(),
+                        InvalidFieldException.class,
+                        "Room tables"
+                )
         );
     }
+
 }

@@ -2,16 +2,20 @@
 CREATE TABLE room (
     id BIGINT AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
+    height INT NOT NULL,
+    width INT NOT NULL,
     PRIMARY KEY (id)
 );
 
 -- Create room_table table
 CREATE TABLE room_table (
     id BIGINT AUTO_INCREMENT,
-    island_number INT NOT NULL,
+    vertical_position INT NOT NULL,
+    horizontal_position INT NOT NULL,
+    table_type VARCHAR(50) NOT NULL,
     room_id BIGINT,
     PRIMARY KEY (id),
-    FOREIGN KEY (room_id) REFERENCES room(id) ON DELETE CASCADE
+    FOREIGN KEY (room_id) REFERENCES room (id) ON DELETE CASCADE
 );
 
 -- Create team table

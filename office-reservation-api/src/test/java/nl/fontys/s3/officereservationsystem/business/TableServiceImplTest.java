@@ -30,12 +30,10 @@ class TableServiceImplTest {
         // Arrange
         TableEntity table = TableEntity.builder()
                 .id(1L)
-                .islandNumber(1)
                 .build();
 
         Table expectedTable = Table.builder()
                 .id(1L)
-                .islandNumber(1)
                 .build();
 
         when(tableRepository.findAll())
@@ -54,12 +52,10 @@ class TableServiceImplTest {
         // Arrange
         TableEntity table = TableEntity.builder()
                 .id(1L)
-                .islandNumber(1)
                 .build();
 
         Table expectedTable = Table.builder()
                 .id(1L)
-                .islandNumber(1)
                 .build();
 
         when(tableRepository.findById(table.getId()))

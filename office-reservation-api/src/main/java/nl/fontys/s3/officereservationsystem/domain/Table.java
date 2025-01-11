@@ -11,5 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Table {
     private Long id;
-    private int islandNumber;
+    private int verticalPosition;
+    private int horizontalPosition;
+    private TableType tableType;
 }

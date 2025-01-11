@@ -21,7 +21,6 @@ public class RoomValidator {
     public void validateRoomForUpdate(Long id, Room room) {
         validateIdExists(id);
         validateRoomFields(room);
-        validateUniqueName(room);
     }
 
     private void validateRoomFields(Room room) {
@@ -29,9 +28,6 @@ public class RoomValidator {
 
         if (room.getName() == null || room.getName().trim().isEmpty()) {
             throw new InvalidFieldException("Room name");
-        }
-        if (room.getTables() == null) {
-            throw new InvalidFieldException("Room tables");
         }
     }
 
