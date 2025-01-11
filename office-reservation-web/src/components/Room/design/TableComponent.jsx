@@ -1,11 +1,11 @@
 import React from 'react';
 import {DragPreviewImage, useDrag} from 'react-dnd';
-import styles from './FurnitureComponent.module.css';
+import styles from './TableComponent.module.css';
 import { FaTrashAlt } from "react-icons/fa";
 
-const FurnitureComponent = ({ item, deleteFurniture }) => {
+const TableComponent = ({ item, deleteTable }) => {
     const [{ isDragging }, drag, preview] = useDrag(() => ({
-        type: 'furniture',
+        type: 'table',
         item: { ...item },
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
@@ -15,10 +15,10 @@ const FurnitureComponent = ({ item, deleteFurniture }) => {
     return (
         <div
             ref={drag}
-            className={styles.furniture}
+            className={styles.tableContent}
             style={{
-                left: `${item.x}px`,
-                top: `${item.y}px`,
+                left: `${item.horizontalPosition}px`,
+                top: `${item.verticalPosition}px`,
                 position: 'absolute',
                 width: `${item.width}px`,
                 height: `${item.height}px`,
@@ -27,14 +27,15 @@ const FurnitureComponent = ({ item, deleteFurniture }) => {
             }}
         >
             <DragPreviewImage connect={preview} src={"/table.svg"}  />
-            <div className={`${styles.innerContent} ${item.type === 'table' ? styles.table : styles.island}`}>
-                <p>{item.type}</p>
-                <div onClick={() => deleteFurniture(item.id)}>
-                    <FaTrashAlt />
+            <div className={`${styles.innerContent} ${item.tableType === 'SMALL_TABLE' ? styles.table : styles.island}`}>
+                <p>{item.tableType === "SMALL_TABLE" ? "Table" : "Island"}</p>
+                <p>{item.tableType === "SMALL_TABLE" ? "4 seats" : "8 seats"}</p>
+                <div onClick={() => deleteTable(item.id)}>
+                    <FaTrashAlt/>
                 </div>
             </div>
         </div>
     );
 };
 
-export default FurnitureComponent;
+export default TableComponent;
