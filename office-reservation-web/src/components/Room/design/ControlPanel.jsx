@@ -2,14 +2,14 @@ import React, {useState} from 'react';
 import styles from './ControlPanel.module.css';
 
 const ControlPanel = ({
-                          addFurniture, updateRoomSize, roomWidth, roomHeight, saveRoomData, capacity
+                          addTable, updateRoomSize, roomWidth, roomHeight, saveRoomData, capacity
                       }) => {
 
-    const [roomWithInternal, setRoomWidthInternal] = useState(roomWidth);
+    const [roomWidthInternal, setRoomWidthInternal] = useState(roomWidth);
     const [roomHeightInternal, setRoomHeightInternal] = useState(roomHeight);
 
     const save = () =>{
-        updateRoomSize(roomWithInternal, roomHeightInternal);
+        updateRoomSize(roomWidthInternal, roomHeightInternal);
         saveRoomData();
     }
 
@@ -22,7 +22,7 @@ const ControlPanel = ({
             <label className={styles.label}>Room Width:</label>
             <input
                 type="number"
-                value={roomWithInternal}
+                value={roomWidthInternal}
                 onChange={(e) => setRoomWidthInternal(parseInt(e.target.value))}
                 className={styles.input}
             />
@@ -36,13 +36,13 @@ const ControlPanel = ({
         </div>
         <div className={styles.buttonGroup}>
             <button
-                onClick={() => addFurniture('table')}
+                onClick={() => addTable('SMALL_TABLE')}
                 className={`${styles.button} ${styles.addTableButton}`}
             >
                 Add Table
             </button>
             <button
-                onClick={() => addFurniture('island')}
+                onClick={() => addTable('ISLAND')}
                 className={`${styles.button} ${styles.addIslandButton}`}
             >
                 Add Island
