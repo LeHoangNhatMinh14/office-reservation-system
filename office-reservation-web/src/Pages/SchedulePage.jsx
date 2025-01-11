@@ -82,14 +82,16 @@ const ScheduleTable = () => {
                                                 className={styles.reservationBlock}
                                                 style={{
                                                     height: `${
-                                                        30 * 2 + 30 // Two rows (30px each) + small offset for the border
+                                                        30 * // Each 30-minute interval is 30px
+                                                        ((parseInt(reservationForSlot.endTime.slice(0, 2)) * 2 + (parseInt(reservationForSlot.endTime.slice(3, 5)) / 30)) -
+                                                         (parseInt(reservationForSlot.startTime.slice(0, 2)) * 2 + (parseInt(reservationForSlot.startTime.slice(3, 5)) / 30)))
                                                     }px`,
                                                     top: 0, // Align to the top of the row
                                                 }}
-                                                >
-                                                    <p><strong>Type:</strong> {reservationForSlot.reservationType}</p>
-                                                    <p><strong>Time:</strong> {reservationForSlot.startTime} - {reservationForSlot.endTime}</p>
-                                                </div>
+                                            >
+                                                <p><strong>Type:</strong> {reservationForSlot.reservationType}</p>
+                                                <p><strong>Time:</strong> {reservationForSlot.startTime} - {reservationForSlot.endTime}</p>
+                                            </div>
                                             )}
                                         </td>
                                     );
