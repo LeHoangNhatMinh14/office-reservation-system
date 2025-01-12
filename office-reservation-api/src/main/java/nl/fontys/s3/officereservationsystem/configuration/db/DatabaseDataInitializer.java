@@ -50,14 +50,21 @@ public class DatabaseDataInitializer {
 
         if (roomRepository.count() == 0) {
             TableEntity table1 = TableEntity.builder()
-                    .islandNumber(1)
+                    .tableType(TableEntityType.SMALL_TABLE)
+                    .horizontalPosition(100)
+                    .verticalPosition(100)
                     .build();
+
             TableEntity table2 = TableEntity.builder()
-                    .islandNumber(2)
+                    .tableType(TableEntityType.ISLAND)
+                    .horizontalPosition(200)
+                    .verticalPosition(200)
                     .build();
 
             RoomEntity room = RoomEntity.builder()
                     .name("Conference Room A")
+                    .width(500)
+                    .height(500)
                     .tables(List.of(table1, table2))
                     .build();
             roomRepository.save(room);

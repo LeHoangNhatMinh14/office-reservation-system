@@ -6,7 +6,7 @@ class RoomApi {
   constructor() {
     const token = TokenManager.getAccessToken();
     this.apiClient = axios.create({
-      baseURL: axios.defaults.baseURL + '/rooms',
+      baseURL: axios.defaults.baseURL + 'rooms',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,

@@ -5,53 +5,50 @@ import Room from './Room.jsx';
 import ControlPanel from './ControlPanel.jsx';
 import styles from './RoomDesigner.module.css';
 import {createDragDropManager} from "dnd-core";
+import RoomCalls from "../../api calls/RoomCalls.jsx";
 
-const RoomDesigner = () => {
+const RoomDesigner = ({room, refreshRooms}) => {
 
     const TABLE_CAPACITY = 4;
     const ISLAND_CAPACITY = 8;
 
-    const [roomData, setRoomData] = useState({
-        width: 800,
-        height: 600,
-        furniture: [],
-    });
+    const [roomData, setRoomData] = useState(room);
 
     const getCapacity = () => {
-        return roomData?.furniture?.map(item => item.type === "table" ? TABLE_CAPACITY : ISLAND_CAPACITY)
+        return roomData?.tables?.map(item => item.tableType === "SMALL_TABLE" ? TABLE_CAPACITY : ISLAND_CAPACITY)
             .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
     }
 
-    const addFurniture = useCallback((type) => {
-        const newFurniture = {
+    const addTable = useCallback((type) => {
+        const newTable = {
             id: Date.now().toString(),
-            type,
-            x: 50,
-            y: 50,
-            width: type === 'table' ? 100 : 200,
+            tableType: type,
+            horizontalPosition: 50,
+            verticalPosition: 50,
+            width: type === 'SMALL_TABLE' ? 100 : 200,
             height: 100,
         };
 
         setRoomData(prev => ({
             ...prev,
-            furniture: [...prev.furniture, newFurniture],
+            tables: [...prev.tables, newTable],
         }));
 
-    }, [roomData.furniture]);
+    }, [roomData.tables]);
 
-    const updateFurniture = useCallback((updatedItem) => {
+    const updateTable = useCallback((updatedItem) => {
         setRoomData(prev => ({
             ...prev,
-            furniture: prev.furniture.map(item =>
+            tables: prev.tables.map(item =>
                 item.id === updatedItem.id ? updatedItem : item
             ),
         }));
     }, []);
 
-    const deleteFurniture = useCallback((id) => {
+    const deleteTable = useCallback((id) => {
         setRoomData(prev => ({
             ...prev,
-            furniture: prev.furniture.filter(item => item.id !== id),
+            tables: prev.tables.filter(item => item.id !== id),
         }));
     }, []);
 
@@ -60,14 +57,14 @@ const RoomDesigner = () => {
     }, []);
 
     const saveRoomData = useCallback(() => {
-        console.log(roomData);
+        RoomCalls.updateRoom(room.id, roomData).then(() => refreshRooms())
     }, [roomData]);
 
     return (
         <DndProvider backend={HTML5Backend} manager={createDragDropManager(HTML5Backend)}>
             <div className={styles.container}>
                 <ControlPanel
-                    addFurniture={addFurniture}
+                    addTable={addTable}
                     updateRoomSize={updateRoomSize}
                     roomWidth={roomData.width}
                     roomHeight={roomData.height}
@@ -77,9 +74,9 @@ const RoomDesigner = () => {
                 <Room
                     width={roomData.width}
                     height={roomData.height}
-                    furniture={roomData.furniture}
-                    updateFurniture={updateFurniture}
-                    deleteFurniture={deleteFurniture}
+                    tables={roomData.tables}
+                    updateTable={updateTable}
+                    deleteTable={deleteTable}
                 />
             </div>
         </DndProvider>

@@ -18,6 +18,13 @@ public class TableEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "island_number", nullable = false)
-    private int islandNumber;
+    @Column(name = "vertical_position", nullable = false)
+    private int verticalPosition;
+
+    @Column(name = "horizontal_position", nullable = false)
+    private int horizontalPosition;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "table_type")
+    private TableEntityType tableType;
 }

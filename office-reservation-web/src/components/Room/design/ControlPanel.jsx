@@ -1,16 +1,21 @@
 import React, {useState} from 'react';
 import styles from './ControlPanel.module.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Toast styles
+
 
 const ControlPanel = ({
-                          addFurniture, updateRoomSize, roomWidth, roomHeight, saveRoomData, capacity
+                          addTable, updateRoomSize, roomWidth, roomHeight, saveRoomData, capacity
                       }) => {
 
-    const [roomWithInternal, setRoomWidthInternal] = useState(roomWidth);
+    const [roomWidthInternal, setRoomWidthInternal] = useState(roomWidth);
     const [roomHeightInternal, setRoomHeightInternal] = useState(roomHeight);
 
     const save = () =>{
-        updateRoomSize(roomWithInternal, roomHeightInternal);
+        toast.success('Room data saved successfully!');
+        updateRoomSize(roomWidthInternal, roomHeightInternal);
         saveRoomData();
+        
     }
 
 
@@ -22,7 +27,7 @@ const ControlPanel = ({
             <label className={styles.label}>Room Width:</label>
             <input
                 type="number"
-                value={roomWithInternal}
+                value={roomWidthInternal}
                 onChange={(e) => setRoomWidthInternal(parseInt(e.target.value))}
                 className={styles.input}
             />
@@ -35,18 +40,20 @@ const ControlPanel = ({
             />
         </div>
         <div className={styles.buttonGroup}>
+        <ToastContainer />
             <button
-                onClick={() => addFurniture('table')}
+                onClick={() => addTable('SMALL_TABLE')}
                 className={`${styles.button} ${styles.addTableButton}`}
             >
                 Add Table
             </button>
             <button
-                onClick={() => addFurniture('island')}
+                onClick={() => addTable('ISLAND')}
                 className={`${styles.button} ${styles.addIslandButton}`}
             >
                 Add Island
             </button>
+            
             <button
                 onClick={save}
                 className={`${styles.button} ${styles.saveButton}`}

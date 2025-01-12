@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from "react";
 import styles from "./TableReservationPage.module.css";
 import UserApi from "../api calls/UserCalls";
+import Reservationcalls from "../api calls/Reservationcalls.jsx";
 
 
 const TableReservationPage = ({ rooms = [] }) => {
@@ -11,23 +12,11 @@ const TableReservationPage = ({ rooms = [] }) => {
         date: "",
         startTime: "",
         endTime: "",
-        reservedBy: "",
+        userId: "",
+        reservationType: "INDIVIDUAL"
     });
 
-    const [reservations, setReservations] = useState([
-        {
-            tableId: 1,
-            date: "2024-12-04",
-            startTime: "10:00",
-            endTime: "12:00",
-        },
-        {
-            tableId: 1,
-            date: "2024-12-04",
-            startTime: "14:00",
-            endTime: "15:00",
-        },
-    ]);
+    const [reservations, setReservations] = useState([]);
 
     useEffect(() => {
         // Fetch all users when the component mounts
@@ -43,15 +32,30 @@ const TableReservationPage = ({ rooms = [] }) => {
         fetchUsers();
     }, []);
 
+    useEffect(() => {
+        const fetchReservations = async () => {
+            try {
+                const fetchedReservations = await Reservationcalls.getAllReservationsWeekly(formData?.date);
+                setReservations(fetchedReservations);
+            } catch (error) {
+                console.error("Error fetching reservations:", error);
+            }
+        };
+
+        if(formData?.date) {
+            fetchReservations();
+        }
+    }, [formData?.date]);
+
     const handleRoomChange = (e) => {
-        setSelectedRoom(e.target.value);
+        setSelectedRoom(rooms.find(room => room.id === Number(e.target.value)));
         setSelectedTable(""); // Reset table selection
         setFormData({ ...formData, startTime: "", endTime: "" });
     };
 
     const handleTableChange = (e) => {
         setSelectedTable(e.target.value);
-        setFormData({ ...formData, startTime: "", endTime: "" });
+        setFormData({ ...formData, startTime: "", endTime: "", tableId: e.target.value });
     };
 
     const handleDateChange = (e) => {
@@ -62,28 +66,19 @@ const TableReservationPage = ({ rooms = [] }) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+
     const handleUserChange = (e) => {
-        setFormData({ ...formData, reservedBy: e.target.value });
+        setFormData({ ...formData, userId: e.target.value });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        setReservations([
-            ...reservations,
-            {
-                tableId: parseInt(selectedTable),
-                date: formData.date,
-                startTime: formData.startTime,
-                endTime: formData.endTime,
-            },
-        ]);
+        Reservationcalls.createReservation(formData)
+            .then(() => Reservationcalls.getAllReservationsWeekly(formData?.date).then(data => setReservations(data)))
 
-        alert(`Reserved Table ${selectedTable} in Room ${selectedRoom}`);
+        alert(`Reserved Table ${selectedTable} in Room ${selectedRoom.name}`);
     };
-
-    const availableTables =
-        rooms?.find((room) => room.id === parseInt(selectedRoom))?.tables || [];
 
     const reservedTimes = reservations.filter(
         (res) =>
@@ -91,9 +86,14 @@ const TableReservationPage = ({ rooms = [] }) => {
     );
 
     const timeSlots = [];
-    for (let hour = 8; hour < 18; hour++) {
-        const slotStart = `${hour.toString().padStart(2, "0")}:00`;
-        const slotEnd = `${(hour + 1).toString().padStart(2, "0")}:00`;
+    for (let hour = 8; hour < 18; hour += 0.5) {
+        const slotStartHour = Math.floor(hour);
+    const slotStartMinutes = hour % 1 === 0 ? "00" : "30";
+    const slotStart = `${slotStartHour.toString().padStart(2, "0")}:${slotStartMinutes}`;
+
+    const slotEndHour = Math.floor(hour + 0.5);
+    const slotEndMinutes = (hour + 0.5) % 1 === 0 ? "00" : "30";
+    const slotEnd = `${slotEndHour.toString().padStart(2, "0")}:${slotEndMinutes}`;
 
         const isReserved = reservedTimes.some(
             (res) =>
@@ -115,7 +115,7 @@ const TableReservationPage = ({ rooms = [] }) => {
                     Room:
                     <select
                         name="room"
-                        value={selectedRoom}
+                        value={selectedRoom.id}
                         onChange={handleRoomChange}
                         className={styles.select}
                         required
@@ -139,9 +139,9 @@ const TableReservationPage = ({ rooms = [] }) => {
                         disabled={!selectedRoom}
                     >
                         <option value="">Select a Table</option>
-                        {availableTables.map((table) => (
-                            <option key={table} value={table}>
-                                Table {table}
+                        {selectedRoom?.tables?.map((table) => (
+                            <option key={table.id} value={table.id}>
+                                Table {table.id}
                             </option>
                         ))}
                     </select>
@@ -199,14 +199,14 @@ const TableReservationPage = ({ rooms = [] }) => {
                     Reserved By:
                     <select
                         name="reservedBy"
-                        value={formData.reservedBy}
+                        value={formData.userId}
                         onChange={handleUserChange}
                         className={styles.select}
                         required
                     >
                         <option value="">Select a User</option>
                         {users.map((user) => (
-                            <option key={user.id} value={user.email}>
+                            <option key={user.id} value={user.id}>
                                 {user.firstName} {user.lastName}
                             </option>
                         ))}

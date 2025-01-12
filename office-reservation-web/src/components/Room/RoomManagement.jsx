@@ -1,68 +1,41 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./RoomManagement.module.css";
 import RoomOverview from "./overview/RoomOverview.jsx";
 import TableReservationPage from "./TableReservationPage";
 import { useNavigate } from "react-router-dom";
+import RoomCalls from "../api calls/RoomCalls.jsx";
+import {parseRoomsResponse} from "./parseRoomsResponse.js";
 
 const RoomService = () => {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const navigate = useNavigate();
   // Initialize the room list with at least two default rooms and associated tables
-  const [rooms, setRooms] = useState([
-    {
-      id: 1,
-      name: "Conference Room A",
-      capacity: "20",
-      status: "Available",
-      tables: [1, 2, 3],
-    },
-    {
-      id: 2,
-      name: "Meeting Room B",
-      capacity: "15",
-      status: "Booked",
-      tables: [4, 5],
-    },
-  ]);
+  const [rooms, setRooms] = useState([]);
+  const [newRoomName, setNewRoomName] = useState("");
 
-  const [newRoom, setNewRoom] = useState({
-    name: "",
-    capacity: "",
-    status: "Available",
-    tables: [],
-  });
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            RoomCalls.getAllRooms().then(data => setRooms(parseRoomsResponse(data)));
+        }, 500);
+        return () => clearTimeout(timeout);
+    }, []);
 
   // Handles creating a new room
   const handleCreateRoom = () => {
-    if (!newRoom.name.trim() || !newRoom.capacity.trim()) {
-      alert("Room name and capacity are required!");
+    if (!newRoomName.trim()) {
+      alert("Room name is required!");
       return;
     }
-
-    const roomData = { ...newRoom, id: Date.now(), tables: [] }; // Add empty tables array
-    setRooms((prevRooms) => [...prevRooms, roomData]);
-    setNewRoom({ name: "", capacity: "", status: "Available", tables: [] });
+    RoomCalls.createRoom({name: newRoomName, height: 600, width: 800, capacity: 0})
+        .then(() => RoomCalls.getAllRooms().then(data => setRooms(data)))
   };
 
   // Handles deleting a room
   const handleDeleteRoom = (id) => {
     if (window.confirm("Are you sure you want to delete this room?")) {
-      setRooms((prevRooms) => prevRooms.filter((room) => room.id !== id));
+      RoomCalls.deleteRoom(id)
+          .then(() => RoomCalls.getAllRooms().then(data => setRooms(parseRoomsResponse(data))))
     }
-  };
-
-  // Handles adding a table to a room
-  const handleAddTableToRoom = (roomId) => {
-    const tableNumber =
-      Math.max(...rooms.find((room) => room.id === roomId).tables, 0) + 1;
-
-    setRooms((prevRooms) =>
-      prevRooms.map((room) =>
-        room.id === roomId
-          ? { ...room, tables: [...room.tables, tableNumber] }
-          : room
-      )
-    );
   };
 
   return (
@@ -72,25 +45,10 @@ const RoomService = () => {
         <input
           type="text"
           placeholder="Room Name"
-          value={newRoom.name}
-          onChange={(e) => setNewRoom({ ...newRoom, name: e.target.value })}
+          value={newRoomName}
+          onChange={(e) => setNewRoomName( e.target.value )}
           className={styles.inputField}
         />
-        <input
-          type="number"
-          placeholder="Capacity"
-          value={newRoom.capacity}
-          onChange={(e) => setNewRoom({ ...newRoom, capacity: e.target.value })}
-          className={styles.inputField}
-        />
-        <select
-          value={newRoom.status}
-          onChange={(e) => setNewRoom({ ...newRoom, status: e.target.value })}
-          className={styles.inputField}
-        >
-          <option value="Available">Available</option>
-          <option value="Booked">Booked</option>
-        </select>
         <button className={styles.addRoomBtn} onClick={handleCreateRoom}>
           Add Room
         </button>
@@ -104,13 +62,7 @@ const RoomService = () => {
               <div className={styles.roomDetails}>
                 <h3>{room.name}</h3>
                 <p>Capacity: {room.capacity}</p>
-                <p>
-                  Status:{" "}
-                  <span className={room.status.toLowerCase()}>
-                    {room.status}
-                  </span>
-                </p>
-                <p>Tables: {room.tables.join(", ")}</p>
+                <p>Number of Tables: {room.tables.length}</p>
               </div>
               <div className={styles.roomActions}>
                 <button
@@ -125,12 +77,6 @@ const RoomService = () => {
                 >
                   Delete
                 </button>
-                <button
-                  className={styles.btnAddTable}
-                  onClick={() => handleAddTableToRoom(room.id)}
-                >
-                  Add Table
-                </button>
               </div>
             </div>
           ))
@@ -143,7 +89,8 @@ const RoomService = () => {
       <RoomOverview
         isOpen={!!selectedRoom}
         onClose={() => setSelectedRoom(null)}
-        capacity={selectedRoom?.capacity ?? 0}
+        room={selectedRoom}
+        refreshRooms={() => RoomCalls.getAllRooms().then(data => setRooms(parseRoomsResponse(data)))}
       />
       <div className={styles.tableReservationHeader}>
         <h2>Table Reservation</h2>
@@ -154,9 +101,6 @@ const RoomService = () => {
                     Set Leave Days
                 </button>
       </div>
-      <TableReservationPage rooms={rooms} />
-
-      {/* Pass room data to TableReservationPage */}
       <TableReservationPage rooms={rooms} />
     </div>
   );

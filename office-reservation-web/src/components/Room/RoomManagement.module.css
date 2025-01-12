@@ -32,7 +32,8 @@
 .addRoomSection {
     display: flex;
     gap: 10px;
-    align-items: center;
+    width: 500px;
+    margin: 5px auto 10px auto
 }
 
 .inputField {
