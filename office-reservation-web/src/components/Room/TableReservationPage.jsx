@@ -86,9 +86,14 @@ const TableReservationPage = ({ rooms = [] }) => {
     );
 
     const timeSlots = [];
-    for (let hour = 8; hour < 18; hour++) {
-        const slotStart = `${hour.toString().padStart(2, "0")}:00`;
-        const slotEnd = `${(hour + 1).toString().padStart(2, "0")}:00`;
+    for (let hour = 8; hour < 18; hour += 0.5) {
+        const slotStartHour = Math.floor(hour);
+    const slotStartMinutes = hour % 1 === 0 ? "00" : "30";
+    const slotStart = `${slotStartHour.toString().padStart(2, "0")}:${slotStartMinutes}`;
+
+    const slotEndHour = Math.floor(hour + 0.5);
+    const slotEndMinutes = (hour + 0.5) % 1 === 0 ? "00" : "30";
+    const slotEnd = `${slotEndHour.toString().padStart(2, "0")}:${slotEndMinutes}`;
 
         const isReserved = reservedTimes.some(
             (res) =>
