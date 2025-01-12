@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="39842fb5-2777-4bdf-bc1a-431ac60c6488" name="Changes" comment="merge">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/Pages/SchedulePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/Pages/SchedulePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/styles/Schedule.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/styles/Schedule.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/App.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,6 +146,11 @@
       <workItem from="1736430700126" duration="326000" />
       <workItem from="1736437475238" duration="7212000" />
       <workItem from="1736459970540" duration="2402000" />
+      <workItem from="1736592369682" duration="1371000" />
+      <workItem from="1736610020972" duration="1206000" />
+      <workItem from="1736632387231" duration="1418000" />
+      <workItem from="1736633976488" duration="757000" />
+      <workItem from="1736686297492" duration="799000" />
     </task>
     <task id="LOCAL-00001" summary="merge">
       <option name="closed" value="true" />

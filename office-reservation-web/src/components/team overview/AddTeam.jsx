@@ -36,31 +36,30 @@ const AddTeam = ({ onClose, onAddTeam }) => {
 
   const handleAddTeam = async (event) => {
     event.preventDefault();
-  
+
     const teamName = event.target.teamName.value.trim();
     if (!teamName) {
       setErrorMessage("Please enter a valid team name.");
       return;
     }
-  
+
     if (selectedManagers.length === 0) {
       setErrorMessage("Please assign at least one team manager.");
       return;
     }
-  
+
     const newTeam = {
       name: teamName,
       users: selectedMembers,
       teamManagers: selectedManagers,
     };
-  
+
     try {
       const createdTeam = await TeamApi.createTeam(newTeam);
-  
-      // Fetch the newly created team to ensure all fields are populated
+
       const fetchedTeam = await TeamApi.getTeamById(createdTeam.id);
-  
-      onAddTeam(fetchedTeam); // Use the fetched team with complete data
+
+      onAddTeam(fetchedTeam);
       onClose();
     } catch (error) {
       if (error.response?.status === 401) {
@@ -75,7 +74,6 @@ const AddTeam = ({ onClose, onAddTeam }) => {
       }
     }
   };
-  
 
   const toggleSelection = (list, setList, person) => {
     setList((prev) =>
@@ -84,6 +82,12 @@ const AddTeam = ({ onClose, onAddTeam }) => {
         : [...prev, person]
     );
   };
+
+  const isDisabledForManagers = (person) =>
+    selectedMembers.some((m) => m.id === person.id);
+
+  const isDisabledForMembers = (person) =>
+    selectedManagers.some((m) => m.id === person.id);
 
   return (
     <div className={styles.modalBackdrop}>
@@ -114,7 +118,12 @@ const AddTeam = ({ onClose, onAddTeam }) => {
                         ? styles.selectedMember
                         : ""
                     }`}
+                    style={{
+                      pointerEvents: isDisabledForMembers(person) ? "none" : "auto",
+                      opacity: isDisabledForMembers(person) ? 0.5 : 1,
+                    }}
                     onClick={() =>
+                      !isDisabledForMembers(person) &&
                       toggleSelection(selectedMembers, setSelectedMembers, person)
                     }
                   >
@@ -139,7 +148,12 @@ const AddTeam = ({ onClose, onAddTeam }) => {
                         ? styles.selectedManager
                         : ""
                     }`}
+                    style={{
+                      pointerEvents: isDisabledForManagers(person) ? "none" : "auto",
+                      opacity: isDisabledForManagers(person) ? 0.5 : 1,
+                    }}
                     onClick={() =>
+                      !isDisabledForManagers(person) &&
                       toggleSelection(selectedManagers, setSelectedManagers, person)
                     }
                   >
