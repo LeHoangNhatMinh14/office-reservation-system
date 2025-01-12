@@ -15,25 +15,21 @@ const Login = () => {
         e.preventDefault();
         setError(null); // Reset error state
     
-        // Log credentials to the console for debugging
         console.log('Attempting login with:');
         console.log('Email:', email);
         console.log('Password:', password);
     
         try {
-            // Using AuthCall directly without constructor
             const response = await AuthCall.signIn({ email, password });
             console.log('Login successful:', response);
-            
-            // Assuming the response contains the token in response.data
+    
             const token = response; // Adjust based on your API response structure
             if (!token) {
                 setError('No token received.');
                 return;
             }
     
-            // Store the token and claims in sessionStorage
-            const claims = TokenManager.setAccessToken(token); // Set token in TokenManager
+            const claims = TokenManager.setAccessToken(token);
     
             if (claims) {
                 alert('Login successful! Token stored in sessionStorage.');
@@ -42,12 +38,29 @@ const Login = () => {
                 setError('Invalid token received.');
             }
         } catch (error) {
+            // Handle specific error scenarios based on API response
+            if (error.response) {
+                switch (error.response.status) {
+                    case 401:
+                        setError('Invalid email or password. Please try again.');
+                        break;
+                    case 403:
+                        setError('Your account is not authorized to log in.');
+                        break;
+                    default:
+                        setError(
+                            error.response.data.message || 
+                            'An unexpected error occurred. Please try again.'
+                        );
+                }
+            } else if (error.request) {
+                setError('Network error. Please check your connection.');
+            } else {
+                setError('An unexpected error occurred. Please try again.');
+            }
             console.error('Login failed:', error);
-            setError(error.response?.data || 'Login failed. Please try again.');
         }
     };
-    
-
     const handleGoogleLoginSuccess = (response) => {
         console.log('Google login successful:', response);
         navigate('/profile');
@@ -62,7 +75,6 @@ const Login = () => {
         <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
             <div className={styles.loginPage}>
                 <div className={styles.loginContainer}>
-                    <img src="/path/to/driessen-logo.jpg" alt="Driessen Logo" className={styles.logo} />
                     <h1 className={styles.formTitle}>Login</h1>
                     <form onSubmit={handleLogin} className={styles.form}>
                         <input

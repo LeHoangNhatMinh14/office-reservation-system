@@ -5,13 +5,13 @@ import MainNavbar from './components/MainNavbar'; // New navbar for other pages
 import Footer from './components/Footer'; // Importing the footer
 import Login from './components/Login';
 import Profile from './components/Profile';
-import Schedule from '../src/pages/SchedulePage';
+import Schedule from './pages/SchedulePage';
 
 import Workers from './components/Workers';
 import RoomManagement from "./components/Room/RoomManagement";
 import UserManagement from './components/UserManagement';
 
-import TeamOverview from '../src/pages/TeamOverview';
+import TeamOverview from './pages/TeamOverview';
 import RoomReservation from "./components/Room/RoomReservation.jsx";
 import TableReservationPage from './components/Room/TableReservationPage';
 import SetLeaveDays from "./components/team overview/SetLeaveDays.jsx";
@@ -37,7 +37,10 @@ function App() {
                 <Route path="/usermanagement" element={<UserManagement/>}/>
                 <Route path="/teams" element={<TeamOverview />} />
                 <Route path="/roommanagement" element={<RoomManagement />} />
+
+                <Route path="/" element={<Login />} />
                 <Route path="/set-leave-days" element={<SetLeaveDays />} />
+
             </Routes>
 
             {/* Footer should be displayed on all pages */}

@@ -14,13 +14,7 @@ const AddMemberToTeam = ({ team, show, onClose, onMemberAdded }) => {
         const users = await UserCalls.getAllUsers();
         setAllUsers(users);
 
-        // Filter out users already in the team
-        const teamMemberIds = [
-          ...team.users.map((user) => user.id),
-          ...team.teamManagers.map((manager) => manager.id),
-        ];
-        const nonMembers = users.filter((user) => !teamMemberIds.includes(user.id));
-        setNonTeamMembers(nonMembers);
+        updateNonTeamMembers(users); // Update the nonTeamMembers list
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -29,33 +23,51 @@ const AddMemberToTeam = ({ team, show, onClose, onMemberAdded }) => {
     if (show) fetchAllUsers();
   }, [show, team]);
 
+  const updateNonTeamMembers = (users) => {
+    const teamMemberIds = [
+      ...team.users.map((user) => user.id),
+      ...team.teamManagers.map((manager) => manager.id),
+    ];
+    const nonMembers = users.filter((user) => !teamMemberIds.includes(user.id));
+    setNonTeamMembers(nonMembers);
+  };
+
   const handleAddMember = async () => {
     if (!selectedUser) return;
-
+  
     try {
       // Clone current team and add the selected user to the team members
       const updatedTeam = {
         ...team,
         users: [...team.users, selectedUser],
       };
-
+  
       await TeamCalls.updateTeam(team.id, updatedTeam);
-
+  
       // Call the parent callback to refresh the team view
       onMemberAdded(selectedUser);
-
-      // Close the modal
+  
+      // Update the nonTeamMembers state
+      const updatedUsers = nonTeamMembers.filter((user) => user.id !== selectedUser.id);
+      setNonTeamMembers(updatedUsers);
+  
+      // Clear the selected user
+      setSelectedUser(null);
       onClose();
     } catch (error) {
       console.error("Error adding member to team:", error);
+      alert("Failed to add member. Please try again.");
     }
-  };
+  };  
 
   if (!show) return null;
 
   return (
-    <div className={styles.modalOverlay}>
-      <div className={styles.modalContent}>
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div
+        className={styles.modalContent}
+        onClick={(e) => e.stopPropagation()} // Prevent modal closure when clicking inside
+      >
         <h3>Add Member to {team.name}</h3>
         <button className={styles.closeButton} onClick={onClose}>
           X

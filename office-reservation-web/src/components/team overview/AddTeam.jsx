@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "../../styles/teamsAdd.module.css";
 import TeamApi from "../api calls/TeamCalls";
 import UserApi from "../api calls/UserCalls";
+import TokenManager from "../api calls/TokenManager";
 
 const AddTeam = ({ onClose, onAddTeam }) => {
   const [people, setPeople] = useState([]);
@@ -19,8 +20,14 @@ const AddTeam = ({ onClose, onAddTeam }) => {
         }));
         setPeople(formattedUsers);
       } catch (error) {
-        console.error("Failed to fetch users:", error);
-        alert("An error occurred while fetching users. Please try again.");
+        if (error.response?.status === 401) {
+          alert("Session expired. Please log in again.");
+          TokenManager.clear();
+          window.location.href = "/login";
+        } else {
+          console.error("Failed to fetch users:", error);
+          alert("An error occurred while fetching users. Please try again.");
+        }
       }
     };
 
@@ -29,30 +36,38 @@ const AddTeam = ({ onClose, onAddTeam }) => {
 
   const handleAddTeam = async (event) => {
     event.preventDefault();
-
+  
     const teamName = event.target.teamName.value.trim();
     if (!teamName) {
       setErrorMessage("Please enter a valid team name.");
       return;
     }
-
+  
     if (selectedManagers.length === 0) {
       setErrorMessage("Please assign at least one team manager.");
       return;
     }
-
+  
     const newTeam = {
       name: teamName,
       users: selectedMembers,
       teamManagers: selectedManagers,
     };
-
+  
     try {
       const createdTeam = await TeamApi.createTeam(newTeam);
-      onAddTeam(createdTeam);
+  
+      // Fetch the newly created team to ensure all fields are populated
+      const fetchedTeam = await TeamApi.getTeamById(createdTeam.id);
+  
+      onAddTeam(fetchedTeam); // Use the fetched team with complete data
       onClose();
     } catch (error) {
-      if (error.response?.data?.message.includes("NameAlreadyExistsException")) {
+      if (error.response?.status === 401) {
+        alert("Session expired. Please log in again.");
+        TokenManager.clear();
+        window.location.href = "/login";
+      } else if (error.response?.data?.message?.includes("NameAlreadyExistsException")) {
         setErrorMessage("A team with this name already exists.");
       } else {
         console.error("Failed to add team:", error);
@@ -60,6 +75,7 @@ const AddTeam = ({ onClose, onAddTeam }) => {
       }
     }
   };
+  
 
   const toggleSelection = (list, setList, person) => {
     setList((prev) =>
@@ -85,8 +101,9 @@ const AddTeam = ({ onClose, onAddTeam }) => {
             required
           />
           {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+
           <div className={styles.memberSelection}>
-            <label>Select Members:</label>
+            <label>Select Team Members:</label>
             <div className={styles.memberList}>
               {people.length > 0 ? (
                 people.map((person) => (
@@ -97,7 +114,9 @@ const AddTeam = ({ onClose, onAddTeam }) => {
                         ? styles.selectedMember
                         : ""
                     }`}
-                    onClick={() => toggleSelection(selectedMembers, setSelectedMembers, person)}
+                    onClick={() =>
+                      toggleSelection(selectedMembers, setSelectedMembers, person)
+                    }
                   >
                     {person.name}
                   </div>
@@ -107,8 +126,9 @@ const AddTeam = ({ onClose, onAddTeam }) => {
               )}
             </div>
           </div>
+
           <div className={styles.managerSelection}>
-            <label>Select Managers:</label>
+            <label>Select Team Managers:</label>
             <div className={styles.memberList}>
               {people.length > 0 ? (
                 people.map((person) => (
@@ -119,7 +139,9 @@ const AddTeam = ({ onClose, onAddTeam }) => {
                         ? styles.selectedManager
                         : ""
                     }`}
-                    onClick={() => toggleSelection(selectedManagers, setSelectedManagers, person)}
+                    onClick={() =>
+                      toggleSelection(selectedManagers, setSelectedManagers, person)
+                    }
                   >
                     {person.name}
                   </div>
@@ -129,6 +151,7 @@ const AddTeam = ({ onClose, onAddTeam }) => {
               )}
             </div>
           </div>
+
           <div className={styles.buttonGroup}>
             <button type="submit" className={styles.addTeamButton}>
               Add Team
@@ -146,6 +169,5 @@ const AddTeam = ({ onClose, onAddTeam }) => {
     </div>
   );
 };
-
 
 export default AddTeam;

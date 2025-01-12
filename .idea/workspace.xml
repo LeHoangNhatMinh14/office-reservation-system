@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="39842fb5-2777-4bdf-bc1a-431ac60c6488" name="Changes" comment="merge">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_13_11_2024_21_34__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_13_11_2024_21_34__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/ReservationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/ReservationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/api calls/Reservationcalls.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/api calls/Reservationcalls.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/api calls/TeamCalls.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/api calls/TeamCalls.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/team overview/AddTeam.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/team overview/AddTeam.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/team overview/AddMemberToTeam.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/team overview/AddMemberToTeam.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/components/team overview/TeamView.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/components/team overview/TeamView.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/styles/addMember.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/styles/addMember.module.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +37,13 @@
         </projects_view>
       </state>
     </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -131,7 +138,13 @@
       <workItem from="1734778683451" duration="597000" />
       <workItem from="1735110234949" duration="289000" />
       <workItem from="1735735324160" duration="168000" />
-      <workItem from="1735973347296" duration="7701000" />
+      <workItem from="1735973347296" duration="7804000" />
+      <workItem from="1736154528687" duration="1198000" />
+      <workItem from="1736240580767" duration="13314000" />
+      <workItem from="1736260244942" duration="2333000" />
+      <workItem from="1736264329804" duration="98000" />
+      <workItem from="1736264751352" duration="83000" />
+      <workItem from="1736274339084" duration="10065000" />
     </task>
     <task id="LOCAL-00001" summary="merge">
       <option name="closed" value="true" />
@@ -158,6 +171,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="SignInServiceImpl Unit Test" />
     <MESSAGE value="idk workspace.xml" />
+    <MESSAGE value="Merge branch 'dev' of https://git.fhict.nl/I506501/office-reservation-system into dev" />
     <MESSAGE value="merge" />
     <option name="LAST_COMMIT_MESSAGE" value="merge" />
   </component>

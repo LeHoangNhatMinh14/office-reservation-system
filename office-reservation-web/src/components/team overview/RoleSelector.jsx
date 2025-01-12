@@ -3,12 +3,12 @@ import styles from "../../styles/teams.module.css";
 
 // Component to Assign Roles to Team Members
 const RoleSelector = ({ onAssignRole, currentRole }) => {
-  // State to track the selected role, initialized to "User"
-  const [selectedRole, setSelectedRole] = useState(currentRole || "User");
+  // State to track the selected role, initialized to "Member"
+  const [selectedRole, setSelectedRole] = useState(currentRole || "Member");
 
   // Update the selected role when currentRole prop changes
   useEffect(() => {
-    setSelectedRole(currentRole);
+    setSelectedRole(currentRole || "Member"); // Ensure a fallback value
   }, [currentRole]);
 
   // Function to handle the change in role selection from the dropdown
@@ -24,12 +24,18 @@ const RoleSelector = ({ onAssignRole, currentRole }) => {
   return (
     <div className={styles.roleSelector}>
       {/* Dropdown to select a role */}
-      <select value={selectedRole} onChange={handleRoleChange} className={styles.roleDropdown}>
+      <select
+        value={selectedRole} // Ensure `value` is never null
+        onChange={handleRoleChange}
+        className={styles.roleDropdown}
+      >
         <option value="Member">Member</option>
         <option value="Manager">Manager</option>
       </select>
       {/* Button to assign the selected role */}
-      <button className={styles.assignButton} onClick={handleAssign}>Assign Role</button>
+      <button className={styles.assignButton} onClick={handleAssign}>
+        Assign Role
+      </button>
     </div>
   );
 };

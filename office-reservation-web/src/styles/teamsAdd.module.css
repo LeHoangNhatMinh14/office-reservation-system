@@ -13,10 +13,10 @@
 
 .addTeamModal {
   background-color: #ffffff;
-  padding: 20px; /* Reduced padding for better spacing */
-  border-radius: 8px; /* Slightly smaller radius for a modern look */
+  padding: 20px; /* Comfortable padding */
+  border-radius: 8px; /* Smooth edges */
   width: 400px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow for a subtle 3D effect */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Subtle 3D effect */
   position: relative;
 }
 
@@ -32,33 +32,27 @@
 }
 
 .closeButton:hover {
-  color: #d9363e; /* Slightly darker hover effect */
+  color: #d9363e; /* Darker hover effect */
 }
 
-.cancelButton {
-  background-color: #e0e0e0;
-  color: #333;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-left: 10px;
-  transition: background-color 0.3s ease;
+.addTeamHeader {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #333333;
 }
 
-.cancelButton:hover {
-  background-color: #bdbdbd;
-}
-
-.memberSelection {
+.memberSelection,
+.managerSelection {
   display: flex;
   flex-direction: column;
-  gap: 12px; /* Consistent spacing between elements */
+  gap: 12px; /* Spacing between elements */
   margin-bottom: 20px;
 }
 
 .memberList {
-  max-height: 200px; /* Increased height for more visible content */
+  max-height: 200px; /* Maximum visible area */
   overflow-y: auto; /* Enable vertical scrolling */
   border: 1px solid #dcdcdc;
   padding: 10px;
@@ -66,25 +60,33 @@
   background-color: #f7f7f7;
 }
 
-.memberItem {
-  padding: 8px 12px; /* Comfortable padding for clickability */
+.memberItem,
+.managerItem {
+  padding: 8px 12px;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease;
   margin-bottom: 5px;
-  background-color: #ffffff; /* Consistent with modern UI design */
-  border: 1px solid transparent; /* Added for a hover effect */
+  background-color: #ffffff; /* Default background */
+  border: 1px solid transparent; /* Transparent border for hover effect */
 }
 
-.memberItem:hover {
-  background-color: #e6f7ff; /* Light blue for hover effect */
+.memberItem:hover,
+.managerItem:hover {
+  background-color: #e6f7ff; /* Light blue hover effect */
   border-color: #91d5ff;
 }
 
 .selectedMember {
-  background-color: #ff4d4f; /* Red for selected state */
-  color: #ffffff; /* White text for better contrast */
-  font-weight: bold; /* Highlight the selected item */
+  background-color: #ff4d4f; /* Red for selected members */
+  color: #ffffff; /* White text for contrast */
+  font-weight: bold;
+}
+
+.selectedManager {
+  background-color: #52c41a; /* Green for selected managers */
+  color: #ffffff; /* White text for contrast */
+  font-weight: bold;
 }
 
 .addTeamButton {
@@ -101,10 +103,40 @@
   background-color: #0056b3; /* Slightly darker hover effect */
 }
 
-.addTeamHeader {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 1.6rem; /* Slightly larger for prominence */
-  font-weight: bold;
+.cancelButton {
+  background-color: #e0e0e0; /* Neutral gray for cancel button */
   color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.cancelButton:hover {
+  background-color: #bdbdbd; /* Darker gray on hover */
+}
+
+.error {
+  color: #ff4d4f; /* Red for error messages */
+  font-size: 0.9rem;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .addTeamModal {
+    width: 90%; /* Adjust modal width on smaller screens */
+    padding: 15px;
+  }
+
+  .addTeamHeader {
+    font-size: 1.4rem; /* Smaller font size for mobile */
+  }
+
+  .memberList {
+    max-height: 150px; /* Reduce height for smaller screens */
+  }
 }

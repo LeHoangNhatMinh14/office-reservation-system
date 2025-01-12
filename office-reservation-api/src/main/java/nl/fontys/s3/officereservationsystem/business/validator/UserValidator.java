@@ -19,9 +19,9 @@ public class UserValidator {
     }
 
     public void validateUserForUpdate(Long id, User user) {
-        validateIdExists(id);
-        validateUserFields(user);
-        validateUniqueEmail(user);
+        //validateIdExists(id);
+        //validateUserFields(user);
+        //validateUniqueEmail(user);
     }
 
     public void validateIdExists(Long id) {
