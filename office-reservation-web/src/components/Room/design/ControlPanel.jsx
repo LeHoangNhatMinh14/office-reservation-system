@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
 import styles from './ControlPanel.module.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Toast styles
+
 
 const ControlPanel = ({
                           addTable, updateRoomSize, roomWidth, roomHeight, saveRoomData, capacity
@@ -9,8 +12,10 @@ const ControlPanel = ({
     const [roomHeightInternal, setRoomHeightInternal] = useState(roomHeight);
 
     const save = () =>{
+        toast.success('Room data saved successfully!');
         updateRoomSize(roomWidthInternal, roomHeightInternal);
         saveRoomData();
+        
     }
 
 
@@ -35,6 +40,7 @@ const ControlPanel = ({
             />
         </div>
         <div className={styles.buttonGroup}>
+        <ToastContainer />
             <button
                 onClick={() => addTable('SMALL_TABLE')}
                 className={`${styles.button} ${styles.addTableButton}`}
@@ -47,6 +53,7 @@ const ControlPanel = ({
             >
                 Add Island
             </button>
+            
             <button
                 onClick={save}
                 className={`${styles.button} ${styles.saveButton}`}

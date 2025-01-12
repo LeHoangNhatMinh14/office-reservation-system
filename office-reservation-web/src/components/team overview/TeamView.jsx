@@ -3,6 +3,7 @@ import styles from "../../styles/teams.module.css";
 import RoleSelector from "./RoleSelector";
 import TeamCalls from "../api calls/TeamCalls";
 import AddMemberToTeam from "./AddMemberToTeam";
+import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
 
 const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
   const [showMembers, setShowMembers] = useState(false);
@@ -163,7 +164,7 @@ const TeamView = ({ team, isAdmin, onDeleteTeam }) => {
     <div className={styles.teamView}>
       <div onClick={toggleShowMembers} className={styles.teamHeader}>
         <span className={styles.teamName}>
-          {team.name} {showMembers ? "v" : ">"}
+          {team.name} {showMembers ? <FaChevronDown /> : <FaChevronRight />}
         </span>
         {isAdmin && (
           <button
