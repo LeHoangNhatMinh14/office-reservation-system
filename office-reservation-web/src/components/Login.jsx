@@ -72,7 +72,6 @@ const Login = () => {
     };
 
     return (
-        <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
             <div className={styles.loginPage}>
                 <div className={styles.loginContainer}>
                     <h1 className={styles.formTitle}>Login</h1>
@@ -94,16 +93,8 @@ const Login = () => {
                         <button type="submit" className={styles.button}>Login</button>
                     </form>
                     {error && <p style={{ color: 'red' }}>{error}</p>}
-                    <div className={styles.ssoSection}>
-                        <GoogleLogin
-                            onSuccess={handleGoogleLoginSuccess}
-                            onError={handleGoogleLoginFailure}
-                            useOneTap
-                        />
-                    </div>
                 </div>
             </div>
-        </GoogleOAuthProvider>
     );
 };
 
