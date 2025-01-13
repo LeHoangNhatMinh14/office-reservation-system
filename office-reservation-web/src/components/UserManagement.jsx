@@ -4,7 +4,6 @@ import UserApi from "./api calls/UserCalls.jsx"; // API service
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Toast styles
 
-
 const UserManagement = () => {
     const [users, setUsers] = useState([]);
     const [form, setForm] = useState({
@@ -29,7 +28,11 @@ const UserManagement = () => {
         const fetchUsers = async () => {
             try {
                 const data = await UserApi.getAllUsers();
-                setUsers(data);
+                const normalizedData = data.map((user) => ({
+                    ...user,
+                    isAdmin: Boolean(user.admin), // Map backend `admin` to `isAdmin`
+                }));
+                setUsers(normalizedData);
             } catch (error) {
                 toast.error("Error fetching users. Please try again.");
             } finally {
@@ -51,51 +54,54 @@ const UserManagement = () => {
 
     // Handle Form Submission
     const handleSubmit = async (e) => {
-    e.preventDefault();
-    setFormSubmitting(true);
+        e.preventDefault();
+        setFormSubmitting(true);
 
-    try {
-        if (editingIndex !== null) {
-            // Update User
-            const userId = users[editingIndex].id;
-            console.log("User ID:", userId);
-            const payload = { ...form, id: userId }; // Include ID
-            console.log("Payload:", payload);
-            await UserApi.updateUser(userId, payload); // Send updated payload
-            console.log("User updated successfully!");
-            const updatedUsers = [...users];
-            console.log("Updated Users:", updatedUsers);
-            updatedUsers[editingIndex] = { ...form, id: userId };
-            console.log("Updated Users with Form:", updatedUsers);
-            setUsers(updatedUsers);
-            toast.success("User updated successfully!");
-            setEditingIndex(null);
-        } else {
-            // Create User
-            const newUser = await UserApi.createUser(form);
-            setUsers([...users, newUser]);
-            toast.success("User created successfully!");
+        try {
+            const payload = {
+                ...form,
+                admin: form.isAdmin, // Map `isAdmin` to backend `admin`
+            };
+
+            if (editingIndex !== null) {
+                // Update User
+                const userId = users[editingIndex].id;
+                await UserApi.updateUser(userId, payload);
+                const updatedUsers = [...users];
+                updatedUsers[editingIndex] = { ...form, id: userId, isAdmin: form.isAdmin };
+                setUsers(updatedUsers);
+                toast.success("User updated successfully!");
+                setEditingIndex(null);
+            } else {
+                // Create User
+                const newUser = await UserApi.createUser(payload);
+                setUsers([...users, { ...newUser, isAdmin: newUser.admin }]);
+                toast.success("User created successfully!");
+            }
+
+            setForm({
+                firstName: "",
+                lastName: "",
+                email: "",
+                password: "",
+                isAdmin: false,
+            });
+        } catch (error) {
+            console.error("Error saving user:", error.response?.data || error.message);
+            toast.error(`Error: ${error.response?.data?.message || "Could not save user"}`);
+        } finally {
+            setFormSubmitting(false);
         }
-        setForm({
-            firstName: "",
-            lastName: "",
-            email: "",
-            password: "",
-            isAdmin: false,
-        });
-    } catch (error) {
-        console.error("Error saving user:", error);
-        toast.error("Error saving user. Please try again.");
-    } finally {
-        setFormSubmitting(false);
-    }
-};
-
+    };
 
     // Handle Edit
     const handleEdit = (index) => {
+        const user = users[index];
         setEditingIndex(index);
-        setForm(users[index]);
+        setForm({
+            ...user,
+            isAdmin: user.isAdmin.toString(), // Convert boolean to string
+        });
     };
 
     // Handle Delete
@@ -156,7 +162,7 @@ const UserManagement = () => {
                 />
                 <select
                     name="isAdmin"
-                    value={form.isAdmin}
+                    value={form.isAdmin.toString()} // Ensure value is a string
                     onChange={handleChange}
                     className={styles.select}
                     required
@@ -165,7 +171,7 @@ const UserManagement = () => {
                         Select Role
                     </option>
                     {roles.map((role) => (
-                        <option key={role.value} value={role.value}>
+                        <option key={role.value} value={role.value.toString()}>
                             {role.label}
                         </option>
                     ))}
@@ -188,37 +194,37 @@ const UserManagement = () => {
             ) : users.length > 0 ? (
                 <table className={styles.table}>
                     <thead>
-                    <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Actions</th>
-                    </tr>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {users.map((user, index) => (
-                        <tr key={user.id}>
-                            <td>{user.firstName}</td>
-                            <td>{user.lastName}</td>
-                            <td>{user.email}</td>
-                            <td>{user.isAdmin ? "Admin" : "Viewer"}</td>
-                            <td>
-                                <button
-                                    onClick={() => handleEdit(index)}
-                                    className={styles.editButton}
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    onClick={() => handleDelete(index)}
-                                    className={styles.deleteButton}
-                                >
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
+                        {users.map((user, index) => (
+                            <tr key={user.id}>
+                                <td>{user.firstName}</td>
+                                <td>{user.lastName}</td>
+                                <td>{user.email}</td>
+                                <td>{user.isAdmin ? "Admin" : "Viewer"}</td>
+                                <td>
+                                    <button
+                                        onClick={() => handleEdit(index)}
+                                        className={styles.editButton}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(index)}
+                                        className={styles.deleteButton}
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             ) : (
