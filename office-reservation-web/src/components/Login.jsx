@@ -33,7 +33,7 @@ const Login = () => {
     
             if (claims) {
                 alert('Login successful! Token stored in sessionStorage.');
-                navigate('/profile'); // Redirect to profile page
+                navigate('/schedule'); // Redirect to schedule page
             } else {
                 setError('Invalid token received.');
             }
