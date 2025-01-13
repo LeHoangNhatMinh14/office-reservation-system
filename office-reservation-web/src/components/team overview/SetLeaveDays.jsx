@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../../styles/SetLeaveDays.module.css";
 import LeaveDaysApi from "../api calls/LeaveDaysCalls"; // Import your API class
+import TokenManager from "../api calls/TokenManager"; // Import the TokenManager
 
 const SetLeaveDays = () => {
     const [startDate, setStartDate] = useState("");
@@ -10,27 +11,39 @@ const SetLeaveDays = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Check if all fields are filled out
         if (!startDate || !endDate || !reason.trim()) {
             alert("Please fill out all fields!");
             return;
         }
 
+        // Retrieve userId from TokenManager
+        const userId = TokenManager.getUserId();
+        if (!userId) {
+            alert("Unable to determine user. Please log in again.");
+            TokenManager.clear(); // Clear any stale session
+            return;
+        }
+
+        // Prepare leave data payload
         const leaveData = {
+            userId, // Include the userId
             startDate,
             endDate,
             reason,
         };
 
         try {
+            console.log("Sending leave data:", leaveData);
             const response = await LeaveDaysApi.createLeaveDays(leaveData);
             console.log("Leave request created:", response);
             alert("Leave request submitted successfully!");
-            // Reset form
+            // Reset form fields
             setStartDate("");
             setEndDate("");
             setReason("");
         } catch (error) {
-            console.error("Error submitting leave request:", error);
+            console.error("Error submitting leave request:", error.response?.data || error.message);
             alert("Failed to submit leave request. Please try again.");
         }
     };

@@ -1,10 +1,10 @@
 package nl.fontys.s3.officereservationsystem.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.time.LocalDate;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -14,8 +14,10 @@ public class Leave {
 
     private Long userId;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     private String reason;

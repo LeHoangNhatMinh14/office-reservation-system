@@ -5,7 +5,7 @@ class LeaveDaysApi {
     constructor() {
         const token = TokenManager.getAccessToken();
         this.apiClient = axios.create({
-            baseURL: axios.defaults.baseURL + '/leave_days',
+            baseURL: axios.defaults.baseURL + 'leave_days',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,

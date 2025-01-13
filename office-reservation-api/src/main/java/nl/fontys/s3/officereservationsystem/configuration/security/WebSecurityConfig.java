@@ -24,7 +24,7 @@ public class WebSecurityConfig {
     private static final String ROLE_ADMIN = "ADMIN";
     private static final String ROLE_USER = "USER";
 
-    private static final String END_POINT_LEAVE = "/leave/**";
+    private static final String END_POINT_LEAVE = "/leave_days/**";
     private static final String END_POINT_RESERVATION = "/reservations/**";
     private static final String END_POINT_ROOM = "/rooms/**";
     private static final String END_POINT_TOKEN = "/tokens/**";
@@ -84,5 +84,4 @@ public class WebSecurityConfig {
             }
         };
     }
-
 }
