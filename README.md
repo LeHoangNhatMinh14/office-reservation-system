@@ -41,4 +41,3 @@ This project is designed to streamline office workspace management, allowing emp
 graph TD
     A[Frontend: React] --> B[Spring Boot API]
     B --> C[MySQL Database]
-    B --> D[External Calendar API]
