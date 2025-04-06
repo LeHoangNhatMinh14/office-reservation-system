@@ -38,10 +38,10 @@ This project is designed to streamline office workspace management, allowing emp
 
 ### Some of my front-end work
 Team management system
-(https://imgur.com/do6AUQL)
+| ![Team management](https://imgur.com/do6AUQL.png) |
 
 Scheduling system
-(https://imgur.com/SVG3e4h)
+![Scheduling Interface](https://imgur.com/SVG3e4h.png) |
 
 ## Architecture
 ```mermaid
