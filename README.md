@@ -36,7 +36,7 @@ This project is designed to streamline office workspace management, allowing emp
 - Designed the MySQL database schema to manage reservations and user data.
 - Optimized the application setup process by containerizing the application with Docker, reducing setup time.
 
-### Some of my front-end work
+**Some of my front-end work**
 Team management system
 ![Team management](https://imgur.com/do6AUQL.png)
 
