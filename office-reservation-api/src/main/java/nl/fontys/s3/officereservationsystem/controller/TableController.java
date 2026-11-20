@@ -1,5 +1,6 @@
 package nl.fontys.s3.officereservationsystem.controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 import nl.fontys.s3.officereservationsystem.business.interfaces.TableService;
 import nl.fontys.s3.officereservationsystem.domain.Table;
@@ -15,23 +16,15 @@ import java.util.List;
 public class TableController {
     private final TableService tableService;
 
-    @PostMapping("")
-    public ResponseEntity<Table> createTable(@RequestBody Table table) {
-       try {
-           tableService.createTable(table);
-           return ResponseEntity.ok().body(table);
-         } catch (Exception e) {
-           return ResponseEntity.badRequest().body(null);
-         }
-    }
-
     @GetMapping("/{id}")
+    @RolesAllowed({"ADMIN", "USER"})
     public ResponseEntity<Table> getTableById(@PathVariable("id") Long id) {
         Table table = tableService.getTableById(id);
         return ResponseEntity.ok().body(table);
     }
 
     @GetMapping("/all")
+    @RolesAllowed({"ADMIN", "USER"})
     public ResponseEntity<List<Table>> getAllTables() {
         List<Table> table = tableService.getAllTables();
         return ResponseEntity.ok().body(table);

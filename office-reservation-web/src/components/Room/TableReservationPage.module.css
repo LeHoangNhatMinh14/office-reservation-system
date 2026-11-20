@@ -1,0 +1,111 @@
+/* General container styling for a modern, centered layout */
+.container {
+    margin: 80px auto 20px; /* Added 80px top margin to push content below the navbar */
+    max-width: 700px;
+    padding: 40px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    font-family: "Roboto", Arial, sans-serif;
+}
+
+/* Heading styling with a modern font and subtle color */
+.heading {
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Form styling with consistent spacing */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Label styling with subtle animation for better UX */
+.label {
+    font-size: 0.9rem;
+    color: #555;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    transition: color 0.3s ease;
+}
+
+.label:hover {
+    color: #007bff;
+}
+
+/* Input and select fields with a clean, modern look */
+.input,
+.select {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: #fff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input:focus,
+.select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+    outline: none;
+}
+
+/* Button styling with a modern hover effect */
+.button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px 16px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.button:active {
+    background-color: #004085;
+}
+
+/* Add subtle spacing between the form and the last child */
+.form > *:last-child {
+    margin-bottom: 0;
+}
+
+/* Responsive design for smaller devices */
+@media (max-width: 768px) {
+    .container {
+        margin: 60px auto 20px; /* Reduced top margin for smaller screens */
+        padding: 20px;
+    }
+
+    .heading {
+        font-size: 1.5rem;
+    }
+
+    .input,
+    .select {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    .button {
+        font-size: 1rem;
+        padding: 10px 14px;
+    }
+}

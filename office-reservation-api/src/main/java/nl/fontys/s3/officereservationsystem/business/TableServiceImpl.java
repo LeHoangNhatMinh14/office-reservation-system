@@ -17,19 +17,6 @@ import java.util.Objects;
 public class TableServiceImpl implements TableService {
     private final TableRepository tableRepository;
 
-    public void createTable(Table table) {
-        tableRepository.save(TableConverter.convert(table));
-    }
-
-    public List<Table> getTablesByRoomId(Long roomId) {
-        List<TableEntity> tables = tableRepository.findByRoomId(roomId);
-        List<Table> tableList = new ArrayList<>();
-        for (TableEntity table : tables) {
-            tableList.add(TableConverter.convert(table));
-        }
-        return tableList;
-    }
-
     public Table getTableById(Long id) {
         return TableConverter.convert(Objects.requireNonNull(tableRepository.findById(id).orElse(null)));
     }

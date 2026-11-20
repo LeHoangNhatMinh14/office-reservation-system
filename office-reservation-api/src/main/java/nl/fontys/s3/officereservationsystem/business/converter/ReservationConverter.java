@@ -13,9 +13,9 @@ public final class ReservationConverter {
                 .startTime(entity.getStartTime())
                 .endTime(entity.getEndTime())
                 .reservationType(entity.getReservationType())
-                .table(TableConverter.convert(entity.getTable()))
-                .seatedUser(UserConverter.convert(entity.getSeatedUser()))
-                .reservationUser(UserConverter.convert(entity.getReservationUser()))
+                .tableId(entity.getTableId())
+                .teamId(entity.getTeamId())
+                .userId(entity.getUserId())
                 .build();
     }
 
@@ -26,9 +26,9 @@ public final class ReservationConverter {
                 .startTime(reservation.getStartTime())
                 .endTime(reservation.getEndTime())
                 .reservationType(reservation.getReservationType())
-                .table(TableConverter.convert(reservation.getTable()))
-                .seatedUser(UserConverter.convert(reservation.getSeatedUser()))
-                .reservationUser(UserConverter.convert(reservation.getReservationUser()))
+                .tableId(reservation.getTableId())
+                .teamId(reservation.getTeamId())
+                .userId(reservation.getUserId())
                 .build();
     }
 }

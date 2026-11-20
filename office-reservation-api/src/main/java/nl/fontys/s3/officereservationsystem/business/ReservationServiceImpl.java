@@ -1,24 +1,19 @@
 package nl.fontys.s3.officereservationsystem.business;
 
-
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import nl.fontys.s3.officereservationsystem.business.converter.ReservationConverter;
 import nl.fontys.s3.officereservationsystem.business.interfaces.ReservationService;
+import nl.fontys.s3.officereservationsystem.business.validator.ReservationValidator;
+import nl.fontys.s3.officereservationsystem.business.validator.RoomValidator;
 import nl.fontys.s3.officereservationsystem.domain.Reservation;
-import nl.fontys.s3.officereservationsystem.domain.Room;
-import nl.fontys.s3.officereservationsystem.domain.Table;
 import nl.fontys.s3.officereservationsystem.persistence.ReservationRepository;
-import nl.fontys.s3.officereservationsystem.persistence.RoomRepository;
-import nl.fontys.s3.officereservationsystem.persistence.TableRepository;
 import nl.fontys.s3.officereservationsystem.persistence.entity.ReservationEntity;
-import nl.fontys.s3.officereservationsystem.persistence.entity.RoomEntity;
-import nl.fontys.s3.officereservationsystem.persistence.entity.TableEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,57 +21,40 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
-    private final RoomRepository roomRepository;
-    private final TableRepository tableRepository;
+    private final ReservationValidator reservationValidator;
+    private final RoomValidator roomValidator;
 
     @Transactional
     @Override
     public void createReservation(Reservation reservation) {
+        reservationValidator.validateReservationForCreation(reservation);
         ReservationEntity entity = ReservationConverter.convert(reservation);
-        List<ReservationEntity> existingReservations = reservationRepository.findByTableId(entity.getTable().getId());
 
-
-        for (ReservationEntity existingReservation : existingReservations) {
-            if (existingReservation.getDate().equals(entity.getDate()) &&
-                    isTimeOverlap(existingReservation.getStartTime(), existingReservation.getEndTime(),
-                            entity.getStartTime(), entity.getEndTime())) {
-                throw new IllegalArgumentException("Table is already reserved for the given time slot.");
-            }
+        if (!isTableAvailable(entity.getTableId(), entity.getDate(), entity.getStartTime(), entity.getEndTime())) {
+            throw new IllegalArgumentException("Table is already reserved for the given time slot.");
         }
+
         reservationRepository.save(entity);
+    }
+
+    public boolean isTableAvailable(Long tableId, LocalDate date, LocalTime startTime, LocalTime endTime) {
+        List<ReservationEntity> existingReservations = reservationRepository.findByTableIdAndDate(tableId, date);
+
+        return existingReservations.stream().noneMatch(existingReservation ->
+                isTimeOverlap(existingReservation.getStartTime(), existingReservation.getEndTime(), startTime, endTime)
+        );
     }
 
     private boolean isTimeOverlap(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2) {
         return (start1.isBefore(end2) && end1.isAfter(start2));
     }
 
-
+    @Override
     public List<Reservation> getReservationsByRoomId(Long roomId) {
-        List<Reservation> roomReservations = new ArrayList<>();
-
-        // Step 1: Find room by roomId
-        RoomEntity room = roomRepository.findById(roomId).orElse(null);
-        if (room == null) {
-            return roomReservations; // Return an empty list if room is not found
-        }
-
-        // Step 2: Get the tables associated with the room
-        List<TableEntity> tables = room.getTables();  // Assuming room has a getTables method
-
-        // Step 3: For each table, get reservations and add them to roomReservations
-        for (TableEntity table : tables) {
-            Long tableId = table.getId();
-
-            // Find reservations by tableId and convert them to Reservation domain objects
-            List<ReservationEntity> tableReservations = reservationRepository.findByTableId(tableId);
-
-            // Convert each ReservationEntity to Reservation and add to the list
-            for (ReservationEntity entity : tableReservations) {
-                roomReservations.add(ReservationConverter.convert(entity));
-            }
-        }
-        return roomReservations;
-
+        roomValidator.validateIdExists(roomId);
+        return reservationRepository.findByRoomId(roomId).stream()
+                .map(ReservationConverter::convert)
+                .toList();
     }
 
     @Transactional
@@ -85,7 +63,35 @@ public class ReservationServiceImpl implements ReservationService {
         if (!reservationRepository.existsById(id)) {
             throw new IllegalArgumentException("Reservation with id " + id + " not found");
         }
-
         reservationRepository.deleteById(id);
     }
+
+
+    @Override
+    public List<Reservation> getAllReservationsWeekly(LocalDate date) {
+        LocalDate startOfWeek = date.with(DayOfWeek.MONDAY);
+        LocalDate endOfWeek = date.with(DayOfWeek.SUNDAY);
+
+        // Log the start and end of the week
+        System.out.println("Start of Week: " + startOfWeek);
+        System.out.println("End of Week: " + endOfWeek);
+
+        // Fetch and filter reservations
+        List<Reservation> reservations = reservationRepository.findAll().stream()
+                .map(ReservationConverter::convert)
+                .filter(reservation -> {
+                    LocalDate reservationDate = reservation.getDate(); // Ensure this is a LocalDate
+                    boolean isWithinRange = !reservationDate.isBefore(startOfWeek) &&
+                            !reservationDate.isAfter(endOfWeek);
+                    System.out.println("Reservation: " + reservation + " | Within Range: " + isWithinRange);
+                    return isWithinRange;
+                })
+                .collect(Collectors.toList());
+
+        // Log the final list of reservations
+        System.out.println("Filtered Reservations for Week: " + reservations);
+
+        return reservations;
+    }
+
 }

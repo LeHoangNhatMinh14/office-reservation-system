@@ -1,22 +1,66 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import AuthCall from '../components/api calls/AuthCall';
+import TokenManager from '../components/api calls/TokenManager'; // Import TokenManager for token management
 import styles from '../styles/Login.module.css';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        if (email === 'showcase@email' && password === 'password') {
-            navigate('/profile');
-        } else {
-            alert('Invalid credentials');
+        setError(null); // Reset error state
+    
+        console.log('Attempting login with:');
+        console.log('Email:', email);
+        console.log('Password:', password);
+    
+        try {
+            const response = await AuthCall.signIn({ email, password });
+            console.log('Login successful:', response);
+    
+            const token = response; // Adjust based on your API response structure
+            if (!token) {
+                setError('No token received.');
+                return;
+            }
+    
+            const claims = TokenManager.setAccessToken(token);
+    
+            if (claims) {
+                alert('Login successful! Token stored in sessionStorage.');
+                navigate('/schedule'); // Redirect to schedule page
+            } else {
+                setError('Invalid token received.');
+            }
+        } catch (error) {
+            // Handle specific error scenarios based on API response
+            if (error.response) {
+                switch (error.response.status) {
+                    case 401:
+                        setError('Invalid email or password. Please try again.');
+                        break;
+                    case 403:
+                        setError('Your account is not authorized to log in.');
+                        break;
+                    default:
+                        setError(
+                            error.response.data.message || 
+                            'An unexpected error occurred. Please try again.'
+                        );
+                }
+            } else if (error.request) {
+                setError('Network error. Please check your connection.');
+            } else {
+                setError('An unexpected error occurred. Please try again.');
+            }
+            console.error('Login failed:', error);
         }
     };
-
     const handleGoogleLoginSuccess = (response) => {
         console.log('Google login successful:', response);
         navigate('/profile');
@@ -28,18 +72,8 @@ const Login = () => {
     };
 
     return (
-        <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
             <div className={styles.loginPage}>
-                {/* Navigation Bar */}
-              {/* <nav className={styles.navbar}>
-                    <a href="/">Home</a>
-                    <a href="/signup">Sign Up</a>
-                    <a href="/help">Help</a>
-                </nav>*/ }
                 <div className={styles.loginContainer}>
-                    {/* Logo */}
-                    <img src="/path/to/driessen-logo.jpg" alt="Driessen Logo" className={styles.logo} />
-                    {/* Login Form */}
                     <h1 className={styles.formTitle}>Login</h1>
                     <form onSubmit={handleLogin} className={styles.form}>
                         <input
@@ -58,16 +92,9 @@ const Login = () => {
                         />
                         <button type="submit" className={styles.button}>Login</button>
                     </form>
-                    <div className={styles.ssoSection}>
-                        <GoogleLogin
-                            onSuccess={handleGoogleLoginSuccess}
-                            onError={handleGoogleLoginFailure}
-                            useOneTap
-                        />
-                    </div>
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
                 </div>
             </div>
-        </GoogleOAuthProvider>
     );
 };
 

@@ -5,10 +5,15 @@ import MainNavbar from './components/MainNavbar'; // New navbar for other pages
 import Footer from './components/Footer'; // Importing the footer
 import Login from './components/Login';
 import Profile from './components/Profile';
-import Schedule from './components/Schedule';
-import TableReservations from './components/TableReservations';
+import Schedule from './pages/SchedulePage.jsx';
+
 import Workers from './components/Workers';
-import TeamOverview from './pages/TeamOverview';
+import RoomManagement from "./components/Room/RoomManagement";
+import UserManagement from './components/UserManagement';
+
+import TeamOverview from './pages/TeamOverview.jsx';
+import TableReservationPage from './components/Room/TableReservationPage';
+import SetLeaveDays from "./components/team overview/SetLeaveDays.jsx";
 
 function App() {
     const location = useLocation();
@@ -19,17 +24,24 @@ function App() {
     return (
         <div>
             {isLoginPage ? <Navbar /> : <MainNavbar />}
-            
+
             {/* Main content with routes */}
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/schedule" element={<Schedule />} />
-                <Route path="/reserve" element={<TableReservations />} />
+                <Route path="/reserve" element={< TableReservationPage/>} />
                 <Route path="/coworkers" element={<Workers />} />
+                <Route path="/tablereservation" element={<TableReservationPage />} />
+                <Route path="/usermanagement" element={<UserManagement/>}/>
                 <Route path="/teams" element={<TeamOverview />} />
+                <Route path="/roommanagement" element={<RoomManagement />} />
+
+                <Route path="/" element={<Login />} />
+                <Route path="/set-leave-days" element={<SetLeaveDays />} />
+
             </Routes>
-            
+
             {/* Footer should be displayed on all pages */}
             <Footer />
         </div>

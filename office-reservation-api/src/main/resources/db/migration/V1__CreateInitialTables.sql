@@ -2,16 +2,20 @@
 CREATE TABLE room (
     id BIGINT AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
+    height INT NOT NULL,
+    width INT NOT NULL,
     PRIMARY KEY (id)
 );
 
 -- Create room_table table
 CREATE TABLE room_table (
     id BIGINT AUTO_INCREMENT,
-    island_number INT NOT NULL,
+    vertical_position INT NOT NULL,
+    horizontal_position INT NOT NULL,
+    table_type VARCHAR(50) NOT NULL,
     room_id BIGINT,
     PRIMARY KEY (id),
-    FOREIGN KEY (room_id) REFERENCES room(id) ON DELETE CASCADE
+    FOREIGN KEY (room_id) REFERENCES room (id) ON DELETE CASCADE
 );
 
 -- Create team table
@@ -22,7 +26,7 @@ CREATE TABLE team (
 );
 
 -- Create user table
-CREATE TABLE user (
+CREATE TABLE app_user (
     id BIGINT AUTO_INCREMENT,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
@@ -38,7 +42,7 @@ CREATE TABLE team_user (
     user_id BIGINT,
     PRIMARY KEY (team_id, user_id),
     FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES app_user(id) ON DELETE CASCADE
 );
 
 -- Create team_manager table
@@ -47,5 +51,5 @@ CREATE TABLE team_manager (
     manager_id BIGINT,
     PRIMARY KEY (team_id, manager_id),
     FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE CASCADE,
-    FOREIGN KEY (manager_id) REFERENCES user(id) ON DELETE CASCADE
+    FOREIGN KEY (manager_id) REFERENCES app_user(id) ON DELETE CASCADE
 );

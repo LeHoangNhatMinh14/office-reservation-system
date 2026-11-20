@@ -35,15 +35,12 @@ public class ReservationEntity {
     @Column(name = "reservation_type", nullable = false)
     private ReservationType reservationType;
 
-    @ManyToOne
     @JoinColumn(name = "table_id", nullable = false)
-    private TableEntity table;
+    private Long tableId;
 
-    @ManyToOne
-    @JoinColumn(name = "seated_user_id", nullable = false)
-    private UserEntity seatedUser;
+    @JoinColumn(name = "team_id")
+    private Long teamId;
 
-    @ManyToOne
-    @JoinColumn(name = "reservation_user_id", nullable = false)
-    private UserEntity reservationUser;
+    @JoinColumn(name = "user_id")
+    private Long userId;
 }
