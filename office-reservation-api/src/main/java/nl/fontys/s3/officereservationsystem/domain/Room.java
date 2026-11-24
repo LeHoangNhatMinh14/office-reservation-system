@@ -15,5 +15,6 @@ public class Room {
     private int capacity;
     private int height;
     private int width;
+    @Builder.Default
     private List<Table> tables = new ArrayList<>();
 }

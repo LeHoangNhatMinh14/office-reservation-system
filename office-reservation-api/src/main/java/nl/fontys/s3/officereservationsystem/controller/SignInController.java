@@ -1,6 +1,5 @@
 package nl.fontys.s3.officereservationsystem.controller;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import nl.fontys.s3.officereservationsystem.business.interfaces.SignInService;
 import nl.fontys.s3.officereservationsystem.domain.Credential;

@@ -4,7 +4,6 @@ import jakarta.persistence.EntityManager;
 import nl.fontys.s3.officereservationsystem.persistence.entity.RoomEntity;
 import nl.fontys.s3.officereservationsystem.persistence.entity.TableEntity;
 import nl.fontys.s3.officereservationsystem.persistence.entity.TableEntityType;
-import nl.fontys.s3.officereservationsystem.persistence.entity.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import nl.fontys.s3.officereservationsystem.business.interfaces.TableService;
 import nl.fontys.s3.officereservationsystem.domain.Table;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,6 +1,5 @@
 package nl.fontys.s3.officereservationsystem.persistence;
 
-import nl.fontys.s3.officereservationsystem.domain.ReservationType;
 import nl.fontys.s3.officereservationsystem.persistence.entity.ReservationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
