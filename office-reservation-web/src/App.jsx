@@ -5,13 +5,13 @@ import MainNavbar from './components/MainNavbar'; // New navbar for other pages
 import Footer from './components/Footer'; // Importing the footer
 import Login from './components/Login';
 import Profile from './components/Profile';
-import Schedule from './pages/SchedulePage.jsx';
+import Schedule from './Pages/SchedulePage.jsx';
 
 import Workers from './components/Workers';
 import RoomManagement from "./components/Room/RoomManagement";
 import UserManagement from './components/UserManagement';
 
-import TeamOverview from './pages/TeamOverview.jsx';
+import TeamOverview from './Pages/TeamOverview.jsx';
 import TableReservationPage from './components/Room/TableReservationPage';
 import SetLeaveDays from "./components/team overview/SetLeaveDays.jsx";
 

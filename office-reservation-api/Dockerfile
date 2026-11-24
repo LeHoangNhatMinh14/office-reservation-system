@@ -11,7 +11,7 @@ COPY . .
 RUN gradle build -x test
 
 # Stage 2: Create the runtime image
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre
 
 # Set the working directory inside the final container
 WORKDIR /app
