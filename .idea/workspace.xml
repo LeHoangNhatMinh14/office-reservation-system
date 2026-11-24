@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="39842fb5-2777-4bdf-bc1a-431ac60c6488" name="Changes" comment="merge">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_13_11_2024_21_34_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_13_11_2024_21_34__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/office-reservation-web/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/office-reservation-web/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,34 +73,112 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/office-reservation-api/src/main/resources/application.properties" root0="SKIP_INSPECTION" />
   </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.107431641822643" />
+      <entry key="MS500" value="4.273182444521918" />
+      <entry key="S2" value="11.55188444812137" />
+      <entry key="S5" value="14.971325863577206" />
+      <entry key="S10" value="16.39749812985753" />
+      <entry key="S30" value="17.444808881750387" />
+      <entry key="S60" value="17.71968126561845" />
+      <entry key="M2" value="17.859152472873156" />
+      <entry key="M5" value="17.94349565321715" />
+      <entry key="M10" value="17.975941801560733" />
+      <entry key="M15" value="18.0554302002359" />
+      <entry key="M30" value="19.297727086702675" />
+      <entry key="H1" value="23.478409299349188" />
+      <entry key="H2" value="29.227596936867847" />
+      <entry key="H4" value="34.070191987798495" />
+      <entry key="D1" value="39.66596708610901" />
+      <entry key="W1" value="40.8045105761064" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="1.0843381628775173" />
+      <entry key="MS500" value="4.251964509793882" />
+      <entry key="S2" value="11.536096739719108" />
+      <entry key="S5" value="14.962997435256426" />
+      <entry key="S10" value="16.392912471269664" />
+      <entry key="S30" value="17.443177026247252" />
+      <entry key="S60" value="17.71885177325278" />
+      <entry key="M2" value="17.858734284703257" />
+      <entry key="M5" value="17.94332754523794" />
+      <entry key="M10" value="17.97585749078411" />
+      <entry key="M15" value="18.055372663949036" />
+      <entry key="M30" value="19.29768689625325" />
+      <entry key="H1" value="23.478369895352284" />
+      <entry key="H2" value="29.227563955725568" />
+      <entry key="H4" value="34.070169905052126" />
+      <entry key="D1" value="39.66596232874558" />
+      <entry key="W1" value="40.804509865182716" />
+    </decayedShown>
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2oLTyfoUjpDlEHODtmK11ByDst8" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Build office-reservation-api.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.OfficeReservationSystemApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/fangs/Desktop/project/thing/office-reservation-system&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.gitlab.GitLabSettingsConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.Run application.executor": "Run",
+    "Gradle.Build office-reservation-api.executor": "Run",
+    "Remote JVM Debug.Unnamed.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.OfficeReservationSystemApplication.executor": "Run",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Admin/Desktop/Individual/office-reservation-system",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "python.packages.toolwindow.project.migrated.to.right.top.v2": "true",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager">
+}]]></component>
+  <component name="RunManager" selected="Remote JVM Debug.Unnamed">
+    <configuration name="Unnamed" type="Remote" nameIsGenerated="true">
+      <module name="nl.fontys.s3.office-reservation-system.main" />
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <option name="AUTO_RESTART" value="false" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="5005" />
+        <option name="LOCAL" value="false" />
+      </RunnerSettings>
+      <method v="2" />
+    </configuration>
     <configuration name="OfficeReservationSystemApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="nl.fontys.s3.office-reservation-system.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="nl.fontys.s3.officereservationsystem.OfficeReservationSystemApplication" />
@@ -104,12 +186,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Run application" type="docker-deploy" factoryName="docker-compose.yml" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="commandLineOptions" value="--build" />
+          <option name="sourceFilePath" value="docker-compose.yml" />
+          <option name="upDetach" value="false" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Docker.Run application" />
+      <item itemvalue="Remote JVM Debug.Unnamed" />
+      <item itemvalue="Spring Boot.OfficeReservationSystemApplication" />
+    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
+        <option value="bundled-jdk-30f59d01ecdd-ac68fc9d2b05-intellij.indexing.shared.core-IU-263.7307.200" />
       </set>
     </attachedChunks>
   </component>
@@ -180,5 +276,60 @@
     <MESSAGE value="Merge branch 'dev' of https://git.fhict.nl/I506501/office-reservation-system into dev" />
     <MESSAGE value="merge" />
     <option name="LAST_COMMIT_MESSAGE" value="merge" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/configuration/security/auth/AuthenticationRequestFilter.java</url>
+          <line>44</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/UserController.java</url>
+          <line>22</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/UserController.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/UserServiceImpl.java</url>
+          <line>26</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/UserServiceImpl.java</url>
+          <line>28</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/UserServiceImpl.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/UserServiceImpl.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/business/UserServiceImpl.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/office-reservation-api/src/main/java/nl/fontys/s3/officereservationsystem/controller/UserController.java</url>
+          <line>21</line>
+          <properties class="nl.fontys.s3.officereservationsystem.controller.UserController" method="createUser">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

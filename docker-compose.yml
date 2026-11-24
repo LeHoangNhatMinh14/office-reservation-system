@@ -5,12 +5,15 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+      - "127.0.0.1:5005:5005"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/office_reservation_db
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=rootpassword
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
     depends_on:
-      - db
+       db:
+         condition: service_healthy
     networks:
       - app-network
 
@@ -39,6 +42,11 @@ services:
       - db_data:/var/lib/mysql
     networks:
       - app-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
 
 networks:
   app-network:
